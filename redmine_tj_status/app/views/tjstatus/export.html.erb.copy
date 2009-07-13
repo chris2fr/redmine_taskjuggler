@@ -1,0 +1,33 @@
+<PRE>
+<% @issues.each do |issue| %>
+supplement task <%= @Project.identifier.sub("-","_") %><% 
+	if issue.category
+		%>.<%= issue.category.name %><%
+	end%>.t<%= issue.id %> {
+	complete <%= issue.done_ratio %><%
+	 if issue.status_id != @start_status_id %>
+	 	start <%= issue.start_date %><% 
+	end %><%
+	if issue.closed? %>
+		 end <%= issue.due_date %> 
+	<% end %>
+	<% if issue.estimated_hours %>
+		effort <%= issue.estimated_hours/8 %>d	
+	<% end %>
+	#duration <%= issue.duration %>d
+}<% 
+end %>
+<% @temp_user_id = @TimeEntries[0].user_id %>
+supplement resource  <%= @TimeEntries[0].user.login.sub(".","_") %> {<% @TimeEntries.each do |te| %><% 
+	if @temp_user_id != te.user_id %>
+}
+supplement resource  <%= te.user.login.sub(".","_").sub("-","_") %> {<% 
+		@temp_user_id = te.user_id %><% 
+	end %>
+	booking <%= @Project.identifier.sub("-","_") %><% 
+	if te.issue.category
+		%>.<%= te.issue.category.name %><%
+	end%>.t<%= te.issue_id %> <%= te.spent_on %> +<%= te.hours/8 %>d { sloppy 2 }<% 
+end %>
+}
+</PRE>

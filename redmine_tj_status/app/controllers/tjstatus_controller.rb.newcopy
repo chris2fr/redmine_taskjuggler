@@ -1,0 +1,105 @@
+class TjstatusController < ApplicationController
+unloadable
+
+  def export
+	#@issue_statuses = Issue'divers
+	@Project = Project.find(:first, :conditions => {:id => params[:project_id]})
+	@Issues = Issue.find(:all, :conditions => {:project_id => params[:project_id]})
+	@IssueFullName = {}
+	@Issues.each do |issue|
+		@IssueFullName["t" + issue.id] = @Project.identifier.sub("-","_") + "."
+		if issue.fixed_version
+			@IssueFullName["t" + issue.id] = @IssueFullName["t" + issue.id] + ".v" + issue.fixed_version.name.sub(".","_").sub(" ","_").sub("-","_")
+		end
+		@IssueFullName["t" + issue.id] = @IssueFullName["t" + issue.id] + "." + "t" + issue.id
+	end
+	@start_status_id = IssueStatus.find(:first, :conditions =>["is_default=?", true]).id
+
+	@Versions = Version.find(:all, :conditions => params[:project_id])
+	
+	@Versions = Version.find(:all,:conditions => {:project_id => params[:project_id]})
+	#@IssuesSansCat = Issue.find(:all, :conditions => {:project_id => params[:project_id]})
+	# :project_id=params[:project_id])
+  end
+
+  def import
+  end
+
+  def index
+	@projects = Project.find(:all, :active?)
+  end
+
+  def initial_export
+	### Initialize necessary variables
+	@Project = Project.find(:first, :conditions => {:id => params[:project_id]})
+	@FirstIssue = Issue.find(:first, :order => ["start_date"], :conditions => ["start_date IS NOT NULL AND project_id = " + params[:project_id]])
+	@LastIssue = Issue.find(:first, :order => ["due_date DESC"],:conditions => {:project_id => params[:project_id]})
+	@IssueFullName = {}
+	@Issues = Issue.find(:all, :conditions => {:project_id => params[:project_id]})
+	@Versions = Version.find(:all,:conditions => {:project_id => params[:project_id]})
+	@Cats = IssueCategory.find(:all, :conditions => {:project_id => params[:project_id]} );
+	@start_status_id = IssueStatus.find(:first, :conditions => ["is_default=?", true]).id
+	@Resources = @Project.assignable_users
+	@TimeEntries = TimeEntry.find(:all, :conditions => {:project_id => params[:project_id]}, :order => ['user_id, issue_id'])
+	### Construct index of keys between issues and tasks
+	@Issues.each do |issue|
+		@IssueFullName["t" + issue.id.to_s] = @Project.identifier.sub("-","_")
+		if issue.fixed_version
+			@IssueFullName["t" + issue.id.to_s] = @IssueFullName["t" + issue.id.to_s] + ".v" + issue.fixed_version.name.sub(".","_").sub(" ","_").sub("-","_")
+		else 
+			@IssueFullName["t" + issue.id.to_s] = @IssueFullName["t" + issue.id.to_s] + ".no_version"
+		end
+		if issue.category
+			@IssueFullName["t" + issue.id.to_s] += "." + issue.category.name
+		else
+			@IssueFullName["t" + issue.id.to_s] += ".no_category"
+		end
+		@IssueFullName["t" + issue.id.to_s] = @IssueFullName["t" + issue.id.to_s] + ".t" + issue.id.to_s
+	end
+	### Construct a two-dimensional table of issues in categories in versions
+	@IssuesByVersionByCat = {}
+	@Versions.each do |version|
+		version_name = "v" + version.name.sub(".","_").sub(" ","_").sub("-","_")
+		if not @IssuesByVersionByCat[version_name]
+			@IssuesByVersionByCat[version_name] = []
+		end
+
+		@IssuesByVersionByCat[version_name].merge(self.PutIssuesByCat(version_name, version.fixed_issues))
+	end
+	### Add all other issues in a generic version "no_version"
+	@IssuesSansVersion = Issue.find(:all, :conditions => ["project_id = " + params[:project_id] + " AND fixed_version_id IS NULL"])
+	@IssuesByVersionByCat["no_version"] = {}
+	@IssuesSansVersion.each do |issue|
+		if issue.category
+			category_name = issue.category.name
+		else
+			category_name = "no_category"
+		end
+		if not @IssuesByVersionByCat["no_version"][category_name]
+			@IssuesByVersionByCat["no_version"][category_name] = []
+		end
+		@IssuesByVersionByCat["no_version"][category_name].push(issue)
+	end
+  end
+
+	def PutIssuesByCat (Version, Issues)
+		retvar = {}
+		retvar[Version] = {}
+		Issues.each do |issue|
+			if issue.category and issue.category.name
+				CatName = issue.category.name
+			else
+				CatName = "no_category"
+			end
+			if not retvar[Version][@CatName]
+				retvar[Version][@CatName] = []
+			end
+			retvar[Version][@CatName].push(issue)
+		end
+		return retvar
+	end
+  def test
+	
+  end
+
+end

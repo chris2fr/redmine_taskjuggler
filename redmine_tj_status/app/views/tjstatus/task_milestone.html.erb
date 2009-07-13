@@ -1,0 +1,5 @@
+			task t<%= issue.id %> "#<%= issue.id %> : <%= issue.subject.sub("\"","'") %>" {
+				milestone
+<%= 
+				render :file  => "/opt/redmine-0.8.4/vendor/plugins/redmine_tj_status/app/views/tjstatus/inc_task_inc_depends.html.erb", :locals => { :issue => issue } %>
+			}

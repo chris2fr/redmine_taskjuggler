@@ -1,0 +1,36 @@
+<% issue = @issuetransp %>
+task t<%= issue.id %> "<%= issue.subject.sub("\"","'") %>" {
+		complete <%= issue.done_ratio %><% 
+		if issue.assigned_to %>
+			allocate <%= issue.assigned_to.login.sub(".","_") %><%
+		end
+		if issue.estimated_hours and issue.assigned_to %>
+			effort <%= issue.estimated_hours/8 %>d<%
+		else  
+			if issue.duration > 0%>
+				duration <%= issue.duration %>d<%
+			end
+		end  %><% 
+		if issue.done_ratio == 0 %><%
+			if issue.estimated_hours %>
+				effort <%= issue.estimated_hours/8 %>d<%
+			else  
+				if issue.duration > 0%>
+					duration <%= issue.duration %>d<%
+				end
+			end %><%
+			if issue.relations_to[0]  %>
+				depends <%= issue.relations_to.collect{ |dep| "!t"+dep.issue_from_id.to_s}.join ", " %><%
+			end %><% 
+		else %>
+			start <%= issue.start_date %><% 
+			if issue.done_ratio == 100 %>
+				end <%= issue.due_date %>
+				scheduled<% 
+			else 
+				if issue.estimated_hours %>
+					effort <%= issue.estimated_hours/8 %>d<% 
+				end
+			end %><% 
+		end %>
+	}

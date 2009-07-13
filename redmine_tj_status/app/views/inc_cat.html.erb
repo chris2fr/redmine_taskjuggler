@@ -1,0 +1,57 @@
+<%
+if @IssuesByVersionByCat[version_name] and @IssuesByVersionByCat[version_name][cat_name] 
+	if not cat_name == "no_category"%>
+		task <%= cat_name %> "<%= cat_name %>" {
+
+<% 
+	end
+	@IssuesByVersionByCat[version_name][cat_name].each do |issue|
+		cust_vals = issue.custom_values.find(:all)
+		config_vals = {}
+		cust_vals.each do |cust_val|
+			if @CustFieldId['issue'][cust_val.custom_field.name]
+				config_vals[cust_val.custom_field.name] = cust_val.value
+			end
+		end
+		cust_vals = issue.custom_values.find(:all)
+		config_vals = {}
+		cust_vals.each do |cust_val|
+			if @CustFieldId['issue'][cust_val.custom_field.name]
+				#if cust_val.cutom_field.field_format == "bool"
+					## There should be a quicker way of codeing this, sorry 
+					#if cust_val.value == "0"	 
+					#	config_vals[cust_val.custom_field.name] = false
+					#else
+					#	config_vals[cust_val.custom_field.name] = true
+					#end
+				#else  
+					config_vals[cust_val.custom_field.name] = cust_val.value
+				#end
+			end
+		end
+		tests = {
+			"scheduled" => "",
+			"status" => ""
+			}
+		if config_vals['scheduled'] and not config_vals['scheduled'] == "0" then tests['scheduled'] = "_scheduled" 
+		else tests['scheduled'] = "" end
+		if config_vals['milestone'] and not config_vals['milestone'] == "0" then tests['status'] = "_milestone"
+		else
+			if issue.done_ratio == 0
+				tests['status'] = "_new"
+			elsif issue.done_ratio == 100
+				tests['status'] = "_done"
+			else
+				tests['status'] = "_current"
+			end 
+		end
+%><%= 
+		render :file  => "/opt/redmine-0.8.4/vendor/plugins/redmine_tj_status/app/views/tjstatus/task" + tests['scheduled'] + tests['status'] + ".html.erb", :locals => { :issue => issue, :config_vals => config_vals } %>
+<% 
+	end
+	if not cat_name == "no_category"%>
+		}
+<% 
+	end
+end
+%>
