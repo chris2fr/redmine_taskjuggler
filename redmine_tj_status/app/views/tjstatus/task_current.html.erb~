@@ -1,8 +1,0 @@
-			task t<%= issue.id %> "#<%= issue.id %> : <%= issue.subject.sub("\"","'") %>" {
-				complete <%= issue.done_ratio %>
-				priority <%= (issue.priority_id + 1) * 100 %>
-				start <%= issue.start_date %> 
-				<%= 
-				render :file  => "/opt/redmine-0.8.4/vendor/plugins/redmine_tj_status/app/views/tjstatus/inc_task_inc_allocate.html.erb", :locals => { :issue => issue, :config_vals => config_vals } 
-				%>
-			}

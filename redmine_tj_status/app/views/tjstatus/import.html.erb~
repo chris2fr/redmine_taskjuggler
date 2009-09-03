@@ -1,8 +1,0 @@
-<h2>Import(ant)</h2>
-
-<%
-@lines.each do |line| %>
-<P><%= line.join(';') %>
-<%
-end
-%>
