@@ -1,4 +1,4 @@
-class TjstatusController < ApplicationController
+class TaskjugglerController < ApplicationController
 unloadable
 
   def export

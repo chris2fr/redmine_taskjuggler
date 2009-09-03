@@ -1,5 +1,0 @@
-			task t<%= issue.id %> "#<%= issue.id %> : <%= issue.subject.sub("\"","'") %>" {
-				milestone
-<%= 
-				render :file  => File.join(File.dirname(__FILE__), 'tjstatus',"inc_task_inc_depends.html.erb"), :locals => { :issue => issue } %>
-			}
