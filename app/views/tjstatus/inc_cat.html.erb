@@ -46,7 +46,7 @@ if @IssuesByVersionByCat[version_name] and @IssuesByVersionByCat[version_name][c
 			end 
 		end
 %><%= 
-		render :file  => "/opt/redmine-0.8.4/vendor/plugins/redmine_tj_status/app/views/tjstatus/task" + tests['scheduled'] + tests['status'] + ".html.erb", :locals => { :issue => issue, :config_vals => config_vals } %>
+		render :file  => File.join(File.dirname(__FILE__), 'task' + tests['scheduled'] + tests['status'] + ".html.erb"), :locals => { :issue => issue, :config_vals => config_vals } %>
 <% 
 	end
 	if not cat_name == "no_category"%>
