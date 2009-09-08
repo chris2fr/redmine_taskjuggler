@@ -60,7 +60,8 @@ unloadable
 		unless spent_hours ==  hours
 			if spent_hours == 0 # Ajouter TimeEntry
 				TimeEntry.create(:user_id => params[:user_id], :spent_on => params[:date], :hours => hours)
-			elsif params[:time_entry][issue_id] == 0 # Supprimer
+			elsif params[:time_entry][issue_id].to_i() == 0 # Supprimer
+				#TimeEntry.delete(TimeEntry.find(:first, :conditions => {:user_id => @current_user_id,:issue_id => issue_id, :spent_on => @current_date}).id)
 			else
 				te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id],:issue_id => issue_id, :spent_on => params[:date]})
 				te.hours = hours
@@ -112,10 +113,26 @@ unloadable
 	@logged_issues = {}
 	time_entries = TimeEntry.find(:all,:conditions => {:user_id => @current_user_id, :spent_on => @current_date})
 	if time_entries
+		seen_te = {}
 		time_entries.each do |time_entry|
-				@logged_issues[time_entry.issue_id] = Issue.find(:first,:conditions => {:id => time_entry.issue_id})
-				@hours_total += time_entry.hours
-				@time_entries_hours[time_entry.issue_id] = get_spent_hours(time_entry.issue_id, @current_user_id,@current_date)
+				if time_entry.hours > 8
+					time_entry.hours = 8
+					time_entry.save()
+				end
+				# Fuse all multiple te for a same date
+				if seen_te[time_entry.issue_id]
+					seen_te[time_entry.issue_id].hours += time_entry.hours
+					seen_te[time_entry.issue_id].comments += " " + time_entry.comments
+					
+					@hours_total += time_entry.hours
+					seen_te[time_entry.issue_id].save()
+					TimeEntry.delete(time_entry.id)
+				else
+					seen_te[time_entry.issue_id] = time_entry
+					@logged_issues[time_entry.issue_id] = Issue.find(:first,:conditions => {:id => time_entry.issue_id})
+					@time_entries_hours[time_entry.issue_id] = get_spent_hours(time_entry.issue_id, @current_user_id,@current_date)
+					@hours_total += time_entry.hours
+				end
 		end
 	end
 	# Assigned issues
