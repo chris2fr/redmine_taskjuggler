@@ -40,4 +40,4 @@
 			end
 		%>>5/8</OPTION>
 	</SELECT> [<%= @category_list[issue.category_id] %>]  <b><%= @project_list[issue.project_id] %></b> 
-	#<%= issue.id %>. "<%= issue.subject %>" (<%= @status_list[issue.status_id] %>) 
+	<a href="/issues/show/<%= issue.id%>">#<%= issue.id %></a>. "<%= issue.subject %>" (<%= @status_list[issue.status_id] %>) 
