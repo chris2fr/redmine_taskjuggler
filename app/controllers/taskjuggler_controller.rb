@@ -51,6 +51,75 @@ unloadable
 
   def index
 	@projects = Project.find(:all, :conditions => ["status = 1 AND parent_id IS NOT NULL"], :order => ["parent_id, name"] )
+	@users = User.find(:all)
+  end
+
+  def timetable_update
+	params[:time_entry].each do |issue_id,hours|
+		spent_hours = get_spent_hours(issue_id,params[:user_id],params[:date])
+		unless spent_hours ==  hours
+			if spent_hours == 0 # Ajouter TimeEntry
+				TimeEntry.create(:user_id => params[:user_id], :spent_on => params[:date], :hours => hours)
+			elsif params[:time_entry][issue_id] == 0 # Supprimer
+			else
+				te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id],:issue_id => issue_id, :spent_on => params[:date]})
+				te.hours = hours
+				te.save
+			end
+		end
+	end
+  end
+
+  def timetable
+	if params[:user_id]
+		@current_user_id = params[:user_id].to_i()
+	else
+		@current_user_id = User.current.id.to_i()
+	end
+	if params[:date]
+		@current_date = params[:date]
+	else
+		now = DateTime::now()
+		date = Date::civil(now.year,now.month,now.mday)
+		@current_date = date.to_s()
+		
+	end
+
+
+	@users = User.find(:all)
+	@hours_total = 0
+	@time_entries_hours = {}
+	# Time-logged issues
+	@logged_issues = {}
+	time_entries = TimeEntry.find(:all,:conditions => {:user_id => @current_user_id, :spent_on => @current_date})
+	if time_entries
+		time_entries.each do |time_entry|
+				@logged_issues[time_entry.issue_id] = Issue.find(:first,:conditions => {:id => time_entry.issue_id})
+				@hours_total += time_entry.hours
+				@time_entries_hours[time_entry.issue_id] = get_spent_hours(time_entry.issue_id, @current_user_id,@current_date)
+		end
+	end
+	# Assigned issues
+	@assigned_issues = {}
+	issues = Issue.find(:all, :conditions => ["assigned_to_id = " + @current_user_id.to_s()], :order => ["status_id,id"] )
+	issues.each do |issue|
+		unless (@logged_issues and @logged_issues[issue.id])
+			#@time_entries_hours[issue.id] = get_spent_hours(issue.id, params[:user_id],params[:date])
+			@assigned_issues[issue.id] = issue
+		end
+	end
+	# Watched issues
+	watched = Watcher.find(:all, :conditions => {:user_id => @current_user_id, :watchable_type => "issue"})
+	@watched_issues = {}
+	watched.each do |watched_issue|
+		unless (@logged_issues and @logged_issues[watched_issue.watchable_id]) or (@assigned_issues and @assigned_issues[watched_issue.watchable_id])
+			@watched_issues[watched_issue.watchable_id] = Issue.find(:first, :conditions => {:id => watched_issue.watchable_id})
+		end
+	end
+	@user = User.find(:first, :conditions => ["id = " + @current_user_id.to_s()])
+
+
+	#@time_entries = TimeEntry
   end
 
   def initial_export
@@ -163,6 +232,16 @@ unloadable
 		end
 	end
   end
+
+	def get_spent_hours (issue_id,user_id,date)
+		te = TimeEntry.find(:first,:conditions => {:user_id => user_id, :spent_on => date, :issue_id => issue_id})
+		if te
+			spent_hours = te.hours
+		else
+			spent_hours = 0
+		end
+		return spent_hours
+	end
 
 	def PutIssuesByCat (issues)
 		retvar = {}
