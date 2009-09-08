@@ -1,0 +1,33 @@
+
+<FORM ACTION="/taskjuggler/timetable_update">
+
+<p><%= @user.name %>
+<p>Date : [ <%= params[:date] %> ]
+<p>Hours : <%= @hours_total %>
+<table>
+<tr>
+<td valign="top">
+<H2>Assigned Issues</H2>
+<% @issues.each do |issue|
+	%>
+<%= 
+		render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_task.html.erb'), :locals => { :issue => issue } %>
+<BR/>
+	<%
+end
+%>
+</td>
+<td valign="top">
+<H2>Watched Issues</H2>
+<% @watched_issues.each do |issue|
+	%>
+<%= 
+		render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_task.html.erb'), :locals => { :issue => issue } %><BR/>
+	<%
+end
+%>
+</td>
+</tr>
+</table>
+<div align="center"><INPUT TYPE="SUBMIT"/></div>
+</FORM>
