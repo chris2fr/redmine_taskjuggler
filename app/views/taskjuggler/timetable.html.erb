@@ -1,14 +1,43 @@
+<%= debug(@time_entries) %>
 
+<FORM action="/taskjuggler/timetable">
+User : <SELECT NAME="user_id">
+<%
+@users.each do |user|
+%>
+<OPTION VALUE="<%= user.id%>" <%
+if user.id == @current_user_id
+%> SELECTED <%
+end
+%>><%=user.name%></OPTION>
+<%
+end
+%>
+</SELECT>
+ Date : <input type="text" name="date" value="<%= @current_date %>">
+ <input type="submit" value="Changer date et/ou personne">
+</FORM>
+<HR/>
 <FORM ACTION="/taskjuggler/timetable_update">
-
-<p><%= @user.name %>
-<p>Date : [ <%= params[:date] %> ]
-<p>Hours : <%= @hours_total %>
+<INPUT TYPE="SUBMIT" value="Saisir la charge de travail"/> [ TOTAL : <%= @hours_total / 8 %> / 1 jour enregistré pour ce jour ]
 <table>
 <tr>
 <td valign="top">
+
+<H2>Logged Issues ce jour</H2>
+<% 
+if @logged_issues
+@logged_issues.each do |issue_id,issue|
+	%>
+<%= 
+		render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_task.html.erb'), :locals => { :issue => issue } %>
+<BR/>
+<%
+end
+end
+%>
 <H2>Assigned Issues</H2>
-<% @issues.each do |issue|
+<% @assigned_issues.each do |issue_id,issue|
 	%>
 <%= 
 		render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_task.html.erb'), :locals => { :issue => issue } %>
@@ -19,7 +48,7 @@ end
 </td>
 <td valign="top">
 <H2>Watched Issues</H2>
-<% @watched_issues.each do |issue|
+<% @watched_issues.each do |issue_id,issue|
 	%>
 <%= 
 		render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_task.html.erb'), :locals => { :issue => issue } %><BR/>
@@ -29,5 +58,7 @@ end
 </td>
 </tr>
 </table>
-<div align="center"><INPUT TYPE="SUBMIT"/></div>
+<div align="center"><INPUT TYPE="SUBMIT" value="Saisir la charge de travail"/></div>
+<input type ="hidden" name="date" value="<%= params[:date]%>"/>
+<input type ="hidden" name="user_id" value="<%= params[:user_id]%>"/>
 </FORM>

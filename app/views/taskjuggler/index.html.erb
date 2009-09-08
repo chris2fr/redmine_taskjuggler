@@ -1,6 +1,8 @@
 <h2>Redmine Task Juggler Round-Trip Engeneering</h2>
-<p>Hi!
-<p>Help
+<p>Welcome to Redmine_TaskJuggler.  This plugin helps with workload management.
+<p>Help (to come)
+<HR/>
+<h2>round-trip with Task-Juggler</h2>
 <p><form action="/taskjuggler/initial_export" method="get"><INPUT TYPE="SUBMIT" VALUE="EXPORT"/> a Task-Juggler 
  file from Redmine for <select name="project_id">
 <% 
@@ -27,4 +29,19 @@ end
 end%>
 </SELECT>  Redmine Project.
 </FORM>
-</UL>
+<HR/>
+<H2>Workload associations</H2>
+<FORM ACTION="/taskjuggler/timetable">
+User : <SELECT NAME="user_id">
+<%
+@users.each do |user|
+%>
+<OPTION VALUE="<%= user.id%>"><%=user.name%></OPTION>
+<%
+end
+%>
+</SELECT><BR>
+Date (aaaa-mm-dd) : <INPUT NAME="date"/>
+<INPUT TYPE="SUBMIT"/>
+
+</FORM>
