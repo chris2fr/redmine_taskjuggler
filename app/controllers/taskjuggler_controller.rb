@@ -120,7 +120,7 @@ unloadable
 	end
 	# Assigned issues
 	@assigned_issues = {}
-	issues = Issue.find(:all, :conditions => ["assigned_to_id = " + @current_user_id.to_s()], :order => ["tracker_id, status_id DESC, project_id, category_id, id"] )
+	issues = Issue.find(:all, :conditions => ["assigned_to_id = " + @current_user_id.to_s()], :order => ["project_id, category_id, id"] )
 	issues.each do |issue|
 		unless (@logged_issues and @logged_issues[issue.id])
 			#@time_entries_hours[issue.id] = get_spent_hours(issue.id, params[:user_id],params[:date])
