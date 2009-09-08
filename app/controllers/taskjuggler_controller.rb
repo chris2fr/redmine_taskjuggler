@@ -55,19 +55,31 @@ unloadable
   end
 
   def timetable_update
-	params[:time_entry].each do |issue_id,hours|
-		spent_hours = get_spent_hours(issue_id,params[:user_id],params[:date])
-		unless spent_hours ==  hours
-			if spent_hours == 0 # Ajouter TimeEntry
-				TimeEntry.create(:user_id => params[:user_id], :spent_on => params[:date], :hours => hours)
-			elsif params[:time_entry][issue_id].to_i() == 0 # Supprimer
-				#TimeEntry.delete(TimeEntry.find(:first, :conditions => {:user_id => @current_user_id,:issue_id => issue_id, :spent_on => @current_date}).id)
+	@flag = "non"
+	act_id = Enumeration.find(:first,:conditions => {:opt => "ACTI"} ).id
+	params[:time_entry].each do |issue_id, hours|
+		@spent_hours = get_spent_hours(issue_id,params[:user_id],params[:date])
+		
+		#unless @spent_hours == hours.to_f()
+			if @spent_hours == 0 and hours != "0" # Ajouter TimeEntry
+				@te = TimeEntry.create()
+				@te.hours = hours.to_i()
+				@te.activity_id = act_id
+				issue = Issue.find(:first,:conditions => {:id => issue_id})
+				@te.project_id = issue.project_id
+				@te.issue_id = issue_id.to_i()
+				@te.user_id = params[:user_id]
+				@te.spent_on = params[:date]
+				@te.save()
+			elsif @spent_hours != 0 and hours == "0"#  and hours == "0" # Supprimer
+				TimeEntry.delete(TimeEntry.find(:first, :conditions => {:user_id => params[:user_id],:issue_id => issue_id, :spent_on => params[:date]}).id)
+				@flag = "oui"
 			else
-				te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id],:issue_id => issue_id, :spent_on => params[:date]})
-				te.hours = hours
-				te.save
+				@te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id],:issue_id => issue_id, :spent_on => params[:date]})
+				@te.hours = hours
+				@te.save()
 			end
-		end
+		#end
 	end
   end
 
@@ -121,8 +133,11 @@ unloadable
 				end
 				# Fuse all multiple te for a same date
 				if seen_te[time_entry.issue_id]
+					
 					seen_te[time_entry.issue_id].hours += time_entry.hours
-					seen_te[time_entry.issue_id].comments += " " + time_entry.comments
+					if time_entry.comments
+						seen_te[time_entry.issue_id].comments += " " + time_entry.comments
+					end
 					
 					@hours_total += time_entry.hours
 					seen_te[time_entry.issue_id].save()

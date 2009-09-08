@@ -1,3 +1,4 @@
+
 <FORM action="/taskjuggler/timetable">
 User : <SELECT NAME="user_id">
 <%
@@ -17,6 +18,8 @@ end
 </FORM>
 <HR/>
 <FORM ACTION="/taskjuggler/timetable_update">
+<input type ="hidden" name="date" value="<%= @current_date %>"/>
+<input type ="hidden" name="user_id" value="<%= @current_user_id%>"/>
 <INPUT TYPE="SUBMIT" value="Saisir la charge de travail"/> [ TOTAL : <%= @hours_total / 8 %> / 1 jour enregistré pour ce jour ]
 <table>
 <tr>
@@ -57,6 +60,4 @@ end
 </tr>
 </table>
 <div align="center"><INPUT TYPE="SUBMIT" value="Saisir la charge de travail"/></div>
-<input type ="hidden" name="date" value="<%= @current_date %>"/>
-<input type ="hidden" name="user_id" value="<%= @current_user_id%>"/>
 </FORM>
