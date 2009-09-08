@@ -8,7 +8,7 @@ Redmine::Plugin.register :redmine_taskjuggler do
   #permission :taskjuggler, {:taskjuggler => [:index, :export, :initial_export, timetable]}, :public => true
   #menu :project_menu, :taskjuggler, { :controller => 'taskjuggler', :action => 'test' }, :caption => 'Task Juggler File', :after => :activity, :param => :project_identifier
   #menu :application_menu, :tjstatus, { :controller => 'tjstatus', :action => 'index' }, :caption => 'Task Juggler'
-  menu	:top_menu, :taskjuggler, { :controller => 'taskjuggler', :action => 'timetable' }, :caption => 'Workload (Charge de travail)'
+  menu	:top_menu, :taskjuggler, { :controller => 'taskjuggler', :action => 'timetable' }, :caption => "Compte-Rendu d'Activité (CRA)"
 
 
 end

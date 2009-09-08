@@ -84,9 +84,28 @@ unloadable
 		@current_date = date.to_s()
 		
 	end
-
-
-	@users = User.find(:all)
+	@users = User.find(:all,:order => ['firstname'])
+	projects = Project.find(:all, :conditions => {:status => 1}, :order => ['parent_id,name'])
+	@project_list = {}
+	@category_list = {}
+	@status_list = {}
+	@tracker_list = {}
+	trackers = Tracker.find(:all)
+	trackers.each do |tracker|
+		@tracker_list[tracker.id] = tracker
+	end
+	statuses = IssueStatus.find(:all)
+	statuses.each do |status|
+		@status_list[status.id] = status
+	end
+	projects.each do |project|
+		@project_list[project.id] = project
+		cats = IssueCategory.find(:all,:conditions => {:project_id => project.id},:order => ['name'])
+		cats.each do |cat|
+			@category_list[cat.id] = cat
+		end
+	end
+	#projet
 	@hours_total = 0
 	@time_entries_hours = {}
 	# Time-logged issues
@@ -101,7 +120,7 @@ unloadable
 	end
 	# Assigned issues
 	@assigned_issues = {}
-	issues = Issue.find(:all, :conditions => ["assigned_to_id = " + @current_user_id.to_s()], :order => ["status_id,id"] )
+	issues = Issue.find(:all, :conditions => ["assigned_to_id = " + @current_user_id.to_s()], :order => ["tracker_id, status_id DESC, project_id, category_id, id"] )
 	issues.each do |issue|
 		unless (@logged_issues and @logged_issues[issue.id])
 			#@time_entries_hours[issue.id] = get_spent_hours(issue.id, params[:user_id],params[:date])

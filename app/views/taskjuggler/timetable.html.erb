@@ -1,5 +1,3 @@
-<%= debug(@time_entries) %>
-
 <FORM action="/taskjuggler/timetable">
 User : <SELECT NAME="user_id">
 <%
@@ -59,6 +57,6 @@ end
 </tr>
 </table>
 <div align="center"><INPUT TYPE="SUBMIT" value="Saisir la charge de travail"/></div>
-<input type ="hidden" name="date" value="<%= params[:date]%>"/>
-<input type ="hidden" name="user_id" value="<%= params[:user_id]%>"/>
+<input type ="hidden" name="date" value="<%= @current_date %>"/>
+<input type ="hidden" name="user_id" value="<%= @current_user_id%>"/>
 </FORM>
