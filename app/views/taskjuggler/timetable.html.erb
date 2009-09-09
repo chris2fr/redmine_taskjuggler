@@ -1,6 +1,6 @@
 
 <FORM action="/taskjuggler/timetable">
-User : <SELECT NAME="user_id">
+<%= l(:user_label) %> : <SELECT NAME="user_id">
 <%
 @users.each do |user|
 %>
@@ -13,19 +13,35 @@ end
 end
 %>
 </SELECT>
- Date : <input type="text" name="date" value="<%= @current_date %>">
- <input type="submit" value="Changer date et/ou personne">
+<%= l(:date_label) %> : <input type="text" name="date" value="<%= @current_date %>">
+ <input type="submit" value="<%= l(:changeuseranddate_label) %>">
 </FORM>
+<%
+date = Date::parse(@current_date)
+if date.wday == 1
+	follow_adjust = 0
+	previous_adjust = 2
+elsif date.wday == 5
+	follow_adjust = 2
+	previous_adjust = 0
+else
+	follow_adjust = 0
+	previous_adjust = 0
+end
+%>
+<a href="/taskjuggler/timetable?user_id=<%=@current_user_id %>&date=<%= (date - 1 - previous_adjust ).to_s() %>"> <-- <%= l(:previous_day_label) %></a>
+|
+<a href="/taskjuggler/timetable?user_id=<%=@current_user_id %>&date=<%= (date + 1 + follow_adjust).to_s() %>"><%= l(:following_day_label) %> --></a>
 <HR/>
 <FORM ACTION="/taskjuggler/timetable_update">
 <input type ="hidden" name="date" value="<%= @current_date %>"/>
 <input type ="hidden" name="user_id" value="<%= @current_user_id%>"/>
-<INPUT TYPE="SUBMIT" value="Saisir la charge de travail"/> [ TOTAL : <%= @hours_total / 8 %> / 1 jour enregistré pour ce jour ]
+<INPUT TYPE="SUBMIT" value="<%= l(:submitdailyworkload_label) %>"/> [ TOTAL : <%= @hours_total / 8 %> / 1 <%= l(:daystoday_label) %> ]
 <table>
 <tr>
 <td valign="top">
 
-<H2>Logged Issues ce jour</H2>
+<H2><%= l(:loggedissuestoday_label) %></H2>
 <% 
 if @logged_issues
 @logged_issues.each do |issue_id,issue|
@@ -37,7 +53,7 @@ if @logged_issues
 end
 end
 %>
-<H2>Assigned Issues</H2>
+<H2><%= l(:assignedissues_label) %></H2>
 <% @assigned_issues.each do |issue_id,issue|
 	%>
 <%= 
@@ -48,7 +64,7 @@ end
 %>
 </td>
 <td valign="top">
-<H2>Watched Issues</H2>
+<H2><%= l(:watchedissues_label) %></H2>
 <% @watched_issues.each do |issue_id,issue|
 	%>
 <%= 
@@ -59,5 +75,5 @@ end
 </td>
 </tr>
 </table>
-<div align="center"><INPUT TYPE="SUBMIT" value="Saisir la charge de travail"/></div>
+<div align="center"><INPUT TYPE="SUBMIT" value="<%= l(:submitdailyworkload_label) %>"/></div>
 </FORM>

@@ -1,10 +1,10 @@
-<H2>Mise à jour</H2>
-<a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> Retour </a>
-<H2 align="center">Maintenant</h2>
+<H2><%= l(:update_label) %></H2>
+<a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> <%= l(:back_label) %> </a>
+<H2 align="center"><%= l(:present_label) %></h2>
 <%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @date - 9, :date_fin => @date + 9 } %>
 
-<H2 align="right">Avenir</h2>
+<H2 align="right"><%= l(:future_label) %></h2>
 <%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @date + 10, :date_fin => @date + 29 } %>
-<H2 align="left">Passé</h2>
+<H2 align="left"><%= l(:past_label) %></h2>
 <%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @date - 29, :date_fin => @date - 10 } %>
-<a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> Retour </a>
+<a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> <%= l(:back_label) %> </a>
