@@ -58,10 +58,10 @@ unloadable
 	@flag = "non"
 	act_id = Enumeration.find(:first,:conditions => {:opt => "ACTI"} ).id
 	params[:time_entry].each do |issue_id, hours|
-		@spent_hours = get_spent_hours(issue_id,params[:user_id],params[:date])
+		@spent_hours = get_spent_hours(issue_id,params[:user_id].to_i(),params[:date])
 		
 		#unless @spent_hours == hours.to_f()
-			if @spent_hours == 0 and hours != "0" # Ajouter TimeEntry
+			if (@spent_hours == 0.0 and hours != "0")  # Ajouter TimeEntry
 				@te = TimeEntry.create()
 				@te.hours = hours.to_i()
 				@te.activity_id = act_id
@@ -72,10 +72,11 @@ unloadable
 				@te.spent_on = params[:date]
 				@te.save()
 			elsif @spent_hours != 0 and hours == "0"#  and hours == "0" # Supprimer
-				TimeEntry.delete(TimeEntry.find(:first, :conditions => {:user_id => params[:user_id],:issue_id => issue_id, :spent_on => params[:date]}).id)
+				TimeEntry.delete(TimeEntry.find(:first, :conditions => {:user_id => params[:user_id].to_i(),:issue_id => issue_id, :spent_on => params[:date]}).id)
 				@flag = "oui"
-			else
-				@te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id],:issue_id => issue_id, :spent_on => params[:date]})
+			elsif @spent_hours != hours.to_f()
+				@te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id].to_i(),:issue_id => issue_id, :spent_on => params[:date]})
+
 				@te.hours = hours
 				@te.save()
 			end
@@ -289,8 +290,9 @@ unloadable
 		if te
 			spent_hours = te.hours
 		else
-			spent_hours = 0
+			spent_hours = 0.0
 		end
+		#puts issue_id + " Spent hours : " + spent_hours
 		return spent_hours
 	end
 
