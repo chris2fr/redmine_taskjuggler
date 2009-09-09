@@ -82,18 +82,27 @@ unloadable
 		#end
 	end
 	@date = Date::parse(params[:date])
-	@logged_te = TimeEntry.find(:all,:conditions => ['user_id = '+params[:user_id] + ' AND spent_on > "' + (@date - 30).to_s() + '" AND spent_on < "' + (@date + 30).to_s() + '"'], :order => ['issue_id,spent_on'] )
+	@conditions = 'user_id = '+params[:user_id] + ' AND spent_on > "' + (@date - 30).to_s() + '" AND spent_on < "' + (@date + 30).to_s() + '"'
+	@logged_te = TimeEntry.find(:all,:conditions => [@conditions], :order => ['issue_id,spent_on'] )
 	@logged_issues = {}
 	@logged_days = {}
+	@total_days = {}
 	@logged_te.each do |te|
 		unless @logged_issues.has_key?(te.issue_id)
 			@logged_issues[te.issue_id] = Issue.find(:first, :conditions => {:id => te.issue_id})
 			@logged_days[te.issue_id] = {}
-			(-30..30).each do |delta|
-				@logged_days[te.issue_id][(@date + delta).to_s()] = 0
+			#(-29..29).each do |delta|
+			#	@logged_days[te.issue_id][(@date + delta).to_s()] = 0
+			#end
+		end
+		if te.spent_on
+			@logged_days[te.issue_id][te.spent_on.to_s()] = te.hours.to_f() / 8
+			unless @total_days.has_key?(te.spent_on.to_s())
+				@total_days[te.spent_on.to_s()] = te.hours.to_f() / 8
+			else
+				@total_days[te.spent_on.to_s()] += te.hours.to_f() / 8
 			end
 		end
-		@logged_days[te.issue_id][te.spent_on] = te.hours.to_f() / 8
 	end
 
   end
@@ -110,7 +119,6 @@ unloadable
 		now = DateTime::now()
 		date = Date::civil(now.year,now.month,now.mday)
 		@current_date = date.to_s()
-		
 	end
 	@users = User.find(:all,:order => ['firstname'])
 	projects = Project.find(:all, :conditions => {:status => 1}, :order => ['parent_id,name'])

@@ -1,35 +1,10 @@
 <H2>Mise à jour</H2>
 <a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> Retour </a>
+<H2 align="center">Maintenant</h2>
+<%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @date - 9, :date_fin => @date + 9 } %>
 
-<table>
-<tr>
-<td></td>
-<%
-(-30..30).each do |delta|
-	%>
-	<td><%= (@date + delta).to_s()[8,2]%> / <%= (@date + delta).to_s()[5,2]%></td>
-<%
-end
-%>
-</TR>
-<%
-@logged_issues.each do |id,li|
-	%>
-<TR>
-<td>#<a href="/issues/show/<%= li.id %>"><%= li.id %></a> <b><%= li.subject %></b></td>
-<%
-	@logged_days[li.id].each do |day,hours|
-%>
-	<TD <%
-	if hours > 0
-		%>style="background-color:rgb(255, 255, <%= 255- (255 * hours).to_i()  %>)"<%
-	end
-	%>
-><%= hours %></TD>
-<%
-	end
-end
-%>
-</TR>
-</TABLE>
+<H2 align="right">Avenir</h2>
+<%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @date + 10, :date_fin => @date + 29 } %>
+<H2 align="left">Passé</h2>
+<%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @date - 29, :date_fin => @date - 10 } %>
 <a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> Retour </a>
