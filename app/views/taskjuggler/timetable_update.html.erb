@@ -1,7 +1,35 @@
-Mise à jour du la suite :
-<%= debug(@flag) %>
+<H2>Mise à jour</H2>
 <a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> Retour </a>
 
-<%= debug(params) %>
-
+<table>
+<tr>
+<td></td>
+<%
+(-30..30).each do |delta|
+	%>
+	<td><%= (@date + delta).to_s()[8,2]%> / <%= (@date + delta).to_s()[5,2]%></td>
+<%
+end
+%>
+</TR>
+<%
+@logged_issues.each do |id,li|
+	%>
+<TR>
+<td>#<a href="/issues/show/<%= li.id %>"><%= li.id %></a> <b><%= li.subject %></b></td>
+<%
+	@logged_days[li.id].each do |day,hours|
+%>
+	<TD <%
+	if hours > 0
+		%>style="background-color:rgb(255, 255, <%= 255- (255 * hours).to_i()  %>)"<%
+	end
+	%>
+><%= hours %></TD>
+<%
+	end
+end
+%>
+</TR>
+</TABLE>
 <a href="/taskjuggler/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> Retour </a>

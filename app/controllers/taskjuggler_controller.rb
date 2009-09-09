@@ -59,7 +59,6 @@ unloadable
 	act_id = Enumeration.find(:first,:conditions => {:opt => "ACTI"} ).id
 	params[:time_entry].each do |issue_id, hours|
 		@spent_hours = get_spent_hours(issue_id,params[:user_id].to_i(),params[:date])
-		
 		#unless @spent_hours == hours.to_f()
 			if (@spent_hours == 0.0 and hours != "0")  # Ajouter TimeEntry
 				@te = TimeEntry.create()
@@ -82,6 +81,21 @@ unloadable
 			end
 		#end
 	end
+	@date = Date::parse(params[:date])
+	@logged_te = TimeEntry.find(:all,:conditions => ['user_id = '+params[:user_id] + ' AND spent_on > "' + (@date - 30).to_s() + '" AND spent_on < "' + (@date + 30).to_s() + '"'], :order => ['issue_id,spent_on'] )
+	@logged_issues = {}
+	@logged_days = {}
+	@logged_te.each do |te|
+		unless @logged_issues.has_key?(te.issue_id)
+			@logged_issues[te.issue_id] = Issue.find(:first, :conditions => {:id => te.issue_id})
+			@logged_days[te.issue_id] = {}
+			(-30..30).each do |delta|
+				@logged_days[te.issue_id][(@date + delta).to_s()] = 0
+			end
+		end
+		@logged_days[te.issue_id][te.spent_on] = te.hours.to_f() / 8
+	end
+
   end
 
   def timetable
