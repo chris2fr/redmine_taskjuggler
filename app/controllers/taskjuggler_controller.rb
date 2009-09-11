@@ -75,7 +75,6 @@ unloadable
 				@flag = "oui"
 			elsif @spent_hours != hours.to_f()
 				@te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id].to_i(),:issue_id => issue_id, :spent_on => params[:date]})
-
 				@te.hours = hours
 				@te.save()
 			end
@@ -87,6 +86,16 @@ unloadable
 	@logged_issues = {}
 	@logged_days = {}
 	@total_days = {}
+	@projcat = {}
+	@projects = Project.find(:all, :conditions => {:status => 1}, :order => ['parent_id,name'])
+	@projects.each do |projet|
+		@projcat[projet.id] = {}
+		@projcat[projet.id]["total"] = 0.0
+		issue_categories = projet.issue_categories
+		projet.issue_categories.each do |cat|
+			@projcat[projet.id][cat.id] = {}
+		end
+	end
 	@logged_te.each do |te|
 		unless @logged_issues.has_key?(te.issue_id)
 			@logged_issues[te.issue_id] = Issue.find(:first, :conditions => {:id => te.issue_id})
@@ -97,6 +106,8 @@ unloadable
 		end
 		if te.spent_on
 			@logged_days[te.issue_id][te.spent_on.to_s()] = te.hours.to_f() / 8
+			####### @projcat[te.project_id][te.project.category_id][te.spent_on.to_s()] = te.hours.to_f() / 8
+			@projcat = add_to_projcat(@projcat, te.issue.project, te.issue.category, te) 
 			unless @total_days.has_key?(te.spent_on.to_s())
 				@total_days[te.spent_on.to_s()] = te.hours.to_f() / 8
 			else
@@ -104,7 +115,6 @@ unloadable
 			end
 		end
 	end
-
   end
 
   def timetable
@@ -155,16 +165,15 @@ unloadable
 					time_entry.save()
 				end
 				# Fuse all multiple te for a same date
-				if seen_te[time_entry.issue_id]
-					
+				if seen_te.has_key?(time_entry.issue_id)
 					seen_te[time_entry.issue_id].hours += time_entry.hours
 					if time_entry.comments
-						seen_te[time_entry.issue_id].comments += " " + time_entry.comments
+						seen_te[time_entry.issue_id].comments += " + " + time_entry.comments
 					end
-					
 					@hours_total += time_entry.hours
 					seen_te[time_entry.issue_id].save()
 					TimeEntry.delete(time_entry.id)
+					@logged_issues[time_entry.issue_id] = get_spent_hours(time_entry.issue_id, @current_user_id,@current_date)
 				else
 					seen_te[time_entry.issue_id] = time_entry
 					@logged_issues[time_entry.issue_id] = Issue.find(:first,:conditions => {:id => time_entry.issue_id})
@@ -191,10 +200,29 @@ unloadable
 		end
 	end
 	@user = User.find(:first, :conditions => ["id = " + @current_user_id.to_s()])
-
-
 	#@time_entries = TimeEntry
   end
+
+  	def add_to_projcat (projcat, proj, cat, te)
+		unless projcat.has_key?(proj.id)
+			projcat[proj.id] = {}
+			projcat[proj.id]["total"] = 0.0
+		end
+		#unless projcat[proj.id].has_key?("total")
+		#	projcat[proj.id]["total"] = 0.0
+		#end
+		unless cat
+			cat_id = "other"
+		end
+		unless projcat[proj.id].has_key?(cat_id)
+			projcat[proj.id][cat_id] = {}
+			projcat[proj.id][cat_id]["total"] = 0.0
+		end
+		projcat[proj.id][cat_id][te.spent_on.to_s()] = te.hours.to_f() / 8.0
+		projcat[proj.id][cat_id]["total"] += te.hours.to_f() / 8.0
+		#projcat[proj.id]["total"] += te.hours.to_f() / 8.0
+		return projcat
+	end
 
   def initial_export
 	### Initialize necessary variables
@@ -333,6 +361,7 @@ unloadable
 		end
 		return retvar
 	end
+
   def test
 	
   end
