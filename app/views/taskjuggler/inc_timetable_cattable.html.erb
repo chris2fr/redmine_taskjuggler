@@ -1,0 +1,60 @@
+<table border="1">
+<tr>
+<td>&nbsp;&nbsp;<B><%= User.current.login %></B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+
+
+<%
+
+
+((date_debut)..(date_fin)).each do |idate|
+	if idate.wday != 0 and idate.wday != 6
+	%>
+	<td><%= idate.to_s()[8,2]%>/<%= idate.to_s()[5,2]%></td>
+<%
+	end
+end
+%>
+</TR>
+<%
+@projects.each do |projet|
+ 	if @projcat.has_key?(projet.id) and @projcat[projet.id].has_key?("total")
+	%>
+<TR>
+<td colspan="<%= (date_fin) - (date_debut) %>"><H3><%= projet.name %></H3></td>
+</TR>
+<%
+	projet.issue_categories.each do |cat|
+%>
+<TR>
+<td><H4><%= cat.name %></H4></td>
+<%
+		((date_debut)..(date_fin)).each do |idate|
+			if idate.wday != 0 and idate.wday != 6
+				idate = (idate).to_s()
+				if @projcat[projet.id][cat.id].has_key?(idate)
+					hours = @projcat[projet.name][cat.id][idate]
+				else
+					hours = 0
+				end
+	%><TD <%
+			%>style="background-color:rgb(255, 255, <%= 255 - (255 * hours).to_i()  %>)"<%
+		%>
+	><%= hours %></TD>
+	<%
+			end
+		end
+	%>
+	<TD><%= @projcat[projet.id][cat.id]["total"]%></TD>
+	<%
+	end
+%>
+</TR>
+
+<%
+end
+%>
+<%
+end
+%>
+</TR>
+</TABLE>
