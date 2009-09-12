@@ -1,6 +1,6 @@
 = Taskjuggler
 
-Redmine Task Juggler
+Redmine Taskjuggler
 
 This is Redmine and Task Juggler integration.
 
@@ -10,8 +10,9 @@ The next step is to integrate directly with Task Juggler 3 in Ruby.
 
 == Features
 
-* Workload management
-* Task-juggler export and partial import
+* Taskjuggler export
+* Taskjuggler import
+* Taskjuggler additionnal
 
 == Getting the plugin
 
