@@ -165,16 +165,7 @@ unloadable
 	end
   end
 
-	def get_spent_hours (issue_id,user_id,date)
-		te = TimeEntry.find(:first,:conditions => {:user_id => user_id, :spent_on => date, :issue_id => issue_id})
-		if te
-			spent_hours = te.hours
-		else
-			spent_hours = 0.0
-		end
-		#puts issue_id + " Spent hours : " + spent_hours
-		return spent_hours
-	end
+
 
 	def PutIssuesByCat (issues)
 		retvar = {}
