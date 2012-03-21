@@ -43,6 +43,7 @@ namespace :export do
       p = Project.find_by_identifier arg1
       if p.nil?
         puts "Error: project '#{arg1}' could not be found!"
+        exit 1
       else
         issues = p.issues
         project_name = p.name
