@@ -1,14 +1,14 @@
-= Taskjuggler
-
-Redmine Taskjuggler
+= Redmine_Taskjuggler plugin for Redmine
 
 This is Redmine and Task Juggler integration.
 
-The first stpe is to intgrate by the file format.
+The initiation of this project was applied durring work that resulted in organizing a 22-person IT department. Many steps were very manual. At the time we were using Redmine 0.9 and TJ 2 in C. Today, Redimine is in version 4.4 and Task-Juggler in version 3, rewritten in Ruby. The common language might or might not help. The basic idea is to use Redmine as a missing GUI for Taskjuggler, at least in tracking. At the time, my own programming was quick and dirty. I was under time pressure myself. The main error, I think, was using custom variables that needed to be manually configured in Redmine. So, as I debug for the current version of Redmine, I will also incorporate a proprietary data model into this plugin.
 
-The next step is to integrate directly with Task Juggler 3 in Ruby.
+This plugin may have different features for different uses, especially after we fuse it with Workload. Inxbil is the first to really bring about a novel way of using integration with Redmine in a way I had not foreseen.
 
 == Features
+
+Current features
 
 * Taskjuggler export
 * Taskjuggler import
