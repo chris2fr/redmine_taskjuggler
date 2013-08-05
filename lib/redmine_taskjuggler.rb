@@ -1,51 +1,6 @@
 #
-# Class for getting Taskjuggler tasks from Redmine items
-# and for setting Redmine item dates from a spefic
-# Taskjuggler CSV export
+# File handling classes
 #
-
-class RedmineTaskjuggler
-  attr_accessor :hoursPerDay
-  attr_accessor :useCategories
-  attr_accessor :useVersions
-  attr_accessor :rootTask
-  
-  def updateFromTaskjugglerCSV pathToTaskjugglerCSVFile
-    csvFile = TaskjugglerCSVFile.new self
-    csvFile.import pathToTaskjugglerCSVFile
-  end
-  
-  # Renders a string with the contents of a TaskJuggler tasks.tji file
-  def exportToTaskjugglerTasks redmineProjectName
-    
-  end
-  
-end
-
-class tj3Task
-
-  def to_tj3
-    
-  end
-  
-  # Renders the supplement task part from Redmine journal entries
-  def to_tj3_booking
-    
-  end
-
-end
-
-class tj3RedmineProject < Project
-  def issues
-    superIssues = super
-    i = 0
-    while i < superIssues.length
-      superIssues[i].extend tj3Task
-      i += 1
-    end
-    return superIssues
-  end
-end
 
 class RedmineTaskjugglerFile
   attr_accessor :redmineTaskjuggler
@@ -122,12 +77,13 @@ class TaskJugglerIncludeFile < RedmineTaskjugglerFile
     lastIssue = Issue.find(:first, :order => ["due_date DESC"],:conditions => {:project_id => projectId})
     issueFullName = {}
     issues = project.issues
-    versions = Version.find(:all,:conditions => {:project_id => projectId})
-    cats = IssueCategory.find(:all, :conditions => {:project_id => projectId} );
+    versions = project.versions
+    cats = project.issueCategories;
     startStatusId = IssueStatus.find(:first, :conditions => ["is_default=?", true]).id
     timeEntries = TimeEntry.find(:all, :conditions => ["spent_on >= '" + @FirstIssue.start_date.to_s + "'"], :order => ['user_id, issue_id'])
-    issuesSansVersion = Issue.find(:all, :conditions => ["project_id = " + @project_id + " AND fixed_version_id IS NULL"])
-    custFieldId = {}
+    issuesSansVersion = project.issues.find_by :fixed_version nil
+    #     Issue.find(:all, :conditions => ["project_id = " + projectId + " AND fixed_version_id IS NULL"])
+    # custFieldId = {}
     ### Update task juggler
     timeEntries.each do |te|
       cleanUpTimeEntries te
@@ -150,58 +106,60 @@ class TaskJugglerIncludeFile < RedmineTaskjugglerFile
     #  ### Resources
 
 
-      resources = project.assignable_users
-      resourcesquadNames = UserCustomField.find(:first, :conditions => {:name => "squad"}).possible_values
-      resourcesquadNames.push("others")
-      resourceBySquad = {}
-      resourceLimits = {} # Hash user_login => custom field "limits"
-      if resourcesquadNames[0] 
-	      resourcesquadNames.each do |squad_name|
-		      if squad_name == "" then squad_name = "others" end
-		      resourceBySquad[squad_name] = {}
-	      end
+    resources = project.assignable_users
+    # resourcesquadNames = UserCustomField.find(:first, :conditions => {:name => "squad"}).possible_values
+    # resourcesquadNames.push("others")
+    # resourceBySquad = {}
+    resourceLimits = {} # Hash user_login => custom field "limits"
+    #if resourcesquadNames[0] 
+    #      resourcesquadNames.each do |squad_name|
+    #                if squad_name == "" then squad_name = "others" end
+    #                resourceBySquad[squad_name] = {}
+    #        end
+    #end
+    resources.each do |res|
+      res.extend TJ3Resource
+      #squad_custom_value = res.custom_values.find(:first, :conditions => {:custom_field_id => @CustFieldId['user']['squad']})
+      if res.tj3Squad
+              squad_name = squad_custom_value.value
+      else
+              squad_name = "others"
       end
-      resources.each do |res|
-	      squad_custom_value = res.custom_values.find(:first, :conditions => {:custom_field_id => @CustFieldId['user']['squad']})
-	      if squad_custom_value
-		      squad_name = squad_custom_value.value
-	      else
-		      squad_name = "others"
-	      end
-	      if squad_name == "" then squad_name = "others" end
-	      limits_custom_value = res.custom_values.find(:first, :conditions => {:custom_field_id => @CustFieldId['user']['limits']})
-	      if limits_custom_value and not limits_custom_value.value == ""
-		      resourceLimits[res.login.sub(".","_").sub("-","_")] = limits_custom_value.value
-	      end
-	      if resourceBySquad[squad_name]
-		      resourceBySquad[squad_name][res.login.sub(".","_").sub("-","_")] = res.firstname + " " + res.lastname + " <" + res.mail + ">"
-	      end
+      if squad_name == "" then squad_name = "others" end
+      
+      #limits_custom_value = res.custom_values.find(:first, :conditions => {:custom_field_id => @CustFieldId['user']['limits']})
+      if res.tj3Limits and not res.tj3Limits == ""
+              resourceLimits[res.login.sub(".","_").sub("-","_")] = res.tj3Limits
       end
+      if resourceBySquad[squad_name]
+              resourceBySquad[squad_name][res.login.sub(".","_").sub("-","_")] = res.firstname + " " + res.lastname + " <" + res.mail + ">"
+      end
+    end
 
-      ### Construct index of keys between issues and tasks
-      issues.each do |issue|
-	      if issue.fixed_version
-		      issueFullName["t" + issue.id.to_s] = project.identifier.sub("-","_")
-		      issueFullName["t" + issue.id.to_s] = issueFullName["t" + issue.id.to_s] + ".v" + issue.fixed_version.name.sub(".","_").sub(" ","_").sub("-","_")
-
-		      if issue.category
-			      issueFullName["t" + issue.id.to_s] += "." + issue.category.name
-		      end
-		      issueFullName["t" + issue.id.to_s] = issueFullName["t" + issue.id.to_s] + ".t" + issue.id.to_s
-	      end		
-      end
-      ### Construct a two-dimensional table of issues in categories in versions
-      issuesByVersionByCat = {}
-      versions.each do |version|
-	      version_name = "v" + version.name.sub(".","_").sub(" ","_").sub("-","_")
-	      if not issuesByVersionByCat[version_name]
-		      issuesByVersionByCat[version_name] = {}
-	      end
-	      issues = version.fixed_issues
-	      ret = self.PutIssuesByCat(issues)
-	      ret.each_pair do |cat_name, issues|
-		      issuesByVersionByCat[version_name][cat_name] = issues
-	      end
+    ### Construct index of keys between issues and tasks
+    issues.each do |issue|
+      if issue.fixed_version
+        issueFullName["t" + issue.id.to_s] = project.identifier.sub("-","_")
+        issueFullName["t" + issue.id.to_s] = issueFullName["t" + issue.id.to_s] + ".v" + issue.fixed_version.name.sub(".","_").sub(" ","_").sub("-","_")
+  
+        if issue.category
+          issueFullName["t" + issue.id.to_s] += "." + issue.category.name
+        end
+        issueFullName["t" + issue.id.to_s] = issueFullName["t" + issue.id.to_s] + ".t" + issue.id.to_s
+      end		
+    end
+    ### Construct a three-dimensional table of issues in categories in versions
+    issuesByVersionByCat = {}
+    versions.each do |version|
+            version_name = "v" + version.name.sub(".","_").sub(" ","_").sub("-","_")
+            if not issuesByVersionByCat[version_name]
+                issuesByVersionByCat[version_name] = {}
+            end
+            issues = version.fixed_issues
+            ret = self.PutIssuesByCat(issues)
+            ret.each_pair do |cat_name, issues|
+                    issuesByVersionByCat[version_name][cat_name] = issues
+            end
       end
   end
   
