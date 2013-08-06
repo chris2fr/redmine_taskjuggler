@@ -1,8 +1,14 @@
 = Redmine_Taskjuggler plugin
 
-This is Redmine and Task Juggler integration.
+This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
 
-https://github.com/chris2fr/redmine_taskjuggler
+Copyright (C) 2009 - 2013 Christopher Mann <christopher@mann.fr> (see also CREDITS.rdoc)
+
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 == Features
 
@@ -31,6 +37,8 @@ Until the issues are augmented to tj3Tasks, I used (yes, quick and dirty), speci
 * user custom fields (to add manually)
 ** squad (text, but coincidentally repeating, for making teams)
 ** limits (text, but verify if compatible TJ3)
+
+See TODO.rb
 
 == Workflow
 
