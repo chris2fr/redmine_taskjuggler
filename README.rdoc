@@ -24,19 +24,19 @@ Install into plugins directory.
 
 Until the issues are augmented to tj3Tasks, I used (yes, quick and dirty), specifically named custom fields as follows:
 
-* issue custom fields (to add manually)
-** milestone (boolean)
-** allocate_alternative (text)
-** allocate_additionnal (text)
-** allocate_squad (text)
-** duration (text I guess)
-** scheduled (boolean)
-* project custom fields (to add manually)
-** start_date (text, but formatted yyyy-mm-dd)
-** stop_date (text, but formatted yyyy-mm-dd)
+*   issue custom fields (to add manually)
+    * milestone (boolean)
+    * allocate_alternative (text)
+    * allocate_additionnal (text)
+    * allocate_squad (text)
+    * duration (text I guess)
+    * scheduled (boolean)
+*  project custom fields (to add manually)
+   * start_date (text, but formatted yyyy-mm-dd)
+   * stop_date (text, but formatted yyyy-mm-dd)
 * user custom fields (to add manually)
-** squad (text, but coincidentally repeating, for making teams)
-** limits (text, but verify if compatible TJ3)
+   * squad (text, but coincidentally repeating, for making teams)
+   * limits (text, but verify if compatible TJ3)
 
 See TODO.rb
 
@@ -44,13 +44,13 @@ See TODO.rb
 
 Many steps were manual in the first version. Today, the i dea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:
 
-# Information is maintained in Redmine
-# Redmine Issues are tagged for Taskjuggler Tasks (all time-sheet candidate tasks and others)
-# Flaged Issues are augmented with any necessary extra info for Taskjuggler (allocate, effort)
-# The administrator creates Taskjuggler master file (with Tasks extended with a field "Red" of type "number")
-# Redmine exports a Taskjuggler Include file for computation by Taskjuggler
-# Taskjuggler computes the input file and outputs, among other reports, outputs a Redmine-Taskjuggler CSV file with the following columns (no more, no less) : "Id","Start","End","Priority","Effort","Duration","Dependencies"
-# Redmine will then update per issue the start, end, and effort fields
+1. Information is maintained in Redmine
+2. Redmine Issues are tagged for Taskjuggler Tasks (all time-sheet candidate tasks and others)
+3. Flaged Issues are augmented with any necessary extra info for Taskjuggler (allocate, effort)
+4. The administrator creates Taskjuggler master file (with Tasks extended with a field "Red" of type "number")
+5. Redmine exports a Taskjuggler Include file for computation by Taskjuggler
+6. Taskjuggler computes the input file and outputs, among other reports, outputs a Redmine-Taskjuggler CSV file with the following columns (no more, no less) : "Id","Start","End","Priority","Effort","Duration","Dependencies"
+7. Redmine will then update per issue the start, end, and effort fields
 
 == Getting the plugin
 
