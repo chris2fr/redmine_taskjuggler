@@ -1,0 +1,26 @@
+= Redmine_Taskjuggler Todo
+
+https://github.com/chris2fr/redmine_taskjuggler
+
+This is a list of things do to for the plugin:
+
+* Factorize code
+* Migrate custom-fields to own data model
+** Augment Issues, Projects, Ressources rendering links polymorphic
+** Add fields to issue views
+* Update to Taskjuggler 3 from Taskjuggler 2
+* Update to Redmine 2 from Redmine 0.8
+* Ease installation
+* Institute test procedures
+
+Here is a wish list for later on:
+
+* Native integration with Taskjuggler 3 (also in Ruby whereas TJ2 was in C / QT)
+
+== Thoughts on what I am doing now by Christopher Mann
+
+Initially used for a 22-person IT department in Redmine v.0.9 and Taskjuggler v.2, today this update is for a 4-person development team in Redmine v2.X and Taskjuggler v.3.
+
+The basic idea was to use Redmine as a missing GUI for Taskjuggler, at least in tracking. At the time, my own programming was quick and dirty. I was under time pressure myself. The main error, I think, was using custom variables that needed to be manually configured in Redmine. So, as I debug for the current version of Redmine, I will also incorporate a proprietary data model into this plugin.
+
+This plugin may have different features for different uses, especially after we fuse it with Workload. Inxbil is the first to really bring about a novel way of using integration with Redmine in a way I had not foreseen.

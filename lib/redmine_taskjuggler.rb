@@ -1,7 +1,30 @@
 #
+# Class for getting Taskjuggler tasks from Redmine items
+# and for setting Redmine item dates from a spefic
+# Taskjuggler CSV export
+#
+class RedmineTaskjuggler
+  attr_accessor :hoursPerDay
+  attr_accessor :useCategories
+  attr_accessor :useVersions
+  attr_accessor :rootTask
+  
+  def updateFromTaskjugglerCSV pathToTaskjugglerCSVFile
+    csvFile = TaskjugglerCSVFile.new self
+    csvFile.import pathToTaskjugglerCSVFile
+  end
+  
+  # Renders a string with the contents of a TaskJuggler tasks.tji file
+  def exportToTaskjugglerTasks redmineProject
+    
+  end
+  
+end
+
+
+#
 # File handling classes
 #
-
 class RedmineTaskjugglerFile
   attr_accessor :redmineTaskjuggler
   
@@ -14,7 +37,6 @@ end
 # Task for handling a specific CVS import into Redmine
 # from a Taskjuggler taskreport "Id","Start","End","Priority","Effort","Duration","Dependencies"
 #
-
 class TaskjugglerCSVFile < RedmineTaskjugglerFile
   
   def import pathToTaskjugglerCSVFile
@@ -68,7 +90,6 @@ end
 # Task for creating a string or file usable as a
 # Taskjuggler include.
 #
-
 class TaskJugglerIncludeFile < RedmineTaskjugglerFile
   
   def export project
@@ -84,6 +105,7 @@ class TaskJugglerIncludeFile < RedmineTaskjugglerFile
     issuesSansVersion = project.issues.find_by :fixed_version nil
     #     Issue.find(:all, :conditions => ["project_id = " + projectId + " AND fixed_version_id IS NULL"])
     # custFieldId = {}
+    
     ### Update task juggler
     timeEntries.each do |te|
       cleanUpTimeEntries te

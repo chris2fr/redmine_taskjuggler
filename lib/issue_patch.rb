@@ -5,7 +5,6 @@ require_dependency 'user'
 module IssuePatch
   def self.included(base) # :nodoc:
     base.extend(ClassMethods)
- 
     base.send(:include, InstanceMethods)
  
     # Same as typing in the class

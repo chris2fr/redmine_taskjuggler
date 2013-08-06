@@ -1,18 +1,48 @@
-= Redmine_Taskjuggler plugin for Redmine
+= Redmine_Taskjuggler plugin
 
 This is Redmine and Task Juggler integration.
 
-The initiation of this project was applied durring work that resulted in organizing a 22-person IT department. Many steps were very manual. At the time we were using Redmine 0.9 and TJ 2 in C. Today, Redimine is in version 4.4 and Task-Juggler in version 3, rewritten in Ruby. The common language might or might not help. The basic idea is to use Redmine as a missing GUI for Taskjuggler, at least in tracking. At the time, my own programming was quick and dirty. I was under time pressure myself. The main error, I think, was using custom variables that needed to be manually configured in Redmine. So, as I debug for the current version of Redmine, I will also incorporate a proprietary data model into this plugin.
-
-This plugin may have different features for different uses, especially after we fuse it with Workload. Inxbil is the first to really bring about a novel way of using integration with Redmine in a way I had not foreseen.
+https://github.com/chris2fr/redmine_taskjuggler
 
 == Features
 
-Current features
+Here is what this plugin does with you :
 
-* Taskjuggler export
-* Taskjuggler import
-* Taskjuggler additionnal
+* Exports from Redmine a Taskjuggler project
+* Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Id","Start","End","Priority","Effort")
+* Converts time-entries in Redmine to journal entries in Taskjuggler (ordering them hour-to-hour for Task-juggler bookings) 
+
+== Installation
+
+Install into plugins directory.
+
+Until the issues are augmented to tj3Tasks, I used (yes, quick and dirty), specifically named custom fields as follows:
+
+* issue custom fields (to add manually)
+** milestone (boolean)
+** allocate_alternative (text)
+** allocate_additionnal (text)
+** allocate_squad (text)
+** duration (text I guess)
+** scheduled (boolean)
+* project custom fields (to add manually)
+** start_date (text, but formatted yyyy-mm-dd)
+** stop_date (text, but formatted yyyy-mm-dd)
+* user custom fields (to add manually)
+** squad (text, but coincidentally repeating, for making teams)
+** limits (text, but verify if compatible TJ3)
+
+== Workflow
+
+Many steps were manual in the first version. Today, the idea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:
+
+# Information is maintained in Redmine
+# Redmine Issues are tagged for Taskjuggler Tasks (all time-sheet candidate tasks and others)
+# Flaged Issues are augmented with any necessary extra info for Taskjuggler (allocate, effort)
+# The administrator creates Taskjuggler master file (with Tasks extended with a field "Red" of type "number")
+# Redmine exports a Taskjuggler Include file for computation by Taskjuggler
+# Taskjuggler computes the input file and outputs, among other reports, outputs a Redmine-Taskjuggler CSV file with the following columns (no more, no less) : "Id","Start","End","Priority","Effort","Duration","Dependencies"
+# Redmine will then update per issue the start, end, and effort fields
 
 == Getting the plugin
 
@@ -34,7 +64,7 @@ A copy of the released version can be downloaded from  {GitHub}[http://github.co
 
 === Git
 
-1. Open a shell to your Redmine's vendor/plugins/redmine_taskjuggler folder
+1. Open a shell to your Redmine's vendor/plugins/redmine_taskjuggler folder (move to plugins because vendor/plugins is no longer in Redmine 2.X)
 2. Update your Git copy with `git pull`
 3. Restart your Redmine
 
