@@ -42,7 +42,7 @@ See TODO.rb
 
 == Workflow
 
-Many steps were manual in the first version. Today, the idea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:
+Many steps were manual in the first version. Today, the i dea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:
 
 # Information is maintained in Redmine
 # Redmine Issues are tagged for Taskjuggler Tasks (all time-sheet candidate tasks and others)
