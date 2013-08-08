@@ -6,8 +6,8 @@ This is a list of things do to for the plugin:
 
 * Factorize code
 * Migrate custom-fields to own data model
-** Augment Issues, Projects, Ressources rendering links polymorphic
-** Add fields to issue views
+  * Augment Issues, Projects, Ressources rendering links polymorphic
+  * Add fields to issue views
 * Update to Taskjuggler 3 from Taskjuggler 2
 * Update to Redmine 2 from Redmine 0.8
 * Ease installation
