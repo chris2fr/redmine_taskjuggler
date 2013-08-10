@@ -9,7 +9,9 @@ class TaskjugglerController < ApplicationController
   end
 
   def index
-    @projects = Project.find(:all, :conditions => ["status = 1 AND parent_id IS NOT NULL"], :order => ["parent_id, name"] )
+    @projects = Project.where("parent_id IS NOT NULL").find_by(status: 1).order("parent_id","name")
+      # :conditions => ["status = 1 AND parent_id IS NOT NULL"],
+      # :order => ["parent_id, name"] )
     @users = User.find(:all)
   end
 
