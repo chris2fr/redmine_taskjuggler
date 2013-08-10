@@ -16,8 +16,8 @@ Redmine::Plugin.register :redmine_taskjuggler do
   version '0.1.0'
   url 'https://github.com/chris2fr/redmine_taskjuggler'
   author_url 'http://mann.fr'
+  menu	:project_menu, :taskjuggler, { :controller => 'taskjuggler', :action => 'index' }, :caption => :taskjuggler_label, :param => :project_identifier
   #permission :taskjuggler, {:taskjuggler => [:index, :export, :initial_export, timetable]}, :public => true
   #menu :project_menu, :taskjuggler, { :controller => 'taskjuggler', :action => 'test' }, :caption => 'Task Juggler File', :after => :activity, :param => :project_identifier
   #menu :application_menu, :tjstatus, { :controller => 'tjstatus', :action => 'index' }, :caption => 'Task Juggler'
-  menu	:project_menu, :taskjuggler, { :controller => 'taskjuggler', :action => 'index' }, :caption => :taskjuggler_label, :param => :project_identifier
 end
