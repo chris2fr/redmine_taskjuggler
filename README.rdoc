@@ -40,6 +40,12 @@ Until the issues are augmented to tj3Tasks, I used (yes, quick and dirty), speci
 
 See TODO.rb
 
+== Removal
+
+http://www.redmine.org/projects/redmine/wiki/Plugins
+
+rake redmine:plugins:migrate NAME=redmine_taskjuggler VERSION=0 RAILS_ENV=production
+
 == Workflow
 
 Many steps were manual in the first version. Today, the idea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:

@@ -8,4 +8,5 @@ class CreateTj3projects < ActiveRecord::Migration
     add_column :project, :tj_categories, :integor, defaut: 0
     add_column :project, :tj_start_date, :date
     add_column :project, :tj_end_date, :date
+  end
 end

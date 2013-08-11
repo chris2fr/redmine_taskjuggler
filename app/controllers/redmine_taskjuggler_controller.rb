@@ -12,6 +12,9 @@ class RedmineTaskjugglerController < ApplicationController
 
   def import
   end
+  
+  def admin 
+  end
 
   def index
     @projects = Project.where("parent_id IS NOT NULL").find_by(status: 1).order("parent_id","name")
