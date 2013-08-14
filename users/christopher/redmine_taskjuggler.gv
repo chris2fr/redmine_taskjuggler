@@ -1,0 +1,70 @@
+digraph todo {
+	#rankdir="RL"
+
+	{
+		node [fillcolor="grey" style="filled"]
+		merge_current_git_branch
+		update_git_branch
+		work_in_git_folder
+		access_all_sources
+	}
+	{
+		node [fillcolor="lightgrey" style="filled"]
+		crud
+		go_through_all_files
+		cleanup_current_plugin
+		issue
+		gui
+	}
+
+	{
+		csv_import
+		tjp_export 
+		gui
+		mass_edit_gui
+		time_entry
+		crud
+	} -> finish_plugin
+
+	{
+		time_entry
+		project
+		issue
+		user
+	} -> crud
+
+	cleanup_current_plugin -> 
+		{
+			access_all_sources
+			merge_current_git_branch
+			go_through_all_files
+		}  -> 
+		update_git_branch ->
+		work_in_git_folder ->
+		finish_plugin -> 
+		email_studialis
+	
+	{
+		csv_import
+		tjp_export
+	} -> tests 
+
+	{
+		time_entry_calibration 
+	} -> time_entry
+
+
+	{
+		crud
+		tjp_export
+		csv_import
+		time_entry_calibration
+	} -> gui
+
+	 {
+		project
+		time_entry
+		issue
+	} -> mass_edit_gui
+	 
+}

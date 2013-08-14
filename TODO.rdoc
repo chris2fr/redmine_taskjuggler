@@ -4,14 +4,36 @@ https://github.com/chris2fr/redmine_taskjuggler
 
 This is a list of things do to for the plugin:
 
+Done :
+
 * Factorize code
 * Migrate custom-fields to own data model
   * Augment Issues, Projects, Ressources rendering links polymorphic
   * Add fields to issue views
-* Update to Taskjuggler 3 from Taskjuggler 2
+
+Partially done :
+
 * Update to Redmine 2 from Redmine 0.8
 * Ease installation
 * Institute test procedures
+
+Todo:
+
+* Update to Taskjuggler 3 from Taskjuggler 2
+* Migrate existing features:
+  * CSV import
+  * TJP export
+  * TimeEntry calibrating
+* Add fields to Views
+  * Project 
+  * User
+  * TimeEntry
+* Add fields to mass-edit dialogue
+* Centralize controller
+
+Backlog:
+
+* Right-click edit
 
 Here is a wish list for later on:
 
