@@ -7,11 +7,20 @@ module RedmineTaskjuggler
       extend ActiveSupport::Concern
       included do
         extend ClassMethods
-        attr_accessible :tj_activated,
-          :tj_parent,
-          :tj_rate,
-          :tj_vacations,
-          :tj_limits
+        base.class_eval do
+          attr_accessible :tj_activated,
+            :tj_parent,
+            :tj_rate,
+            :tj_vacations,
+            :tj_limits
+        end
+        base.class_eval do
+          safe_attributes 'tj_activated',
+              'tj_parent',
+              'tj_rate',
+              'tj_vacations',
+              'tj_limits'
+        end
       end
       
       module ClassMethods

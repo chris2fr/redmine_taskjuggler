@@ -8,6 +8,9 @@ ActionDispatch::Callbacks.to_prepare do
 end
 
 require_dependency 'redmine_taskjuggler/helpers/view_issues_show_details_bottom'
+require_dependency 'redmine_taskjuggler/helpers/view_projects_form'
+require_dependency 'redmine_taskjuggler/helpers/view_timelog_edit_form_bottom'
+require_dependency 'redmine_taskjuggler/helpers/view_users_form'
 
 Redmine::Plugin.register :redmine_taskjuggler do
   name 'Redmine Taskjuggler plugin'
@@ -18,7 +21,7 @@ Redmine::Plugin.register :redmine_taskjuggler do
   author_url 'http://mann.fr'
 
   permission :redmine_taskjuggler, { 
-	:redmine_taskjuggler_projects => [:show] }, :public => true
+	:redmine_taskjuggler => [:show] }, :public => true
 	# This permission has to be explicitly given
     # It will be listed on the permissions screen
     permission :redmine_taskjuggler_admin, {:redmine_taskjuggler => [:admin]}
@@ -26,7 +29,8 @@ Redmine::Plugin.register :redmine_taskjuggler do
     permission :redmine_taskjuggler_member, {:redmine_taskjuggler => [:import, :export]}, :require => :member
 
 
-  menu :project_menu, :redmine_taskjuggler_projects, { :controller => 'redmine_taskjuggler_projects', :action => 'show' }, :after => :activity, :caption => :redmine_taskjuggler, :param => :id
+  menu :project_menu, :redmine_taskjuggler_projects, { :controller => 'redmine_taskjuggler', :action => 'show' }, 
+  :after => :activity, :caption => :taskjuggler, :param => :id
   
   # menu :application_menu, :redmine_taskjuggler, { :controller => 'redmine_taskjuggler_projects', :action => 'index' }, :caption => :tj_project
   

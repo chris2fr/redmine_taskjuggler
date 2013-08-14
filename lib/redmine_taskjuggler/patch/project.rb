@@ -7,15 +7,28 @@ module RedmineTaskjuggler
       extend ActiveSupport::Concern
       included do
         extend ClassMethods
-        attr_accessible :tj_activated,
-          :tj_version,
-          :tj_dailyworkinghours,
-          :tj_period,
-          :tj_currency,
-          :tj_now,
-          :tj_numberformat,
-          :tj_timingresolution,
-          :tj_timeformat
+        base.class_eval do
+          safe_attributes :tj_activated,
+            :tj_version,
+            :tj_dailyworkinghours,
+            :tj_period,
+            :tj_currency,
+            :tj_now,
+            :tj_numberformat,
+            :tj_timingresolution,
+            :tj_timeformat
+        end
+        base.class_eval do
+          attr_accessible :tj_activated,
+            :tj_version,
+            :tj_dailyworkinghours,
+            :tj_period,
+            :tj_currency,
+            :tj_now,
+            :tj_numberformat,
+            :tj_timingresolution,
+            :tj_timeformat
+        end
       end
       
       module ClassMethods

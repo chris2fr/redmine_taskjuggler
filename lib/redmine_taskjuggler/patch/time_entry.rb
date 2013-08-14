@@ -7,7 +7,12 @@ module RedmineTaskjuggler
       extend ActiveSupport::Concern
       included do
         extend ClassMethods
-        attr_accessible :tj_starttime
+        base.class_eval do
+          attr_accessible :tj_start
+        end
+        base.class_eval do
+          safe_attributes :tj_start
+        end
       end
       
       module ClassMethods
@@ -23,4 +28,4 @@ end
 
 TimeEntry.send(:includes,RedmineTaskjuggler::Patch::TimeEntry)
 TimeEntry.send(:includes,RedmineTaskjuggler::Patch::TimeEntry::InstanceMethods)
-TimeEntry.safe_attributes :tj_starttime
+TimeEntry.safe_attributes :tj_start
