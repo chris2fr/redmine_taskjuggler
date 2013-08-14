@@ -2,6 +2,7 @@ module RedmineTaskjuggler
   #
   # Abstraction class for Redmine Data Model.
   #
+  module Redmine
     class Issue
       attr_accessor :id,
         :identifier,

@@ -7,14 +7,17 @@ digraph todo {
 		update_git_branch
 		work_in_git_folder
 		access_all_sources
+		project
+		time_entry
+		user	
+		issue
+		cleanup_current_plugin
+		crud
+		gui
 	}
 	{
 		node [fillcolor="lightgrey" style="filled"]
-		crud
 		go_through_all_files
-		cleanup_current_plugin
-		issue
-		gui
 	}
 
 	{

@@ -1,0 +1,14 @@
+
+<h2><%= l(:redmine_taskjuggler)%></h2>
+
+<%= l(:project)%> : <%= @project %> - <%= @project.identifier %>
+
+<p>Round-trip workflow :
+<ol>
+  <li><a href="./<%= params[:id] %>/tjp">Export TJP File</a></li>
+  <li>Compute in TaskJuggler</li>
+  <li>Update CSV File <%= form_tag('./' + params[:id] + "/csv", :multipart => true) do %>
+  <%= file_field_tag 'csvfile', :accept => 'text/csv', :value => @project.identifier + "-" + @project.tj_version.to_s.sub(".","_") + ".csv" %>
+  <%= submit_tag %>
+<% end %></li>
+</ol>
