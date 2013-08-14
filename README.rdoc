@@ -23,6 +23,8 @@ Here is what this plugin does with you :
 Install into /plugins directory.
 
   rake db:migrate:plugin NAME=redmine_taskjuggler
+  
+then restart the webserver.
 
 To uninstall
 
@@ -43,6 +45,8 @@ Many steps were manual in the first version. Today, the idea is to automate part
 == Getting the plugin
 
 A copy of the released version can be downloaded from  {GitHub}[http://github.com/chris2fr/redmine_taskjuggler]
+
+General information on
 
 == Installation and Setup
 
