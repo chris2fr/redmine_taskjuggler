@@ -20,31 +20,13 @@ Here is what this plugin does with you :
 
 == Installation
 
-Install into plugins directory.
+Install into /plugins directory.
 
-Until the issues are augmented to tj3Tasks, I used (yes, quick and dirty), specifically named custom fields as follows:
+  rake db:migrate:plugin NAME=redmine_taskjuggler
 
-*   issue custom fields (to add manually)
-    * milestone (boolean)
-    * allocate_alternative (text)
-    * allocate_additionnal (text)
-    * allocate_squad (text)
-    * duration (text I guess)
-    * scheduled (boolean)
-*  project custom fields (to add manually)
-   * start_date (text, but formatted yyyy-mm-dd)
-   * stop_date (text, but formatted yyyy-mm-dd)
-*  user custom fields (to add manually)
-   * squad (text, but coincidentally repeating, for making teams)
-   * limits (text, but verify if compatible TJ3)
+To uninstall
 
-See TODO.rb
-
-== Removal
-
-http://www.redmine.org/projects/redmine/wiki/Plugins
-
-rake redmine:plugins:migrate NAME=redmine_taskjuggler VERSION=0 RAILS_ENV=production
+  rake db:migrate:plugin NAME=redmine_taskjuggler VERSION=0
 
 == Workflow
 

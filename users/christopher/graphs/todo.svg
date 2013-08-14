@@ -172,7 +172,7 @@
             d="M305.0 377.6218765258789C305.0 385.3357780456543 305.0 394.6059768676758 305.0 403.20607833862306" style="fill:none;stroke:rgb(0,0,0)"/>
         <polygon
             points="308.00000000000296,403.5474783935543 305.00000000000296,413.5474783935543 301.00000000000296,403.5474783935543 308.00000000000296,403.5474783935543" style="fill:rgb(0,0,0);stroke:rgb(0,0,0);fill-opacity:1.0"/>
-        <ellipse cx="284.0" cy="143.3184783935547" rx="36.096" ry="18.0" style="fill:none;stroke:rgb(255,0,0);fill-opacity:1.0"/>
+        <ellipse cx="284.0" cy="143.3184783935547" rx="36.096" ry="18.0" style="fill:none;stroke:rgb(0,0,0);fill-opacity:1.0"/>
         <text
             style="font-family:Dialog,serif;font-style:normal;font-weight:normal;font-size:14;fill:rgb(0,0,0)"
             text-anchor="middle" x="284.0" y="147.0184783935547">project</text>
