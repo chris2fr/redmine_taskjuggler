@@ -1,11 +1,14 @@
 module RedmineTaskjuggler
+  
   class TJP
+    
     attr_accessor :file_path,
       :project,
       :resources,
       :flags,
       :tasks,
       :bookings
+      
     def initialize (project, resources, tasks, flags = [], bookings = [])
       @project = project
       @resources = resources
@@ -13,6 +16,7 @@ module RedmineTaskjuggler
       @flags = flags
       @bookings = bookings
     end
+    
     def to_s
       tjpString = @project.toTJP
       @resources.each {|res|
@@ -33,7 +37,14 @@ module RedmineTaskjuggler
           tjpString += book.toTJP.gsub(/^/,"  ") + "\n"
         }
       end
+      tjpString += <<EOREPORT
+taskreport #{@project.id}_#{@project.version.gsub(/\./,'_')} '#{@project.name}' {
+  formats csv
+  columns id, start, end, effort, effortdone
+}
+EOREPORT
       tjpString
+    
     end
   end
 end

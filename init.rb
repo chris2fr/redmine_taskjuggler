@@ -1,16 +1,16 @@
 # Patches to the Redmine core.
 
 ActionDispatch::Callbacks.to_prepare do
-  require 'redmine_taskjuggler/patch/issue'
-  require 'redmine_taskjuggler/patch/project'
-  require 'redmine_taskjuggler/patch/user'
-  require 'redmine_taskjuggler/patch/time_entry'
+  require 'initializers/issue'
+  require 'initializers/project'
+  require 'initializers/user'
+  require 'initializers/time_entry'
 end
 
-require_dependency 'redmine_taskjuggler/helpers/view_issues_show_details_bottom'
-require_dependency 'redmine_taskjuggler/helpers/view_projects_form'
-require_dependency 'redmine_taskjuggler/helpers/view_timelog_edit_form_bottom'
-require_dependency 'redmine_taskjuggler/helpers/view_users_form'
+require_dependency 'helpers/view_issues_show_details_bottom'
+require_dependency 'helpers/view_projects_form'
+require_dependency 'helpers/view_timelog_edit_form_bottom'
+require_dependency 'helpers/view_users_form'
 
 Redmine::Plugin.register :redmine_taskjuggler do
   name 'Redmine Taskjuggler plugin'

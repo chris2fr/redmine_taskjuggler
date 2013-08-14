@@ -8,15 +8,15 @@ module RedmineTaskjuggler
       included do
         extend ClassMethods
         base.class_eval do
-          safe_attributes :tj_activated,
-            :tj_version,
-            :tj_dailyworkinghours,
-            :tj_period,
-            :tj_currency,
-            :tj_now,
-            :tj_numberformat,
-            :tj_timingresolution,
-            :tj_timeformat
+          safe_attributes 'tj_activated',
+            'tj_version',
+            'tj_dailyworkinghours',
+            'tj_period',
+            'tj_currency',
+            'tj_now',
+            'tj_numberformat',
+            'tj_timingresolution',
+            'tj_timeformat'
         end
         base.class_eval do
           attr_accessible :tj_activated,

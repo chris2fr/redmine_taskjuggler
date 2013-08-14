@@ -34,17 +34,27 @@ module RedmineTaskjuggler
         
       end
       def toTJP
-        tjpString = <<STRINGEND
-project #{id} \"#{name}\" \"#{version}\" #{period}  {
-      timeformat \"#{timeformat}\"
-      currency \"#{currency}\"
-      scenario plan \"Plan\"
-      now #{now}
-      numberformat \"#{numberformat}\"
-      timingresolution #{timingresolution}
-      dailyworkinghours #{dailyworkinghours}
-}  
-STRINGEND
+        tjpString = "project #{id} \"#{name}\" \"#{version}\" #{period}  {\n"
+        {'timeformat' => timeformat,
+         'currency' => currency
+         }.each do |k,v|
+          if v and v != ""
+            tjpString += "  " + k.to_s + " \"" + v + "\"\n"
+          end
+        end
+        {'timingresolution' => timingresolution,
+         'dailyworkinghours' => dailyworkinghours}.each do |k,v|
+          if v and v != ""
+            tjpString += "  " + k.to_s + " " + v + "\n"
+          end
+        end
+    
+        tjpString += "  extend Task {\n"
+        tjpString += "    number Redmine 'Red#'\n" 
+        tjpString += "  }\n"
+        tjpString += "  now #{now}\n"
+        tjpString += "}\n"
+
         return tjpString
       end
     end
