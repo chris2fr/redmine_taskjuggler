@@ -1,0 +1,36 @@
+<fieldset class="tabular"><legend><%= l(:redmine_taskjuggler) %></legend>
+<%= labelled_fields_for(@issue) do |f| %>
+<div id="taskjuggler" class="attributes">
+    <div class="splitcontent">
+        <div class="splitcontentleft">
+            <p>
+            <%= f.label :tj_activated %>
+            <%= f.check_box :tj_activated, :default => 1 %> <a href="#" onClick="javascript:confirm('Is this to be part of Redmine_Taskjuggler?')">(?)</a>
+            </p><p>
+            <%= f.label :tj_depends %>
+            <%= f.text_field :tj_depends%><a href="#" onClick="javascript:confirm('#123, #456 {gaplength 0d},..')">(?)</a>
+            </p><p>
+            <%= f.label :tj_preceeds %>
+            <%= f.text_field :tj_preceeds%><a href="#" onClick="javascript:confirm('#123, #456 {gaplength 0d},..')">(?)</a>
+            </p>
+        </div>
+        <div class="splitcontentright">
+           <p>
+            <%= f.label :tj_parent %>
+            <%= f.text_field :tj_parent%><a href="#" onClick="javascript:confirm('Some arbitrary container task, like a category.')">(?)</a>
+            </p><p>
+              <%= f.label :tj_scheduled %>
+  <%= f.check_box :tj_scheduled, :default => 1 %> <a href="#" onClick="javascript:confirm('Are the given dates set in stone?')">(?)</a>
+            </p><p>
+  <% users_array = User.all.map { |user| [user.firstname + ' ' + user.lastname, user.login.sub('-','_') ] } %>
+  <%= f.label :tj_allocates %>
+  <%= select(:issue,:tj_allocates,users_array) %><a href="#" onClick="javascript:confirm('The person or team assigned to the task')">(?)</a>
+            </p><p>
+  <%= f.label :tj_limits %>
+  <%= f.text_field :tj_limits %><a href="#" onClick="javascript:confirm('{{weekly|daily|monthly}{max|min} | maximum | minimum} xd')">(?)</a>
+  </p>
+        </div>
+    </div>
+</div>
+<% end %>
+</fieldset>

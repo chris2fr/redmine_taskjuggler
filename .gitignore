@@ -1,2 +1,3 @@
 *.komodo*
 *.sublime*
+/db/redmine.sqlite

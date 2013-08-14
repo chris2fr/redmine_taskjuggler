@@ -1,0 +1,26 @@
+ruby script/rails generate redmine_plugin_model <plugin_name> <model_name> [field[:type][:index] field[:type][:index] ...]
+
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_projects project:integer:references:project, active:boolean, tj_roottask:string, tj_start_date:date, tj_end_date:date, dailyworkinghours:float, timeformat:string
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_issues active:boolean, depends:integer, depends_gaplength_days:number, allocate:string, flags:string, milestone:boolean, scheduled:boolean
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_allocates active:boolean, attributes:string
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_flags active:boolean, attributes:string
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_dependss active:boolean, attributes:string
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_user active:boolean, rate:float
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_vacation active:boolean, start:datetime, stop:datetime
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_settings setting:string, value:string
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_
+
+ruby script/rails generate redmine_plugin_model redmine_taskjuggler redmine_taskjuggler_
