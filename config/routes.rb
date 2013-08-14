@@ -6,4 +6,4 @@
 
 get '/redmine_taskjuggler/:id', to: 'redmine_taskjuggler#tjindex'
 get '/redmine_taskjuggler/:id/tjp', to: 'redmine_taskjuggler#tjp'
-post '/redmine_taskjuggler/:id', to: 'redmine_taskjuggler#csv'
+post '/redmine_taskjuggler/:id/csv', to: 'redmine_taskjuggler#csv'
