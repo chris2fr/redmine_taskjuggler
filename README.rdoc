@@ -39,12 +39,24 @@ Here are the features under developement:
 * Organize features form version 0.0.2
 * Tests
 * Estimated Effort calibration
+* Have the computation done on the server (I suppose that would need factoring of the backends)
+* Integrate with Redmine Workload
+* Do manual
+* More fields
 
 Here is the backlog
+
 * Sanity check for the information in Redmine for TaskJuggler
-* Have the computation done on the server (I suppose that would need factoring of the backends)
 * Bulk-edit of issues for TJ
 * Dealing with the Follows and Preceeds in Redmine
+* Activate or disactivate plugin
+* Deal with permissions
+* Disactivate unused fields
+* Document mapping decisions
+* Look into Feng's Django implementation to see if anything good in that
+* Look into that plugin than let's you graphicly manipulate things
+* Look into plugins kanban, etc.
+* Native backend to Taskjuggler
 
 == Installation
 
