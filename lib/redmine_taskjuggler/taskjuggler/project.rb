@@ -23,7 +23,7 @@ module RedmineTaskjuggler
       #
       def initialize (id, name, period, tjNow, \
                       version = "0.0.0", \
-                      dailyworkinghours = 7.5, timingresolution = "45min")
+                      dailyworkinghours = 7.5, timingresolution = "15min")
         @id = id
         @name = name
         @version = version
@@ -49,7 +49,7 @@ module RedmineTaskjuggler
           end
         end
     
-        tjpString += "  extend Task {\n"
+        tjpString += "  extend task {\n"
         tjpString += "    number Redmine 'Red#'\n" 
         tjpString += "  }\n"
         tjpString += "  now #{now}\n"

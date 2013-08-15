@@ -20,9 +20,10 @@ module RedmineTaskjuggler
         tjpString = "resource #{id} \"#{name}\" {\n"
         if children != []
           children.each {|child|
-            tjpString += child.toTJP.gsub(/^/, "  ")
+            tjpString += child.toTJP.gsub(/^/, "  ") + "\n"
           }
         end
+        tjpString += "}\n"
         tjpString
       end
     end

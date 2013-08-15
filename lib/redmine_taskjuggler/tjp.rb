@@ -20,7 +20,7 @@ module RedmineTaskjuggler
     def to_s
       tjpString = @project.toTJP
       @resources.each {|res|
-        tjpString += res.toTJP.gsub(/^/,"  ") + "\n"
+        tjpString += res.toTJP
       }
       if @flags != []
         tjpString += "flags "
@@ -38,7 +38,7 @@ module RedmineTaskjuggler
         }
       end
       tjpString += <<EOREPORT
-taskreport #{@project.id}_#{@project.version.gsub(/\./,'_')} '#{@project.name}' {
+taskreport #{@project.id}_#{@project.version.gsub(/\./,'_')} '#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
   formats csv
   columns id, start, end, effort, effortdone
 }

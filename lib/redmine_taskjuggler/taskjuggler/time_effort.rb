@@ -17,23 +17,26 @@ module RedmineTaskjuggler
         "#{number}#{units}"
       end
     end
-    class Timepoint
+    #
+    # Models the yyyy-mm-dd{-hh:mm} in TaskJuggler
+    #
+    class TimePoint
       attr_accessor :tjDateTime
       def initialize tjDateTime
         @tjDateTime = tjDateTime
       end
     end
-    class TimePointStart < Timepoint
+    class TimePointStart < TimePoint
       def toTJP
         "start #{tjDateTime}"
       end
     end
-    class TimePointEnd < Timepoint
+    class TimePointEnd < TimePoint
       def toTJP
         "end #{tjDateTime}"
       end
     end
-    class TimePointDepends < Timepoint
+    class TimePointDepends < TimePoint
       attr_accessor :depends
       def initialize depends
         @depends = depends
@@ -87,9 +90,11 @@ module RedmineTaskjuggler
         "#{period}#{minMaxImum} #{timeSpan.toTJP}"
       end
     end
-    class TimePointNil < Timepoint
+    class TimePointNil
       def toTJP
         ""
+      end
+      def initialize
       end
     end
     class TimeEffort
@@ -122,12 +127,16 @@ module RedmineTaskjuggler
       def toTJP
         "milestone"
       end
+      def initialize (timePointStart)
+        super.initialize(timePointStart)
+      end
     end
     class TimeEffortEffort < TimeEffort
       attr_accessor :timeSpan,
         :allocate
       def initialize (timePointStart, allocate, timeSpan)
-        super.initialize(timePointStart)
+        #super.initialize(timePointStart) # For some reason, it passes three arguments
+        @timePointStart = timePointStart
         @allocate = allocate
         @timeSpan = timeSpan
       end
@@ -136,7 +145,7 @@ module RedmineTaskjuggler
         if tjpString != ""
           tjpString += "\n"
         end
-        tjpString + "effort #{timeSpan.toTJP}\n#{allocate.toTJP}"
+        tjpString + "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
       end
     end
     class Allocate
@@ -148,10 +157,9 @@ module RedmineTaskjuggler
       end
       def toTJP
         tjpString = "allocate "
-        resources.each {|res|
-          tjpString += res + ", "
-        }
-        tjpString[0,-2]
+        tjpString += @resources.join(", ")
+        tjpString += " {"  + @attributes.join(", ") + "}"
+        return tjpString
       end
     end
   end
