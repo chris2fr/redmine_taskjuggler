@@ -38,9 +38,9 @@ module RedmineTaskjuggler
         }
       end
       tjpString += <<EOREPORT
-taskreport #{@project.id}_#{@project.version.gsub(/\./,'_')} '#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
+taskreport redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')} 'redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
   formats csv
-  columns id, start, end, effort, effortdone
+  columns Redmine, start, end, effort, effortdone
 }
 EOREPORT
       tjpString

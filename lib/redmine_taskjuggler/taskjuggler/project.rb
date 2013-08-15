@@ -50,7 +50,7 @@ module RedmineTaskjuggler
         end
     
         tjpString += "  extend task {\n"
-        tjpString += "    number Redmine 'Red#'\n" 
+        tjpString += "    number Redmine 'Redmine'\n" 
         tjpString += "  }\n"
         tjpString += "  now #{now}\n"
         tjpString += "}\n"

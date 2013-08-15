@@ -67,6 +67,16 @@ class RedmineTaskjugglerController < ApplicationController
   # This is a CSV upload
   def csv
     # Get the CSV File
+    uploaded_io = params[:csvfile]
+    #if uploaded_io[0,19] != '"Id";"Start";"End"'
+    #  raise l(:exception_not_csv_issue_update)
+    #end
+    @lines = []
+    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {|csvline|
+      issue = Issue.find(csvline["Redmine"])
+      test = issue.update_attributes({'start_date' => csvline['Start'], 'due_date' => csvline['End']})
+      @lines.push("#" + csvline["Redmine"].to_s + ". #{issue.subject} : #{issue.start_date} - #{issue.due_date} " + issue.errors.messages.inspect.to_s)
+    }
     # Parse the CSV File line by line
     # Update Redmine with the dates and effort
   end
