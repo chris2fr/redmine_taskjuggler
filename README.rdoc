@@ -56,7 +56,7 @@ Here is the backlog
 * Look into Feng's Django implementation to see if anything good in that
 * Look into that plugin than let's you graphicly manipulate things
 * Look into plugins kanban, etc.
-* Native backend to Taskjuggler
+* Native backend to Taskjuggler 
 
 == Installation
 

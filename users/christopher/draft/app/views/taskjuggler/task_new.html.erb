@@ -1,0 +1,9 @@
+			task t<%= issue.id %> "#<%= issue.id %> : <%= issue.subject.sub("\"","'") %>" {
+				complete 0
+				priority <%= (issue.priority_id + 1) * 100 %>
+<%= 
+				render :file  => File.join(File.dirname(__FILE__),"inc_task_inc_allocate.html.erb"), :locals => { :issue => issue, :config_vals => config_vals } 
+				%>
+<%= 
+				render :file  => File.join(File.dirname(__FILE__),"inc_task_inc_depends.html.erb"), :locals => { :issue => issue, :config_vals => config_vals } %>
+			}
