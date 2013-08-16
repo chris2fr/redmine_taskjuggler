@@ -8,28 +8,27 @@ Done :
 
 * Factorize code
 * Migrate custom-fields to own data model
-  * Augment Issues, Projects, Ressources rendering links polymorphic
-  * Add fields to issue views
+  * Augment Issues, Projects, Ressources 
+  * Add fields to issue update
+* Institute test procedures
+* CSV import
+* TJP export
 
 Partially done :
 
-* Update to Redmine 2 from Redmine 0.8
-* Ease installation
-* Institute test procedures
+* Go through all the code in users/christopher/draft
+* Look into user/inxbil code
+* TimeEntry calibrating
 
 Todo:
 
-* Update to Taskjuggler 3 from Taskjuggler 2
-* Migrate existing features:
-  * CSV import
-  * TJP export
-  * TimeEntry calibrating
-* Add fields to Views
-  * Project 
-  * User
-  * TimeEntry
+* Change timeingresolution to enumeration 5, 10, 15, 30, 60min
+* Initiate doc directory
+* Take screen shots
+* Add fields to issues views
+* Manage priorities
+* Add fields to Views : Project, User, TimeEntry
 * Add fields to mass-edit dialogue
-* Centralize controller
 
 Backlog:
 
@@ -38,6 +37,7 @@ Backlog:
 Here is a wish list for later on:
 
 * Native integration with Taskjuggler 3 (also in Ruby whereas TJ2 was in C / QT)
+  However, they seem to use different versions of Ruby (1.9.3 versus 2.0)
 
 == Thoughts on what I am doing now by Christopher Mann
 
