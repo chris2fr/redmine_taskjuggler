@@ -2,49 +2,73 @@
 
 This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
 
-Copyright (C) 2009 - 2013 Christopher Mann <christopher@mann.fr> (see also CREDITS.rdoc)
+Copyright (C) 2009 - 2013 Christopher Mann <christopher@mann.fr> AGPL v.3 (see LICENSE.rdoc and CREDITS.rdoc)
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
-
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
-
-You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity planning software!
 
 == Features
 
 Here is what this plugin does with you :
 
 * Exports from Redmine a Taskjuggler project
-* Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Id","Start","End","Priority","Effort")
+* Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Redmine","Start","End","Priority","Effort","Dependencies")
 * Converts time-entries in Redmine to journal entries in Taskjuggler (ordering them hour-to-hour for Task-juggler bookings) 
+
+== Notes on the current version 0.1.0
+
+This is an advanced alpha release. It works, but one should follow a few indications.
+
+* Estimated Time is the remaining estimated time.
+* Do not use the Follows and Preceeds in Redmine itself
+* Activate individually the projects, issues, and users for Redmine
+* The screens modify issue/update, project/settings, admin/user/form
+* You will need to input the necessary data manually everywhere
+* TimeEntries are not yet implemented
+
+The basic idea is that you :
+
+1. set up the model in Redmine first,
+2. then export the TJP file,
+3. then compute the TJP file on your own computer, 
+4. and then upload the computed CSV file to redmine.
+
+Here are the features under developement:
+
+* Bookings
+* TimeEntry calibration (TaskJuggler likes to know exactly when the work was done.)
+* Organize features form version 0.0.2
+* Tests
+* Estimated Effort calibration
+* Have the computation done on the server (I suppose that would need factoring of the backends)
+* Integrate with Redmine Workload
+* Do manual
+* More fields
+
+Here is the backlog
+
+* Sanity check for the information in Redmine for TaskJuggler
+* Bulk-edit of issues for TJ
+* Dealing with the Follows and Preceeds in Redmine
+* Activate or disactivate plugin
+* Deal with permissions
+* Disactivate unused fields
+* Document mapping decisions
+* Look into Feng's Django implementation to see if anything good in that
+* Look into that plugin than let's you graphicly manipulate things
+* Look into plugins kanban, etc.
+* Native backend to Taskjuggler 
 
 == Installation
 
-Install into plugins directory.
+Install into /plugins directory.
 
-Until the issues are augmented to tj3Tasks, I used (yes, quick and dirty), specifically named custom fields as follows:
+  rake db:migrate:plugin NAME=redmine_taskjuggler
+  
+then restart the webserver.
 
-*   issue custom fields (to add manually)
-    * milestone (boolean)
-    * allocate_alternative (text)
-    * allocate_additionnal (text)
-    * allocate_squad (text)
-    * duration (text I guess)
-    * scheduled (boolean)
-*  project custom fields (to add manually)
-   * start_date (text, but formatted yyyy-mm-dd)
-   * stop_date (text, but formatted yyyy-mm-dd)
-*  user custom fields (to add manually)
-   * squad (text, but coincidentally repeating, for making teams)
-   * limits (text, but verify if compatible TJ3)
+To uninstall
 
-See TODO.rb
-
-== Removal
-
-http://www.redmine.org/projects/redmine/wiki/Plugins
-
-rake redmine:plugins:migrate NAME=redmine_taskjuggler VERSION=0 RAILS_ENV=production
+  rake db:migrate:plugin NAME=redmine_taskjuggler VERSION=0
 
 == Workflow
 
@@ -61,6 +85,7 @@ Many steps were manual in the first version. Today, the idea is to automate part
 == Getting the plugin
 
 A copy of the released version can be downloaded from  {GitHub}[http://github.com/chris2fr/redmine_taskjuggler]
+
 
 == Installation and Setup
 
@@ -84,7 +109,20 @@ A copy of the released version can be downloaded from  {GitHub}[http://github.co
 
 == License
 
-This plugin is licensed under the GNU GPL v2.  See LICENSE.txt and GPL.txt for details.
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+== Design Decisions
+
+Design decisions concern mainly the way redmine_taskjuggler maps Redmine objects to TaskJuggler objects.
+
+* Use Redmine depends and preceeds
+* Use Redmine priority levels with a mapping
+* Add a flag to each object to indicatue use or not in Redmine
+* 
 
 == Project help
 

@@ -1,0 +1,39 @@
+<h1>Listing redmine_taskjuggler_projects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Active</th>
+      <th>Tj roottask</th>
+      <th>Tj start date</th>
+      <th>Tj end date</th>
+      <th>Dailyworkinghours</th>
+      <th>Timeformat</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @redmine_taskjuggler_projects.each do |redmine_taskjuggler_project| %>
+      <tr>
+        <td><%= redmine_taskjuggler_project.project_id %></td>
+        <td><%= redmine_taskjuggler_project.active %></td>
+        <td><%= redmine_taskjuggler_project.roottask %></td>
+        <td><%= redmine_taskjuggler_project.start_date %></td>
+        <td><%= redmine_taskjuggler_project.end_date %></td>
+        <td><%= redmine_taskjuggler_project.dailyworkinghours %></td>
+        <td><%= redmine_taskjuggler_project.timeformat %></td>
+        <td><%= link_to 'Show', redmine_taskjuggler_project %></td>
+        <td><%= link_to 'Edit', edit_redmine_taskjuggler_project_path(redmine_taskjuggler_project) %></td>
+        <td><%= link_to 'Destroy', redmine_taskjuggler_project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Redmine taskjuggler project', new_redmine_taskjuggler_project_path %>

@@ -1,0 +1,15 @@
+digraph workflow {
+	subgraph cluster_redmine {
+		RedmineExport
+		RedmineImport
+		label="Redmine"
+	}
+	subgraph cluster_taskjuggler {
+		TaskJugglerImport
+		TJ3Sheduling
+		label="Taskjuggler"
+	}
+
+	RedmineExport -> TaskJugglerImport -> TJ3Sheduling -> CSVTaskJuggler -> RedmineImport
+	label="redmine_taskjuggler overall workflow"
+}

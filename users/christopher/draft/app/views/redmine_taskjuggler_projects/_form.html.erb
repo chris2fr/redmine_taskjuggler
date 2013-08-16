@@ -1,0 +1,48 @@
+<%= form_for(@redmine_taskjuggler_project) do |f| %>
+  <% if @redmine_taskjuggler_project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@redmine_taskjuggler_project.errors.count, "error") %> prohibited this redmine_taskjuggler_project from being saved:</h2>
+
+      <ul>
+      <% @redmine_taskjuggler_project.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+   <div class="field">
+    <% projects_array = Project.all.map { |proj| [proj.name, proj.id] } %>
+    
+    <%= f.label :project_id %><br>
+    <%= collection_select(:redmine_taskjuggler_project, :project_id, Project.all, :id, :identifier) %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :active %><br>
+    <%= f.check_box :active %>
+  </div>
+  <div class="field">
+    <%= f.label :roottask %><br>
+    <%= f.text_field :roottask %>
+  </div>
+  <div class="field">
+    <%= f.label :start_date %><br>
+    <%= f.text_field :start_date %> YYYY-MM-DD
+  </div>
+  <div class="field">
+    <%= f.label :end_date %><br>
+    <%= f.text_field  :end_date %> YYYY-MM-DD
+  </div>
+  <div class="field">
+    <%= f.label :dailyworkinghours %><br>
+    <%= f.text_field :dailyworkinghours %> 1 - 24
+  </div>
+  <div class="field">
+    <%= f.label :timeformat %><br>
+    <%= f.text_field :timeformat %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

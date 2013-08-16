@@ -1,0 +1,4 @@
+*.komodo*
+*.sublime*
+/db/redmine.sqlite
+*.bak
