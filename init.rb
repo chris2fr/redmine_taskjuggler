@@ -7,8 +7,13 @@ ActionDispatch::Callbacks.to_prepare do
   require 'initializers/time_entry'
 end
 
-require_dependency 'helpers/view_issues_show_details_bottom'
+require_dependency 'helpers/view_account_left_bottom'
+require_dependency 'helpers/view_issues_bulk_edit_details_bottom'
+require_dependency 'helpers/view_issues_form_details_bottom'
+require_dependency 'helpers/view_issues_show_description_bottom'
 require_dependency 'helpers/view_projects_form'
+require_dependency 'helpers/view_projects_show_left'
+require_dependency 'helpers/view_time_entries_bulk_edit_details_bottom'
 require_dependency 'helpers/view_timelog_edit_form_bottom'
 require_dependency 'helpers/view_users_form'
 

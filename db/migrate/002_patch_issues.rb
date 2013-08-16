@@ -1,6 +1,6 @@
 class PatchIssues < ActiveRecord::Migration
   def change
-    add_column :issues, :tj_activated, :boolean
+    add_column :issues, :tj_activated, :boolean, :default => true
     add_column :issues, :tj_depends, :string
     add_column :issues, :tj_preceeds, :string
     add_column :issues, :tj_parent, :string
