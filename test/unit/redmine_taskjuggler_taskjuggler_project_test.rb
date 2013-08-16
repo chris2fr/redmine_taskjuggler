@@ -28,6 +28,14 @@ class RedmineTaskjugglerTaskjugglerProjectTest < Test::Unit::TestCase
                       Taskjuggler::TimeSpan.new(i, 'd'))
       end
     end
+    depends = []
+    depends.push(
+      Taskjuggler::Depend.new(
+        tasks[0].children[1],
+        Taskjuggler::TimeSpan.new(5,'d')
+      )
+    )
+    tasks[0].children[2].timeEffort.timePointStart = Taskjuggler::TimePointDepends.new(depends)
     tasks
   end
   def test_creation_project
@@ -36,7 +44,8 @@ class RedmineTaskjugglerTaskjugglerProjectTest < Test::Unit::TestCase
   end
   def test_project_toTJP
     project = makeMeAProject
-    assert_match "project test", project.toTJP
+    tjp = TJP.new(project,[],[])
+    assert_match "project test", tjp.to_s
   end
   def test_create_task
     task = makeMeATask
@@ -44,13 +53,17 @@ class RedmineTaskjugglerTaskjugglerProjectTest < Test::Unit::TestCase
   end
   def test_task_toTJP
     task = makeMeATask
-    assert_match "task test", task.toTJP
+    project = makeMeAProject
+    tjp = TJP.new(project,[],[task])
+    assert_match "task test", tjp.to_s
   end
   def test_nesteded_tasks_toTJP
     task = makeMeATask
+    project = makeMeAProject
     task.children.push makeMeATask
     task.children[0].localId = "nested_task"
-    assert_match "task nested_task", task.toTJP 
+    tjp = TJP.new(project,[],[task])
+    assert_match "task nested_task", tjp.to_s
   end
   def test_create_resource
     resource = Taskjuggler::Resource.new('test','This is a test resource')
@@ -64,7 +77,7 @@ class RedmineTaskjugglerTaskjugglerProjectTest < Test::Unit::TestCase
     project = makeMeAProject
     tasks = makeMe27Tasks
     resources = [Taskjuggler::Resource.new('test','This is a test resource')]
-    tjp = Taskjuggler::TJP.new(project, resources, tasks)
+    tjp = TJP.new(project, resources, tasks)
     assert_match(/task task32/, tjp.to_s)
   end
 end

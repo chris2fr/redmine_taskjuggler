@@ -16,16 +16,6 @@ module RedmineTaskjuggler
         @parent = parent
         @children = children
       end
-      def toTJP
-        tjpString = "resource #{id} \"#{name}\" {\n"
-        if children != []
-          children.each {|child|
-            tjpString += child.toTJP.gsub(/^/, "  ") + "\n"
-          }
-        end
-        tjpString += "}\n"
-        tjpString
-      end
     end
     class Booking
       attr_accessor :resource,
@@ -35,13 +25,6 @@ module RedmineTaskjuggler
         @resource = resource
         @task = task
         @periods = periods
-      end
-      def toTJP
-        tjpString = "supplement task #{task_id} {\n  booking #{resource_id} "
-        @periods.each {|per|
-          tjpString += per.toTJP + ", "
-        }
-        tjpString[0, -2] + "\n}"
       end
     end
   end

@@ -11,7 +11,7 @@ Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity
 Here is what this plugin does with you :
 
 * Exports from Redmine a Taskjuggler project
-* Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Id","Start","End","Priority","Effort")
+* Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Redmine","Start","End","Priority","Effort","Dependencies")
 * Converts time-entries in Redmine to journal entries in Taskjuggler (ordering them hour-to-hour for Task-juggler bookings) 
 
 == Notes on the current version 0.1.0
@@ -86,7 +86,6 @@ Many steps were manual in the first version. Today, the idea is to automate part
 
 A copy of the released version can be downloaded from  {GitHub}[http://github.com/chris2fr/redmine_taskjuggler]
 
-General information on
 
 == Installation and Setup
 
@@ -115,6 +114,15 @@ This program is free software: you can redistribute it and/or modify it under th
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+== Design Decisions
+
+Design decisions concern mainly the way redmine_taskjuggler maps Redmine objects to TaskJuggler objects.
+
+* Use Redmine depends and preceeds
+* Use Redmine priority levels with a mapping
+* Add a flag to each object to indicatue use or not in Redmine
+* 
 
 == Project help
 

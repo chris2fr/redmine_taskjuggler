@@ -31,31 +31,7 @@ module RedmineTaskjuggler
         @now = tjNow
         @dailyworkinghours = dailyworkinghours
         @timingresolution = timingresolution
-        
-      end
-      def toTJP
-        tjpString = "project #{id} \"#{name}\" \"#{version}\" #{period}  {\n"
-        {'timeformat' => timeformat,
-         'currency' => currency
-         }.each do |k,v|
-          if v and v != ""
-            tjpString += "  " + k.to_s + " \"" + v + "\"\n"
-          end
-        end
-        {'timingresolution' => timingresolution,
-         'dailyworkinghours' => dailyworkinghours}.each do |k,v|
-          if v and v != ""
-            tjpString += "  " + k.to_s + " " + v + "\n"
-          end
-        end
-    
-        tjpString += "  extend task {\n"
-        tjpString += "    number Redmine 'Redmine'\n" 
-        tjpString += "  }\n"
-        tjpString += "  now #{now}\n"
-        tjpString += "}\n"
 
-        return tjpString
       end
     end
   end

@@ -42,29 +42,35 @@ module RedmineTaskjuggler
         @depends = depends
       end
       def toTJP
-        tjpString "depends "
-        depends.each {|dep|
-          tjpString += dep.toTJP + ", "
+        tjpString = "depends "
+        depArray = []
+        @depends.each {|dep|
+          depArray.push(dep.toTJP)
         }
-        tjpString = tjpString[0,-2]
+        tjpString += depArray.join(", ")
         return tjpString
       end
     end
     class Depend
-      attr_accessor :task_id,
+      attr_accessor :task,
         :gap
-      def initialize (task_id, gap)
-        @task_id = task_id
+      def initialize (task, gap)
+        @task = task
         @gap = gap
       end
       def toTJP
-        "#{task_id} #{gap.toTJP}"
+        return "#{@task.id} {#{@gap.toTJP}}"
       end
     end
     class Gap
-      attr_accessor :timeSpan
-      def initialize (timeSpan)
-        @timeSpan = timeSpan
+      attr_accessor :timeSpan,
+       :type
+      def initialize (timespan, type = "length")
+        @timespan = timespan
+        @type = type
+      end
+      def toTJP
+        return "gap#{@type} #{@timespan.toTJP}"
       end
     end
     class GapLength
@@ -141,11 +147,12 @@ module RedmineTaskjuggler
         @timeSpan = timeSpan
       end
       def toTJP
-        tjpString = timePointStart.toTJP
-        if tjpString != ""
+        tjpString = @timePointStart.toTJP
+        if tjpString != "" and tjpString != nil
           tjpString += "\n"
         end
-        tjpString + "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
+        tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
+        return tjpString
       end
     end
     class Allocate
