@@ -1,0 +1,57 @@
+<fieldset class="tabular"><legend>redmine_taskjuggler</legend>
+<%= labelled_fields_for(@project) do |f| %>
+<div id="taskjuggler" class="attributes">
+  <div class="splitcontent">
+    <div class="splitcontentleft">
+      <p>
+        <%= f.label :tj_activated %>
+        <%= f.check_box :tj_activated, :default => 1 %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_activated) %>')">(?)</a>
+      </p>
+      <p>
+        <%= f.label :tj_version %>
+        <%= f.text_field :tj_version %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_version) %>')">(?)</a>
+      </p>
+      <p>
+        <%= f.label :tj_dailyworkinghours %>
+        <%= f.text_field :tj_dailyworkinghours %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_dailyworkinghours) %>')">(?)</a>
+      </p>
+      <p>
+        <%= f.label :tj_period %>
+        <%= f.text_field :tj_period %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_period) %>')">(?)</a>
+      </p>
+      <p>
+        <%= f.label :tj_currency %>
+        <%= f.text_field :tj_currency%>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_currency) %>')">(?)</a>
+      </p>
+    </div>
+    <div class="splitcontentright">
+      <p>
+        <%= f.label :tj_now %>
+        <%= f.text_field :tj_now %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_now) %>')">(?)</a>
+      </p>
+      <p>
+        <%= f.label :tj_numberformat %>
+        <%= f.text_field :tj_numberformat %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_numberformat) %>')">(?)</a>
+      </p>
+            <p>
+        <%= f.label :tj_timingresolution %>
+        <%= f.text_field :tj_timingresolution%>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_timingresolution) %>')">(?)</a>
+      </p>     
+      <p>
+        <%= f.label :tj_timeformat %>
+        <%= f.text_field :tj_timeformat %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_timeformat) %>')">(?)</a>
+      </p>
+    </div>
+  </div>
+</div>
+<% end %>
+</fieldset>
