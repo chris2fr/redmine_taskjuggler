@@ -1,0 +1,36 @@
+<!-- view_issues_show_description_bottom -->
+
+<hr />
+<strong><%= l(:taskjuggler) %></strong>
+
+<div id="taskjuggler" class="attributes">
+    <div class="splitcontent">
+        <div class="splitcontentleft">
+          <p>
+          <%= l(:tj_activated) %> :
+          <%= @issue.tj_activated %>
+          <br/>
+          <%= l(:tj_depends) %> :
+          <%= @issue.tj_depends%>
+          <br/>
+          <%= l(:tj_preceeds) %> :
+          <%= @issue.tj_preceeds%>
+          </p>
+        </div>
+        <div class="splitcontentright">
+          <p>
+          <%= l(:tj_parent) %> :
+          <%= @issue.tj_parent%>
+          <br/>
+          <%= l(:tj_scheduled) %> :
+          <%= @issue.tj_scheduled %>
+          <br/>
+          <%= l(:tj_allocates) %> : 
+          <% @issue.tj_allocates %>
+          <br/>
+          <%= l(:tj_limits) %> : 
+          <%= @issue.tj_limits %>
+          </p>
+        </div>
+    </div>
+</div>

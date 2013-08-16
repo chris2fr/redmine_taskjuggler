@@ -1,6 +1,6 @@
 class PatchProjects < ActiveRecord::Migration
   def change
-    add_column :projects, :tj_activated, :boolean
+    add_column :projects, :tj_activated, :boolean, :default => true
     add_column :projects, :tj_version, :string
     add_column :projects, :tj_dailyworkinghours, :float
     add_column :projects, :tj_period,  :string
