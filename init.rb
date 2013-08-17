@@ -17,6 +17,10 @@ require_dependency 'helpers/view_time_entries_bulk_edit_details_bottom'
 require_dependency 'helpers/view_timelog_edit_form_bottom'
 require_dependency 'helpers/view_users_form'
 
+require_dependency 'redmine_taskjuggler/application'
+
+puts RedmineTaskjuggler::Application.instance.version
+
 Redmine::Plugin.register :redmine_taskjuggler do
   name 'Redmine Taskjuggler plugin'
   author 'Christopher Mann <christopher@mann.fr>'
