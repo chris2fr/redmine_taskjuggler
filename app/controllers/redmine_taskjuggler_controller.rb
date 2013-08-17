@@ -24,9 +24,11 @@ class RedmineTaskjugglerController < ApplicationController
         )
     tjResources = []
     User.where(tj_activated: true).find_each do |user|
-        tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_'),
+        if user.login.to_s != ""
+          tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_'),
                   user.firstname + ' ' + user.lastname,
                   user.tj_parent))
+        end
     end
     tjTasks = {}
     @project.issues.where(tj_activated: true).find_each do |issue|
