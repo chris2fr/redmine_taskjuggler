@@ -76,7 +76,7 @@ en:
   tooltip_tj_now: "TJ now sched. date : the yyyy-mm-dd date the scheduling will start from."
   tooltip_tj_numberformat: "TJ number format"
   tooltip_tj_timingresolution: "TJ timing resolution. This is the basic unit of time."
-  tooltip_tj_timeformat: "TJ time format"
+  tooltip_tj_timeformat: "TJ time format. "
   tooltip_tj_start: "TJ start time (more precise) TaskJuggler needs to know when the work was done."
   tooltip_tj_rate: "TJ rate per day (if you use accounting)"
   tooltip_tj_vacations: "TJ vacations (specific format) vacation 2013-01-01 +1d, 2013-12-25 +1d."
