@@ -110,7 +110,7 @@ class RedmineTaskjugglerController < ApplicationController
           @lines.push(issue.errors.messages.inspect.to_s)
         end
       }
-      @lines.push("#" + csvline["Redmine"].to_s + ". #{issue.subject} : #{issue.start_date} - #{issue.due_date} " + link_to_issue(issue))
+      @lines.push("#" + csvline["Redmine"].to_s + ". #{issue.subject} : #{issue.start_date} - #{issue.due_date} " ) # + link_to_issue(issue)
     }
     # Parse the CSV File line by line
     # Update Redmine with the dates and effort
