@@ -62,6 +62,8 @@ Here is the backlog
 
 Install into /plugins directory.
 
+  bundle exec rake redmine:plugins RAILS_ENV=production
+
   rake db:migrate:plugin NAME=redmine_taskjuggler
   
 then restart the webserver.
