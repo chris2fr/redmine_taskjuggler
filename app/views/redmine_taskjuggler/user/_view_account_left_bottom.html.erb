@@ -1,3 +1,23 @@
 <!-- view_account_left_bottom -->
 
-Hi view_account_left_bottom!
+
+  <p>
+  <%= l(:tj_activated) %>
+  <%= @user.tj_activated %> <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_activated) %>')">(?)</a>
+  <br/>
+  <%= l(:tj_parent) %>
+  <%= @user.tj_parent %>
+  <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_parent) %>')">(?)</a>
+  <br/>
+  <%= l(:tj_rate) %>
+  <%= @user.tj_rate %>
+  <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_rate) %>')">(?)</a>
+  <br/>
+  <%= l(:tj_vacations) %>
+  <%= @user.tj_vacations %>
+  <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_vacations) %>')">(?)</a>
+  <br/>
+  <%= l(:tj_limits) %>
+  <%= @user.tj_limits %>
+  <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_limits) %>')">(?)</a>
+  </p>

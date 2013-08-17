@@ -10,23 +10,14 @@
           <%= l(:tj_activated) %> :
           <%= @issue.tj_activated %>
           <br/>
-          <%= l(:tj_depends) %> :
-          <%= @issue.tj_depends%>
-          <br/>
-          <%= l(:tj_preceeds) %> :
-          <%= @issue.tj_preceeds%>
+          <%= l(:tj_scheduled) %> :
+          <%= @issue.tj_scheduled %>
           </p>
         </div>
         <div class="splitcontentright">
           <p>
-          <%= l(:tj_parent) %> :
-          <%= @issue.tj_parent%>
-          <br/>
-          <%= l(:tj_scheduled) %> :
-          <%= @issue.tj_scheduled %>
-          <br/>
           <%= l(:tj_allocates) %> : 
-          <% @issue.tj_allocates %>
+          <%= @issue.tj_allocates %>
           <br/>
           <%= l(:tj_limits) %> : 
           <%= @issue.tj_limits %>
