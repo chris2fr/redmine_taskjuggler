@@ -109,7 +109,7 @@ EOS
       tjpString += <<EOREPORT
 taskreport redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')} 'redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
   formats csv
-  columns Redmine, start, end, effort, effortdone, priority, depends
+  columns Redmine, start, end, effort, effortdone, priority
 }
 EOREPORT
       tjpString
