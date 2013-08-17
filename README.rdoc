@@ -58,6 +58,9 @@ Here is the backlog
 * Look into plugins kanban, etc.
 * Native backend to Taskjuggler 
 
+There is a demo set up here: http://redtask.configmagic.com
+
+
 == Installation
 
 Install into /plugins directory.
