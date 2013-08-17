@@ -1,9 +1,8 @@
-# French strings go here for Rails i18n
 fr:
   taskjuggler: "TaskJuggler"
   redmine_taskjuggler: "Redmine Taskjuggler"
   tj_project: "Redmine TaskJuggler Prejet"
-  tj_activated: "Activé pour TaskJuggler"
+  tj_activated: "Activ&eacute; pour TaskJuggler"
   tj_depends: "TJ depends (#123)"
   tj_preceeds: "TJ preceeds (#123)"
   tj_parent: "TJ task groupement parent"
@@ -16,14 +15,14 @@ fr:
   tj_currency: "TJ devise (EUR)"
   tj_now: "TJ now date de planif."
   tj_numberformat: "TJ number format"
-  tj_timingresolution: "TJ unité de temps (45min)"
+  tj_timingresolution: "TJ unit&eacute; de temps (45min)"
   tj_timeformat: "TJ format de temps"
-  tj_start: "TJ temps de début"
+  tj_start: "TJ temps de d&eacute;but"
   tj_rate: "TJ charge/j"
   tj_vacations: "TJ vacances (specific format)"
-  # field titles
-  field_tj_activated: "TJ activé(e)"
-  field_tj_depends: "TJ depends  "
+  field_tj_activated: "TJ activ&eacute;(e)"
+
+  field_tj_depends: "TJ depends"
   field_tj_preceeds: "TJ preceeds (#123)"
   field_tj_parent: "TJ task groupement"
   field_tj_scheduled: "TJ scheduled"
@@ -31,17 +30,17 @@ fr:
   field_tj_limits: "TJ limits"
   field_tj_version: "TJ version (0.0.0)"
   field_tj_dailyworkinghours: "TJ heures par jour"
-  field_tj_period: "TJ périod yyyy-mm-dd - y..."
+  field_tj_period: "TJ p&eacute;riod yyyy-mm-dd - y..."
   field_tj_currency: "TJ devise (EUR)"
   field_tj_now: "TJ now date de planif"
   field_tj_numberformat: "TJ format de chiffres"
-  field_tj_timingresolution: "TJ unité de temps"
+  field_tj_timingresolution: "TJ unit&eacute; de temps"
   field_tj_timeformat: "TJ format de temps"
-  field_tj_start: "TJ heure de début"
+  field_tj_start: "TJ heure de d&eacute;but"
   field_tj_rate: "TJ charge / j."
   field_tj_vacations: "TJ vacances"
-  # Tool Tips (no sigle or duble quotes please)
   tooltip_tj_activated: "Is this to be part of Redmine_Taskjuggler?"
+
   tooltip_tj_depends: "#123, #456 {gaplength 0d},.."
   tooltip_tj_preceeds: "#123, #456 {gaplength 0d},.."
   tooltip_tj_parent: "Some arbitrary container task, like a category."
@@ -59,3 +58,4 @@ fr:
   tooltip_tj_start: "TJ start time (more precise) TaskJuggler needs to know when the work was done."
   tooltip_tj_rate: "TJ rate per day (if you use accounting)"
   tooltip_tj_vacations: "TJ vacations (specific format) vacation 2013-01-01 +1d, 2013-12-25 +1d."
+
