@@ -1,4 +1,5 @@
 <fieldset class="tabular"><legend>redmine_taskjuggler</legend>
+<% tr = @project.tj_timingresolution %>
 <%= labelled_fields_for(@project) do |f| %>
 <div id="taskjuggler" class="attributes">
   <div class="splitcontent">
@@ -42,7 +43,7 @@
       </p>
             <p>
         <%= f.label :tj_timingresolution %>
-        <%= select_tag("tj_timingresolution",options_for_select([["15min","15min"],["30min","30min"],["1h","1h"]],@project.tj_timingresolution),:width => 8) %>
+        <%= select_tag("tj_timingresolution",options_for_select([["15min","15min"],["30min","30min"],["1h","1h"]],tr),:width => 8) %>
         <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_timingresolution).gsub(/\n/,"\\n") %>')">(?)</a>
       </p>     
       <p>
