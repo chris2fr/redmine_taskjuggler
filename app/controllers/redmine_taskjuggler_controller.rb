@@ -55,7 +55,7 @@ class RedmineTaskjugglerController < ApplicationController
               tjTasks[ir.issue_from_id],
               RedmineTaskjuggler::Taskjuggler::Gap.new(
                 # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
-                RedmineTaskjuggler::Taskjuggler::TimeSpan.new(ir.delay + 1, 'd')
+                RedmineTaskjuggler::Taskjuggler::TimeSpan.new(ir.delay.to_i + 1, 'd')
               )
             )
           )
