@@ -59,7 +59,7 @@ class RedmineTaskjugglerController < ApplicationController
           cat_id = category.name.gsub(/[- ],"_"/)
           cat_name = category.name
         else
-          cat_id= 'nocat'
+          cat_id = 'nocat'
           cat_name = "No Category"
         end
         unless tjTasks['cats'].has_key?(version_id)
@@ -101,7 +101,7 @@ class RedmineTaskjugglerController < ApplicationController
             |ir|
             depends.push(RedmineTaskjuggler::Taskjuggler::Depend.new(
                 # TODO: Use the issue object to get the correct TaskJuggler ID
-                tjTasks[ir.issue_from_id],
+                tjTasks['issues'][ir.issue_from_id],
                 RedmineTaskjuggler::Taskjuggler::Gap.new(
                   # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
                   unless ir.delay == nil
@@ -145,13 +145,22 @@ class RedmineTaskjugglerController < ApplicationController
           |cat_id|
           tjTasks['index'][version_id][cat_id].each {
             |redid|
-            tjTasks['cats'][version_id][cat_id].push(
-              topTask.children.find(version_id).children.find(cat_id).children.push(
-                tjTasks['issues'][redid]
-              )
+            tjTasks['cats'][version_id][cat_id].children.push(
+              tjTasks['issues'][redid]
             )
+            # puts 'debug'
+            # puts tjTasks['issues'][redid].class
+            #tjTasks['index'][version_id].children.push(
+            #  tjTasks['cats'][version_id][cat_id]
+            #)
           }
+          tjTasks['versions'][version_id].children.push(
+            tjTasks['cats'][version_id][cat_id]
+          )
         }
+        topTask.children.push(
+          tjTasks['versions'][version_id]
+        )
       }
       return topTask
     end
@@ -192,7 +201,8 @@ class RedmineTaskjugglerController < ApplicationController
     #end
     @lines = []
   
-    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {|csvline|
+    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
+      |csvline|
       update_attributes = {'start_date' => csvline['Start'], 
         'due_date' => csvline['End']}
       issue = Issue.find(csvline["Redmine"])
