@@ -211,13 +211,13 @@ class RedmineTaskjugglerController < ApplicationController
       if csvline["Redmine"]
         issue = Issue.find(csvline["Redmine"])
         update_attributes.each { |r, t|  
-        test = issue.update_attributes({r => t})
+          test = issue.update_attributes({r => t})
+        }
         unless test
           @lines.push(issue.errors.messages.inspect.to_s)
         end
         @lines.push("#" + csvline["Redmine"].to_s + ". #{issue.subject} : #{issue.start_date} - #{issue.due_date} " ) # + link_to_issue(issue)
       end
-      }
     }
   end
 end
