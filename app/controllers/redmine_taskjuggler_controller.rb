@@ -204,14 +204,15 @@ class RedmineTaskjugglerController < ApplicationController
     # Update Redmine with the dates and effort
     CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
       |csvline|
-      update_attributes = {
-        'start_date' => csvline['Start'], 
-        'due_date' => csvline['End']
-      }
-      if csvline["Redmine"]
+      if csvline["Redmine"].to_s != ""
+        update_attributes = {
+          'start_date' => csvline['Start'], 
+          'due_date' => csvline['End']
+        }      
         issue = Issue.find(csvline["Redmine"])
+        test = true
         update_attributes.each { |r, t|  
-          test = issue.update_attributes({r => t})
+          test = test & issue.update_attributes({r => t})
         }
         unless test
           @lines.push(issue.errors.messages.inspect.to_s)
