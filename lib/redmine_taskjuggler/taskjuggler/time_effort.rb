@@ -122,11 +122,11 @@ module RedmineTaskjuggler
     class TimeEffortStartStop < TimeEffort
       attr_accessor :timePointStop
       def initialize (timePointStart, timePointStop)
-        super.initialize(timePointStart)
+        @timePointStart = timePointStart
         @timePointStop = timePointStop
       end
       def toTJP
-        "#{timePointStart.toTJP} - #{timePointStop}"
+        "#{timePointStart.toTJP}\n#{timePointStop.toTJP}"
       end
     end
     class TimeEffortMilestone < TimeEffort

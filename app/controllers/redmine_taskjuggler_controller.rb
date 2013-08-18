@@ -133,8 +133,8 @@ class RedmineTaskjugglerController < ApplicationController
         elsif issue.start_date? and issue.due_date?
           tjTasks['issues'][redID].timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortStartStop.new(
             # TODO: Revisit TimePoint Null and TimePoint
-            issue.start,
-            issue.due_date
+            RedmineTaskjuggler::Taskjuggler::TimePointStart.new(issue.start_date),
+            RedmineTaskjuggler::Taskjuggler::TimePointEnd.new(issue.due_date)
           )
         end
         # topTask.children.push(tjTasks['issues'][redID])

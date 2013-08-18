@@ -13,8 +13,12 @@ module RedmineTaskjuggler
       @project = project
       @resources = resources
       @tasks = tasks
-      @flags = flags
+      @flags = flags 
       @bookings = bookings
+      
+      unless @flags.include?('RedmineIssue')
+        @flags.push('RedmineIssue')
+      end
     end
     
     def project_to_s (project)
@@ -51,8 +55,9 @@ module RedmineTaskjuggler
         if task.localId[0,3] == 'red'
           tjpString += "  Redmine #{task.localId[3,task.localId.size]}\n"
         end
+        task.flags.push('RedmineIssue')
         if task.flags.class == Array and task.flags != []
-          tjpString += "  flags " + flags.join(", ")
+          tjpString += "  flags " + task.flags.join(", ") + "\n"
         end
         if task.note.class == String and task.note != ""
           tjpString += <<EOS
@@ -96,7 +101,7 @@ EOS
         tjpString += resource_to_s(res)
       }
       if @flags != []
-        tjpString += "flags " + flags.join(", ")
+        tjpString += "flags " + flags.join(", ") + "\n"
       end
       @tasks.each {|task|
         tjpString << task_to_s(task)  + "\n"
@@ -109,6 +114,7 @@ EOS
       tjpString += <<EOREPORT
 taskreport redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')} 'redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
   formats csv
+  hidetask ~RedmineIssue
   columns Redmine, start, end, effort, effortdone, priority
 }
 EOREPORT
