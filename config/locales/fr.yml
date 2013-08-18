@@ -30,7 +30,7 @@ fr:
   field_tj_limits: "TJ limits"
   field_tj_version: "TJ version (0.0.0)"
   field_tj_dailyworkinghours: "TJ heures par jour"
-  field_tj_period: "TJ p&eacute;riod yyyy-mm-dd - y..."
+  field_tj_period: "TJ p&eacute;riod {debut} - {fin}"
   field_tj_currency: "TJ devise (EUR)"
   field_tj_now: "TJ now date de planif"
   field_tj_numberformat: "TJ format de chiffres"

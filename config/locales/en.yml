@@ -32,7 +32,7 @@ en:
   field_tj_limits: "TJ limits"
   field_tj_version: "TJ project version (0.0.0)"
   field_tj_dailyworkinghours: "TJ working hours"
-  field_tj_period: "TJ period yyyy-mm-dd - y..."
+  field_tj_period: "TJ period {start} - {end}"
   field_tj_currency: "TJ currency (EUR)"
   field_tj_now: "TJ now sched. date"
   field_tj_numberformat: "TJ number format"
