@@ -99,11 +99,11 @@ EOS
         tjpString += "flags " + flags.join(", ")
       end
       @tasks.each {|task|
-        tjpString += task_to_s(task)  + "\n"
+        tjpString << task_to_s(task)  + "\n"
       }
       if @bookings.size > 0
         @bookings.each {|book|
-          tjpString += booking_to_s(book).gsub(/^/,"  ") + "\n"
+          tjpString << booking_to_s(book).gsub(/^/,"  ") + "\n"
         }
       end
       tjpString += <<EOREPORT

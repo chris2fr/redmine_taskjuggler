@@ -10,8 +10,153 @@ class RedmineTaskjugglerController < ApplicationController
     @project = Project.find(params[:id])
   end
   
+  
+  
   # This is a TJP download
   def tjp
+    # Project hierarchy TaskJuggler creation
+    def redmine_project_to_taskjuggler_task (project)
+      tjTasks = {}
+      tjTasks['versions'] = {}
+      tjTasks['cats'] = {}
+      tjTasks['issues'] = {}
+      tjTasks['index'] = {}
+      # The root task
+      topTask = RedmineTaskjuggler::Taskjuggler::Task.new(
+                  project.identifier.gsub(/-/,"_"),
+                  project.name,
+                  nil,[],[],project.description)
+      tjTasks['versions'] = {}
+      tjTasks['versions']['noversion'] = RedmineTaskjuggler::Taskjuggler::Task.new(
+                  'noversion',
+                  "Tasks not assigned to a Version",
+                  topTask)
+      tjTasks['index']['noversion'] = {}
+      # Releases
+      
+      versions = project.versions.all
+      versions.each {
+        |version|
+        if version.issues.size > 0
+          version_id = version.name.gsub(/[- ]/,"_")
+          taskVersion = RedmineTaskjuggler::Taskjuggler::Task.new(
+                  version_id,
+                  version.description,
+                  topTask)
+          tjTasks['versions'][version_id] = taskVersion
+          tjTasks['index'][version_id] = {}
+        end
+      }
+      
+      # Getting all tasks and subtasks
+      Issue.visible.where(project.project_condition(true)).find_each do |issue|
+        unless issue.fixed_version
+          version_id = 'noversion'
+        else
+          version_id = issue.fixed_version.name.gsub(/[- ],"_"/)
+        end
+        if issue.category
+          cat_id = category.name.gsub(/[- ],"_"/)
+          cat_name = category.name
+        else
+          cat_id= 'nocat'
+          cat_name = "No Category"
+        end
+        unless tjTasks['cats'].has_key?(version_id)
+          tjTasks['cats'][version_id] = {}
+        end
+        
+        unless tjTasks['cats'][version_id].has_key?(cat_id)
+          tjTasks['cats'][version_id][cat_id] = RedmineTaskjuggler::Taskjuggler::Task.new(
+                cat_id,
+                cat_name,
+                tjTasks['versions'][version_id])
+          tjTasks['index'][version_id][cat_id] = []
+        end
+        tjTask = RedmineTaskjuggler::Taskjuggler::Task.new('red' + issue.id.to_s,
+          "[red#{issue.id}] " + issue.subject,
+          tjTasks['cats'][version_id][cat_id],
+          nil,
+          [], #issue.tj_flags,
+          issue.description
+        )
+        tjTasks['issues'][issue.id] = tjTask
+        tjTasks['index'][version_id][cat_id].push(issue.id)
+      end
+      tjTasks['issues'].keys.each do |redID|
+        irs = IssueRelation.find(:all,
+                :conditions => {:issue_to_id => redID,
+                  # Strangely enough, only preecedes is used, and not follows
+                  # as does blocks and not blocked by
+                  # TODO: think about the issue_relation duplicates as an invalidator
+                  :relation_type => [IssueRelation::TYPE_PRECEDES,
+                    IssueRelation::TYPE_BLOCKS
+                  ]
+                }
+              )
+        # message += " issue " + issue.id.to_s + " irs.size #{irs.size} \n"
+        if irs.size > 0
+          depends = []
+          irs.each {
+            |ir|
+            depends.push(RedmineTaskjuggler::Taskjuggler::Depend.new(
+                # TODO: Use the issue object to get the correct TaskJuggler ID
+                tjTasks[ir.issue_from_id],
+                RedmineTaskjuggler::Taskjuggler::Gap.new(
+                  # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
+                  unless ir.delay == nil
+                    # TODO: Think about Redmines notion of delay with regards to the gap in TaskJuggler
+                    RedmineTaskjuggler::Taskjuggler::TimeSpan.new(ir.delay.to_i + 1, 'd')
+                  end
+                )
+              )
+            )
+          }
+          start_point = RedmineTaskjuggler::Taskjuggler::TimePointDepends.new(depends)
+        else
+          start_point = RedmineTaskjuggler::Taskjuggler::TimePointNil.new()
+        end
+        issue = Issue.find(redID)
+        if issue.tj_allocates
+          tjTasks['issues'][redID].timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortEffort.new(
+            # TODO: Better determine start
+            start_point,
+            RedmineTaskjuggler::Taskjuggler::Allocate.new([issue.tj_allocates]),
+            RedmineTaskjuggler::Taskjuggler::TimeSpan.new(issue.estimated_hours,'h')
+          )
+        #elsif issue.tj_milestone
+        #  tjTasks[redID].timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortMilestone.new(
+        #    # TODO: Revisit TimePoint Null and TimePoint
+        #    # TODO: The format of start might not suffice as such
+        #    issue.start || RedmineTaskjuggler::Taskjuggler::TimePointNil.new()
+        #  )
+        elsif issue.start_date? and issue.due_date?
+          tjTasks['issues'][redID].timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortStartStop.new(
+            # TODO: Revisit TimePoint Null and TimePoint
+            issue.start,
+            issue.due_date
+          )
+        end
+        # topTask.children.push(tjTasks['issues'][redID])
+      end
+      tjTasks['versions'].keys.each {
+        |version_id|
+        tjTasks['cats'][version_id].keys.each {
+          |cat_id|
+          tjTasks['index'][version_id][cat_id].each {
+            |redid|
+            tjTasks['cats'][version_id][cat_id].push(
+              topTask.children.find(version_id).children.find(cat_id).children.push(
+                tjTasks['issues'][redid]
+              )
+            )
+          }
+        }
+      }
+      return topTask
+    end
+    
+    
     #include RedmineTaskjuggler
     @project = Project.find(params[:id])
         tjProject = RedmineTaskjuggler::Taskjuggler::Project.new(@project.identifier.gsub("-","_"),
@@ -30,65 +175,10 @@ class RedmineTaskjugglerController < ApplicationController
                   user.tj_parent))
         end
     end
-    tjTasks = {}
-    @project.issues.where(tj_activated: true).find_each do |issue|
-      tjTask = RedmineTaskjuggler::Taskjuggler::Task.new('red' + issue.id.to_s,
-        "[red#{issue.id}] " + issue.subject,
-        nil,
-        nil,
-        [], #issue.tj_flags,
-        issue.description
-      )
-      tjTasks[issue.id] = tjTask
-    end
-    tjTasks.keys.each do |redID|
-      irs = IssueRelation.find(:all,
-                                    :conditions => {:issue_to_id => redID,
-                                    :relation_type => [IssueRelation::TYPE_PRECEDES,
-                                      IssueRelation::TYPE_BLOCKS
-                                    ]})
-      # message += " issue " + issue.id.to_s + " irs.size #{irs.size} \n"
-      if irs.size > 0
-        depends = []
-        irs.each {
-          |ir|
-          depends.push(RedmineTaskjuggler::Taskjuggler::Depend.new(
-              # TODO: Use the issue object to get the correct TaskJuggler ID
-              tjTasks[ir.issue_from_id],
-              RedmineTaskjuggler::Taskjuggler::Gap.new(
-                # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
-                RedmineTaskjuggler::Taskjuggler::TimeSpan.new(ir.delay.to_i + 1, 'd')
-              )
-            )
-          )
-        }
-        start_point = RedmineTaskjuggler::Taskjuggler::TimePointDepends.new(depends)
-      else
-        start_point = RedmineTaskjuggler::Taskjuggler::TimePointNil.new()
-      end
-      issue = Issue.find(redID)
-      if issue.tj_allocates
-        tjTasks[redID].timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortEffort.new(
-          # TODO: Better determine start
-          start_point,
-          RedmineTaskjuggler::Taskjuggler::Allocate.new([issue.tj_allocates]),
-          RedmineTaskjuggler::Taskjuggler::TimeSpan.new(issue.estimated_hours,'h')
-        )
-      elsif issue.tj_milestone
-        tjTasks[redID].timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortMilestone.new(
-          # TODO: Revisit TimePoint Null and TimePoint
-          # TODO: The format of start might not suffice as such
-          issue.start || RedmineTaskjuggler::Taskjuggler::TimePointNil.new()
-        )
-      elsif issue.start? and issue.end?
-        tjTasks[redID].timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortStartStop.new(
-          # TODO: Revisit TimePoint Null and TimePoint
-          issue.start,
-          issue.due_date
-        )
-      end
-    end
-    tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,tjTasks.values)
+    
+    topTask = redmine_project_to_taskjuggler_task(@project)
+    
+    tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,[topTask])
     #tjp = RedmineTaskjuggler::TJP.new()
     send_data tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain'
   end
