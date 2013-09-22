@@ -37,7 +37,7 @@ class RedmineTaskjugglerController < ApplicationController
       versions = project.versions.all
       versions.each {
         |version|
-        if version.issues.size > 0
+        if version.fixed_issues.size > 0
           version_id = version.name.gsub(/[- ]/,"_")
           taskVersion = RedmineTaskjuggler::Taskjuggler::Task.new(
                   version_id,
