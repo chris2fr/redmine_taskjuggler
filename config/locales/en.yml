@@ -12,6 +12,7 @@ en:
   tj_scheduled: "TJ scheduled attrib."
   tj_allocates: "TJ allocations"
   tj_limits: "TJ limits (eg dailymax 5h)"
+  tj_priority: "TJ priority"	# add Priority for the issue
   tj_version: "TJ project version (0.0.0)"
   tj_dailyworkinghours: "TJ working hours"
   tj_period: "TJ project per. yyyy-mm-dd - yyyy-mm-dd"
@@ -31,6 +32,7 @@ en:
   field_tj_scheduled: "TJ scheduled"
   field_tj_allocates: "TJ allocations"
   field_tj_limits: "TJ limits"
+  field_tj_priority: "TJ priority"	# add Priority for the issue
   field_tj_version: "TJ project version (0.0.0)"
   field_tj_dailyworkinghours: "TJ working hours"
   field_tj_period: "TJ period {start} - {end}"
@@ -51,6 +53,7 @@ en:
   label_tj_scheduled: "TJ scheduled attrib."
   label_tj_allocates: "TJ allocations"
   label_tj_limits: "TJ limits (eg dailymax 5h)"
+  label_tj_priority: "TJ priority (1, 500, 1000)"	# add Priority for the issue
   label_tj_version: "TJ project version (0.0.0)"
   label_tj_dailyworkinghours: "TJ working hours"
   label_tj_period: "TJ project per. yyyy-mm-dd - yyyy-mm-dd"
@@ -70,6 +73,7 @@ en:
   tooltip_tj_scheduled: "Are the given dates set in stone?"
   tooltip_tj_allocates: "The person or team assigned to the task"
   tooltip_tj_limits: "{{weekly|daily|monthly}{max|min} | maximum | minimum} xd"
+  tooltip_tj_priority: "Low - 1, Normal - 500, High - 1000"	# add Priority for the issue
   tooltip_tj_version: "TJ project version (0.0.0) and plese stick with three numbers"
   tooltip_tj_dailyworkinghours: "TJ working hours per day (a float) "
   tooltip_tj_period: "TJ project per. yyyy-mm-dd - yyyy-mm-dd (and only that format please)"

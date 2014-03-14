@@ -11,8 +11,17 @@
            <p>
               <%= f.label :tj_scheduled %>
               <%= f.check_box :tj_scheduled, :default => 1 %>
-              <a href="#" onClick="javascript:confirm('<%= l(:tooltiptj_scheduled_) %>')">(?)</a>
+              <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_scheduled) %>')">(?)</a>
             </p>
+
+<!-- add priority for the issue -->
+		<p>
+            <%= f.label :tj_priority %>
+	    <%= f.text_field :tj_priority %>
+            <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_priority) %>')">(?)</a>
+            </p>
+
+
         </div>
         <div class="splitcontentright">
            <p>

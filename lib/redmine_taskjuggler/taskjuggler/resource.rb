@@ -9,11 +9,16 @@ module RedmineTaskjuggler
         :children,
         :name,
         :rate,
-        :limits
-      def initialize (id, name, parent = nil, children = [])
+        :limits,
+	:vacations
+	# add limits, vacations and rate
+      def initialize (id, name, limits, vacations, rate, parent = nil, children = [])
         @id = id
         @name = name
-        @parent = parent
+	@limits = limits
+	@vacations = vacations
+	@rate = rate
+	@parent = parent
         @children = children
       end
     end

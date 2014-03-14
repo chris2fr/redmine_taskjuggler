@@ -66,7 +66,7 @@ module RedmineTaskjuggler
   ->8-
 EOS
         end
-        if task.children.class == Array and task.children != []
+        if task.children.class == Array and task.children != [] 
           task.children.each {|child|
             tjpString += task_to_s(child).gsub(/^/,"  ") + "\n"
           }
@@ -82,8 +82,18 @@ EOS
             tjpString += resource_to_s(child).gsub(/^/, "  ") + "\n"
           }
         end
-        tjpString += "}\n"
-        tjpString
+	
+	# limits, vacation and rate displayed in tjp-file
+	tjpString += "limits " + "{" + "#{resource.limits}" + "}\n"
+	if resource.vacations != ""
+	    tjpString += "#{resource.vacations}" + "\n"
+	end	  
+	if resource.rate.to_s.length != 0
+	    tjpString += "rate " + "#{resource.rate}" + "\n"
+	end	  
+	###    
+	tjpString += "}\n"
+	tjpString
     end
     
     def booking_to_s (booking)
@@ -112,10 +122,17 @@ EOS
         }
       end
       tjpString += <<EOREPORT
-taskreport redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')} 'redmine_update_issues_#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
+taskreport redmine_update_issues_csv_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str} 'redmine_update_issues_csv_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str}' {
   formats csv
   hidetask ~RedmineIssue
   columns Redmine, start, end, effort, effortdone, priority
+}
+EOREPORT
+      tjpString += <<EOREPORT
+taskreport redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str} 'redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str}' {
+  formats html
+  hidetask ~RedmineIssue
+  columns no, name, start, end, effort, effortdone, chart
 }
 EOREPORT
       tjpString

@@ -12,7 +12,12 @@
           <br/>
           <%= l(:tj_scheduled) %> :
           <%= @issue.tj_scheduled %>
-          </p>
+<!-- add priority for the issue -->
+          <br/>
+          <%= l(:tj_priority) %> : 
+          <%= @issue.priority %>
+	  </p>
+
         </div>
         <div class="splitcontentright">
           <p>
@@ -21,7 +26,7 @@
           <br/>
           <%= l(:tj_limits) %> : 
           <%= @issue.tj_limits %>
-          </p>
+         </p>
         </div>
     </div>
 </div>

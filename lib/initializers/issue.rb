@@ -15,7 +15,9 @@ module RedmineTaskjuggler
             'tj_parent',
             'tj_scheduled',
             'tj_allocates', # Users
-            'tj_limits'
+            'tj_limits',
+	    'tj_priority'	# add Priority for issue
+		
         end
         attr_accessible :tj_activated,
             :tj_depends,
@@ -23,7 +25,9 @@ module RedmineTaskjuggler
             :tj_parent,
             :tj_scheduled,
             :tj_allocates, # Users
-            :tj_limits
+	    :tj_limits,
+	    :tj_priority	# add Priority for issue
+		
       end
       
       module ClassMethods
@@ -46,4 +50,5 @@ Issue.safe_attributes :tj_activated,
             :tj_parent,
             :tj_scheduled,
             :tj_allocates, # Users
-            :tj_limits
+	    :tj_limits,
+	    :tj_priority	# add Priority for issue

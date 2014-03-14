@@ -26,7 +26,7 @@ module RedmineTaskjuggler
         @tjDateTime = tjDateTime
       end
     end
-    class TimePointStart < TimePoint
+    class TimePointStart < TimePoint   
       def toTJP
         "start #{tjDateTime}"
       end
@@ -140,18 +140,30 @@ module RedmineTaskjuggler
     class TimeEffortEffort < TimeEffort
       attr_accessor :timeSpan,
         :allocate
-      def initialize (timePointStart, allocate, timeSpan)
+        :priority
+	:tlimits
+      def initialize (timePointStart, allocate, timeSpan = [], priority, tlimits)
         #super.initialize(timePointStart) # For some reason, it passes three arguments
         @timePointStart = timePointStart
         @allocate = allocate
         @timeSpan = timeSpan
+        @priority = priority
+	@tlimits = tlimits
       end
       def toTJP
         tjpString = @timePointStart.toTJP
         if tjpString != "" and tjpString != nil
           tjpString += "\n"
         end
-        tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
+#        tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
+#	puts 'debug timeSpan'
+#	puts @timeSpan.to_s
+	if @timeSpan == []
+	  tjpString += "#{@allocate.toTJP}\n#{@priority.toTJP}\n"
+	else
+	  tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}\n#{@priority.toTJP}\n"
+	end
+	tjpString += "#{@tlimits.toTJP}"
         return tjpString
       end
     end
@@ -169,5 +181,33 @@ module RedmineTaskjuggler
         return tjpString
       end
     end
+
+    # Add classes Priority and TaskLimits for Issue
+    # priority and limits for issue (task) displayed in tjp-file
+    class Priority
+      attr_accessor :priority
+
+      def initialize (priority)
+	@priority = priority
+      end
+      def toTJP
+	tjpString = "priority "
+	tjpString += @priority.join(" , ")
+      end
+    end
+
+    class TaskLimits
+      attr_accessor :tlimits
+
+      def initialize (tlimits)
+	@tlimits = tlimits
+      end
+      def toTJP
+	tjpString = "limits "
+	tjpString += "{" + @tlimits.join(" , ") + "}"
+      end
+    end
+    ###
+
   end
 end
