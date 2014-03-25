@@ -74,7 +74,7 @@ EOS
         tjpString += "}"
         return tjpString
     end
-    
+
     def resource_to_s (resource)
         tjpString = "resource #{resource.id} \"#{resource.name}\" {\n"
         if resource.children != []
@@ -114,7 +114,7 @@ EOS
         tjpString += "flags " + flags.join(", ") + "\n"
       end
       @tasks.each {|task|
-        tjpString << task_to_s(task)  + "\n"
+	tjpString << task_to_s(task)  + "\n"
       }
       if @bookings.size > 0
         @bookings.each {|book|

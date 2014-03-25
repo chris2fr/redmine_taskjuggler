@@ -18,7 +18,7 @@
           <%= @issue.priority %>
 	  </p>
 
-        </div>
+        </div> 
         <div class="splitcontentright">
           <p>
           <%= l(:tj_allocates) %> : 
@@ -26,6 +26,9 @@
           <br/>
           <%= l(:tj_limits) %> : 
           <%= @issue.tj_limits %>
+	  <br/>
+          <%= l(:tj_efficiency) %> : 
+          <%= @issue.tj_efficiency %>
          </p>
         </div>
     </div>
