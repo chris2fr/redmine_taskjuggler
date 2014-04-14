@@ -20,28 +20,7 @@
               <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_priority) %>')">(?)</a>
             </p>
 
-
-	   <table id="ResTable" cellspacing="0" border="1" width="850">
-	     <thead>
-	     <tr>
-		<th width="450" align = center> TJ allocation <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_allocates) %>')">(?)</a> </th>
-		<th width="200" align = center> TJ efficiency <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_efficiency) %>')">(?)</a> </th>
-		<th width="200" align = center> TJ limits <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_limits) %>')">(?)</a> </th>
-	     </tr>
-	     </thead>
-	     <tbody>
-	     <tr>
-		<% users_array = User.all.map { |user| [user.firstname + ' ' + user.lastname, user.login.sub('-','_') ] } %>
-		<td> <%= select_tag('issue[tj_allocates]',users_array) %> </td>
-		<td> <%= text_field_tag 'issue[tj_efficiency]' %> </td>
-		<td> <%= text_field_tag 'issue[tj_limits]' %> </td>
-	     </tr>
-	     </tbody>
-	   </table>
-
-           <a href="#" onclick="javascript:addRow('ResTable');return false;"> Добавить строку </a>
-
-<!--           <p>
+           <p>
               <% users_array = User.all.map { |user| [user.firstname + ' ' + user.lastname, user.login.sub('-','_') ] } %>
               <label for="tj_allocates"><%= l(:tj_allocates) %></label>
               <%= select_tag('issue[tj_allocates]',users_array) %>
@@ -59,27 +38,5 @@
               <%= text_field_tag 'issue[tj_efficiency]' %>
              <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_efficiency) %>')">(?)</a>
             </p>
--->
-
-<script type="text/javascript">
-function addRow(id){
-    var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
-    var row = document.createElement("TR")
-    var td1 = document.createElement("TD")
-    var td2 = document.createElement("TD")
-    var td3 = document.createElement("TD")
-    
-    row.appendChild(td1);
-    row.appendChild(td2);
-    row.appendChild(td3);
-
-    td1.innerHTML = '<%= select_tag('issue[tj_allocates]',users_array) %>'
-    td2.innerHTML = '<%= text_field_tag 'issue[tj_efficiency]' %>'
-    td3.innerHTML = '<%= text_field_tag 'issue[tj_limits]' %>'
-
-    tbody.appendChild(row);
-
-  }
-</script>
 
 </fieldset>

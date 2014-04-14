@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 require_dependency 'redmine_taskjuggler' 
 #
 # Redmine Taskjuggler main controller
@@ -9,9 +11,7 @@ class RedmineTaskjugglerController < ApplicationController
   def tjindex
     @project = Project.find(params[:id])
   end
-  
-  
-  
+ 
   # This is a TJP download
   def tjp
     # Project hierarchy TaskJuggler creation
@@ -49,39 +49,12 @@ class RedmineTaskjugglerController < ApplicationController
    
     tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask)
 
-    # Uniq name with time
-    time = Time.now
-    t_year = time.year.to_s;
-    if time.month.to_s.length > 1
-      t_month = time.month.to_s
-    else 
-      t_month = '0'+time.month.to_s
-    end
-    if time.day.to_s.length > 1
-      t_day = time.day.to_s
-    else 
-      t_day = '0'+time.day.to_s
-    end
-    if time.hour.to_s.length > 1
-      t_hour = time.hour.to_s
-    else 
-      t_hour = '0'+time.hour.to_s
-    end
-    if time.min.to_s.length > 1
-      t_min = time.min.to_s
-    else 
-      t_min = '0'+time.min.to_s
-    end
-    if time.sec.to_s.length > 1
-      t_sec = time.sec.to_s
-    else 
-      t_sec = '0'+time.sec.to_s
-    end
-    $time_str = t_year + t_month + t_day + '_' + t_hour + t_min + t_sec
+    f_name = @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
+    data = tjp.to_s
+    Dir.chdir "/home/kitsune/tj3web-test/"
+    File.write(f_name, data)
 
-    send_data tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + "-" + $time_str + ".tjp", :type => 'text/plain'
-    ###
-#    send_data tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain'
+    send_data data, :filename => f_name, :type => 'text/plain'
   end
 
   # This is a CSV upload
