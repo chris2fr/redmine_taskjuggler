@@ -4,6 +4,8 @@
 #resources :redmine_taskjuggler_projects
 #resources :redmine_taskjuggler
 
+get '/redmine_taskjuggler_teams', to: 'tj_teams#index'
+get '/redmine_taskjuggler_teams/detail/:id', to: 'tj_teams#detail'
 get '/redmine_taskjuggler/:id', to: 'redmine_taskjuggler#tjindex'
 #get '/redmine_taskjuggler/:id/tjp', to: 'redmine_taskjuggler#tjp'
 get '/redmine_taskjuggler/:id/tjp', to: 'redmine_taskjuggler#tjp_save'

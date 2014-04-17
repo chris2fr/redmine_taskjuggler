@@ -1,1 +1,10 @@
 <h2>TjTeamsController#index</h2>
+
+<% @tj_teams.each do |team| %>
+
+  <p>
+    <%# link_to team.name, { :action => 'detail', :id => team[:id]}, method => 'get' } %>
+    <a href="./detail/<%= team.id %>"><%= team.name %></a>
+  </p>
+
+<% end %>

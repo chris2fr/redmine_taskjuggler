@@ -1,1 +1,6 @@
-<h2>TjTeamsController#detail</h2>
+<h2>TjTeamsController#detail <%= @tj_team.name %></h2>
+
+<% @users.each do |user| %>
+  <p>
+    <%= user.login %>
+<% end %>

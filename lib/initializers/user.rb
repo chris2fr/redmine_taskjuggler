@@ -13,14 +13,16 @@ module RedmineTaskjuggler
             :tj_parent,
             :tj_rate,
             :tj_vacations,
-            :tj_limits
+            :tj_limits,
+            :tj_team_id
         end
         base.class_eval do
           safe_attributes 'tj_activated',
               'tj_parent',
               'tj_rate',
               'tj_vacations',
-              'tj_limits'
+              'tj_limits',
+              'tj_team_id'
         end
       end
       
@@ -42,4 +44,5 @@ User.safe_attributes :tj_activated,
           :tj_rate,
           :tj_vacations,
           :tj_limits,
+          :tj_team_id,
           :tj_team
