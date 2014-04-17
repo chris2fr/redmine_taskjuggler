@@ -6,7 +6,7 @@ module RedmineTaskjuggler
     attr_reader :version
     
     def initialize
-      @version = IO.binread("plugins/redmine_taskjuggler/config/VERSION")
+      @version = "0.1.christopher"  # IO.binread("plugins/redmine_taskjuggler/config/VERSION")
     end
 
   end
