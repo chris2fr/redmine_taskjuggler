@@ -94,3 +94,8 @@ fr:
   label_tj_issue_etc: "TJ Issue/Task Etc."
   field_tj_issue_etc: "TJ Issue/Task Etc."
   tj_issue_etc: "TJ Issue/Task Etc."
+  
+  tooltip_tj_team: "TJ Team of Users"
+  label_tj_team: "TJ Team of Users"
+  field_tj_team: "TJ Team of Users"
+  tj_team: "TJ Team of Users"

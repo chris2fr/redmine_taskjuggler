@@ -1,8 +1,11 @@
 <h2><%= l(:redmine_taskjuggler)%></h2>
 
 <h4><%= l(:project)%> : <%= @project %> - <%= @project.identifier %> </h4>
-
+<p>TJ Teams can be administered <a href="/redmine_taskjuggler_teams">here</a>.</p>
 <!-- Taskjuggler work on the server -->
+<%
+if Setting.plugin_redmine_taskjuggler["tjp_path"].length > 1 then
+%>
 <p>
 <a href="./<%= params[:id] %>/tjp_to_server">Export TJP File to Server</a>
 </p>
@@ -19,7 +22,13 @@
   <%= submit_tag "Update CSV" %>
   <% end %>
 </p>
-
+<%
+else
+%>
+Set up server path <a href="/settings/plugin/redmine_taskjuggler">here</a> for workflow on server (requires tj_client on server).
+<%
+end
+%>
 <!-- Taskjuggler work on computer -->
 <fieldset>
 <p>Round-trip workflow :
@@ -34,18 +43,7 @@
   <%= submit_tag %>
   <% end %></li>
 </ol>
-<p>Team setup<p>
-<ol>
-<% TjTeam.all.each do |team| %>
-<li>
-  <%= team.name %> <br/>
-  <% User.where(tj_team_id: team.id).each do |user| %>
-  <%= user.login %>, 
-  <% end %>
-</li>
-<% end %>
 
-</ol>
 </fieldset>
 <hr/>
 <p style="text-align: center">
@@ -59,8 +57,12 @@
 Redmine (c) 2006-2013 Jean-Philippe Lang <a href="http://www.redmine.org">http://www.redmine.org</a>
 <br/>
 <i>The glass for Free and Open-Source project management software solutions that go together like cookies and milk!</i>
+<%= Setting.plugin_redmine_taskjuggler %>
 </p>
 
+<%
+if Setting.plugin_redmine_taskjuggler["tjp_path"].length > 1 then
+%>
 
 <script type="text/javascript">
 function tj3_com(){
@@ -70,26 +72,31 @@ function tj3_com(){
 	<% name_csvrep = 'redmine_update_issues_csv_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
 	<% name_htmlrep = 'redmine_update_issues_html_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
 
-	<% Dir.chdir "/tmp" %>
+	
+	<%# Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"] %>
 
 	<% content = "\n \n" %>
-	<% #target = "tj3d.log" %>
-	<% #File.open(target, "w+") do |f| %>
-  	<% #f.write(content) %>
-	<% #end %>
+	
+	<% target = "tj3d.log" %>
+	<%# File.open(target, "w+") do |f| %>
+  	<%# f.write(content) %>
+	
 
-	<% #outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
+	<%# outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
 
 	document.getElementById('placeForText').innerHTML=document.getElementById('some_doing').innerHTML
 
-	<% #IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
+	<%# IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
 
-	<% #f = IO.readlines("tj3d.log") %>
-	<% #outp2 = f[-1] %>
+	<%# f = IO.readlines("tj3d.log") %>
+	<%# outp2 = f[-1] %>
+	
 
 }
 </script>
-
+<%
+end
+%>
 <script type="text/template" id="some_doing">
 
   <%#= outp2 %>

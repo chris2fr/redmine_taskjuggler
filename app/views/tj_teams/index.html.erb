@@ -4,7 +4,7 @@
 
   <p>
     <%# link_to team.name, { :action => 'detail', :id => team[:id]}, method => 'get' } %>
-    <a href="./detail/<%= team.id %>"><%= team.name %></a>
+    <a href="/redmine_taskjuggler_teams/detail/<%= team.id %>"><%= team.name %></a>
   </p>
 
 <% end %>
@@ -14,3 +14,5 @@
   <%= text_field_tag(:tj_team_name) %>
   <%= submit_tag("New") %>
 <% end %>
+
+Plugin settings are <a href="/settings/plugin/redmine_taskjuggler">here</a>.

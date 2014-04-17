@@ -42,6 +42,13 @@ Redmine::Plugin.register :redmine_taskjuggler do
     :action => 'tjindex'
   }, :after => :activity, :caption => :taskjuggler, :param => :id
   
+  menu :admin_menu, :tj_teams, {
+    :controller => 'tj_teams',
+    :action => 'index'
+  }
+  
+  settings :default => {'empty' => true}, :partial => 'settings/redmine_taskjuggler_settings'
+  
   # menu :application_menu, :redmine_taskjuggler, { :controller => 'redmine_taskjuggler_projects', :action => 'index' }, :caption => :tj_project
   
 end

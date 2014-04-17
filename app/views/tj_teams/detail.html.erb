@@ -1,6 +1,8 @@
 <h2>TjTeamsController#detail <%= @tj_team.name %></h2>
-
+<ul>
 <% @users.each do |user| %>
-  <p>
-    <%= user.login %>
+  <li>
+    <a href="/users/<%= user.id %>"><%= user.login %></a>
+  </li>
 <% end %>
+</ul>
