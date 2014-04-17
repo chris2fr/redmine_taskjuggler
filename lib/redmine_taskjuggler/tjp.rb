@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 module RedmineTaskjuggler
   
   class TJP
@@ -40,7 +42,9 @@ module RedmineTaskjuggler
         tjpString += "  extend task {\n"
         tjpString += "    number Redmine 'Redmine'\n" 
         tjpString += "  }\n"
-        tjpString += "  now #{project.now}\n"
+        if project.now.to_s != ""
+          tjpString += "  now #{project.now}\n"
+        end
         tjpString += "}\n"
 
         return tjpString
@@ -103,7 +107,7 @@ EOS
         }
         tjpString[0, -2] + "\n}"
     end
-    
+
     # Returns Taskjuggler TJP representation
     def to_s
       tjpString = project_to_s(@project)
@@ -122,19 +126,21 @@ EOS
         }
       end
       tjpString += <<EOREPORT
-taskreport redmine_update_issues_csv_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str} 'redmine_update_issues_csv_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str}' {
+taskreport redmine_update_issues_csv_#{@project.id}_#{@project.version.gsub(/\./,'_')} 'redmine_update_issues_csv_#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
   formats csv
   hidetask ~RedmineIssue
   columns Redmine, start, end, effort, effortdone, priority
 }
 EOREPORT
+
       tjpString += <<EOREPORT
-taskreport redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str} 'redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\./,'_')}_#{$time_str}' {
+taskreport redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\./,'_')} 'redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\./,'_')}' {
   formats html
   hidetask ~RedmineIssue
-  columns no, name, start, end, effort, effortdone, chart
+  columns no, name, start, end, effort, effortdone, priority, chart
 }
 EOREPORT
+
       tjpString
     
     end

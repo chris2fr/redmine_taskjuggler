@@ -1,23 +1,27 @@
-<% #encoding: utf-8 %>
-
 <h2><%= l(:redmine_taskjuggler)%></h2>
 
-<%= l(:project)%> : <%= @project %> - <%= @project.identifier %>
+<h4><%= l(:project)%> : <%= @project %> - <%= @project.identifier %> </h4>
 
+<!-- Taskjuggler work on the server -->
+<p>
+<a href="./<%= params[:id] %>/tjp_to_server">Export TJP File to Server</a>
+</p>
 <p>
 <%= submit_tag "Compute in TJ", :type => 'button', :onclick => "javascript:tj3_com()" %>
 </p>
-
 <textarea id='placeForText' cols='90' rows='20' disabled></textarea>
-
 <p>
-<a href=":8080/taskjuggler"> taskjuggler reports </a>
+<a href="/taskjuggler"> Taskjuggler html-reports </a>
+</p>
+<p>
+  <%= form_tag('./' + params[:id] + "/csv", :multipart => true) do %>
+  <% file_field_tag 'csvfile', :accept => 'text/csv', :value => @project.identifier + "-" + @project.tj_version.to_s.sub(".","_") + ".csv" %>
+  <%= submit_tag "Update CSV" %>
+  <% end %>
 </p>
 
-<p>
-<%= submit_tag "Update CSV", :type => 'button', :onclick => "javascript:html_update()" %>
-</p>
-
+<!-- Taskjuggler work on computer -->
+<fieldset>
 <p>Round-trip workflow :
 <ol>
   <li><a href="./<%= params[:id] %>/tjp">Export TJP File</a></li>
@@ -28,9 +32,11 @@
   <li>Update CSV File <%= form_tag('./' + params[:id] + "/csv", :multipart => true) do %>
   <%= file_field_tag 'csvfile', :accept => 'text/csv', :value => @project.identifier + "-" + @project.tj_version.to_s.sub(".","_") + ".csv" %>
   <%= submit_tag %>
-<% end %></li>
-</ol>
+  <% end %></li>
 
+
+</ol>
+</fieldset>
 <hr/>
 <p style="text-align: center">
 <%= l(:redmine_taskjuggler)%> v. <%= RedmineTaskjuggler::Application.instance.version %> (c) 2009 - 2013 Christopher Mann
@@ -54,12 +60,18 @@ function tj3_com(){
 	<% name_csvrep = 'redmine_update_issues_csv_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
 	<% name_htmlrep = 'redmine_update_issues_html_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
 
-	<% Dir.chdir "/home/kitsune/tj3web-test/" %>
+	<% Dir.chdir "/var/www/redmine/taskjuggler/" %>
+
+	<% content = "\n \n" %>
+	<% target = "tj3d.log" %>
+	<% File.open(target, "w+") do |f| %>
+  	<% f.write(content) %>
+	<% end %>
+
 	<% outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
 
 	document.getElementById('placeForText').innerHTML=document.getElementById('some_doing').innerHTML
 
-	<% IO.popen("tj3client report #{name_proj} #{name_htmlrep}") %>
 	<% IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
 
 	<% f = IO.readlines("tj3d.log") %>
