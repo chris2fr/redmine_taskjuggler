@@ -6,6 +6,7 @@ module RedmineTaskjuggler
     module User
       extend ActiveSupport::Concern
       included do
+        belongs_to :tj_team
         extend ClassMethods
         base.class_eval do
           attr_accessible :tj_activated,
@@ -40,4 +41,5 @@ User.safe_attributes :tj_activated,
           :tj_parent,
           :tj_rate,
           :tj_vacations,
-          :tj_limits
+          :tj_limits,
+          :tj_team
