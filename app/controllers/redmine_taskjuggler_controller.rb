@@ -1,5 +1,3 @@
-#encoding: utf-8
-
 require_dependency 'redmine_taskjuggler' 
 #
 # Redmine Taskjuggler main controller
@@ -11,7 +9,9 @@ class RedmineTaskjugglerController < ApplicationController
   def tjindex
     @project = Project.find(params[:id])
   end
- 
+  
+  
+  
   # This is a TJP download
   def tjp
     # Project hierarchy TaskJuggler creation
@@ -49,16 +49,31 @@ class RedmineTaskjugglerController < ApplicationController
    
     tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask)
 
-    f_name = @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
+#    send_data tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain'
+  end
+
+  # Save tjp-file to computer
+  def tjp_save
+    project = Project.find(params[:id])
+    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
     data = tjp.to_s
-    # Dir.chdir "/home/kitsune/tj3web-test/"
-    # File.write(f_name, data)
 
     send_data data, :filename => f_name, :type => 'text/plain'
+    end
+
+  # Save tjp-file to server
+  def tjp_to_server
+    project = Project.find(params[:id])
+    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
+    data = tjp.to_s
+    Dir.chdir "/tmp"
+    File.write(f_name, data)
+    redirect_to :back
   end
 
   # This is a CSV upload
   def csv
+    project = Project.find(params[:id])
     # Get the CSV File
     uploaded_io = params[:csvfile]
     #if uploaded_io[0,19] != '"Id";"Start";"End"'
@@ -66,8 +81,18 @@ class RedmineTaskjugglerController < ApplicationController
     #end
     @lines = []
     # Parse the CSV File line by line
+  
+    if uploaded_io    # Condition for updating csv from computer of from server
+      data = uploaded_io.tempfile
+	else
+	  path = "/tmp"
+	  name_f = "redmine_update_issues_csv_" + project.identifier + "_" + project.tj_version.to_s.gsub(/\./,"_")  + ".csv"
+	  data = "#{path}#{name_f}"
+	end
+
     # Update Redmine with the dates and effort
-    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
+#    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
+    CSV.foreach(data, :headers => true, :col_sep => ';') {
       |csvline|
       if csvline["Redmine"].to_s != ""
         update_attributes = {
@@ -105,15 +130,14 @@ class RedmineTaskjugglerController < ApplicationController
     Issue.visible.where(subproject.project_condition(true)).find_each do |issue|
       # Add condition for use only activated issues
       unless issue.parent
-        if issue.tj_activated == true
-          tjTask = RedmineTaskjuggler::Taskjuggler::Task.new('red' + issue.id.to_s,
-            "[red#{issue.id}] " + issue.subject,
-	    topTask,
-            child_task(issue, project),
-            [],
-            issue.description
-          )
-	end
+        tjTask = RedmineTaskjuggler::Taskjuggler::Task.new('red' + issue.id.to_s,
+          "[red#{issue.id}] " + issue.subject,
+          topTask,
+          child_task(issue, project),
+          [],
+          issue.description
+        )
+
         redID = issue.id
         irs = IssueRelation.find(:all,
                 :conditions => {:issue_to_id => redID,
@@ -200,8 +224,9 @@ class RedmineTaskjugglerController < ApplicationController
             RedmineTaskjuggler::Taskjuggler::TimePointEnd.new(issue.due_date)
           )
         end
-
-        topTask.children.push(tjTask)
+	if issue.tj_activated == true
+          topTask.children.push(tjTask)
+	end
       end
     end
     tjSubprj.push(topTask)
@@ -223,15 +248,14 @@ class RedmineTaskjugglerController < ApplicationController
     Issue.visible.where(project.project_condition(true)).find_each do |issue|
       # Add condition for use only activated issues
       unless issue.parent
-	if issue.tj_activated == true
-          tjTask = RedmineTaskjuggler::Taskjuggler::Task.new('red' + issue.id.to_s,
-            "[red#{issue.id}] " + issue.subject,
-	    topTask,
-            child_task(issue, project),
-            [],
-            issue.description
-          )
-	end
+        tjTask = RedmineTaskjuggler::Taskjuggler::Task.new('red' + issue.id.to_s,
+          "[red#{issue.id}] " + issue.subject,
+          topTask,
+          child_task(issue, project),
+          [],
+          issue.description
+        )
+
         redID = issue.id
         irs = IssueRelation.find(:all,
                 :conditions => {:issue_to_id => redID,
@@ -318,9 +342,9 @@ class RedmineTaskjugglerController < ApplicationController
             RedmineTaskjuggler::Taskjuggler::TimePointEnd.new(issue.due_date)
           )
         end
-
+	if issue.tj_activated == true
         topTask.children.push(tjTask)
-
+	end
       end
     end
     tjTasks.push(topTask)
@@ -333,7 +357,6 @@ class RedmineTaskjugglerController < ApplicationController
       if issue.children
 	issue.children.each {|child|
 
-	if child.tj_activated == true # if subtask is activated
 	  tjTaskChild = RedmineTaskjuggler::Taskjuggler::Task.new('red' + child.id.to_s,
              "[red#{child.id}] " + child.subject,
              parent_task(child.parent, project),
@@ -426,7 +449,7 @@ class RedmineTaskjugglerController < ApplicationController
                  RedmineTaskjuggler::Taskjuggler::TimePointEnd.new(child.due_date)
               )
           end
-	end
+
 	if child.tj_activated == true
 	  tjTaskChildren.push(tjTaskChild)
 	end

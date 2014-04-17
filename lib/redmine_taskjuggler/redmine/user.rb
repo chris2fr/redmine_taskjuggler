@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 module RedmineTaskjuggler
   #
   # Abstraction class for Redmine Data Model.

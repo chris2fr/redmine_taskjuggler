@@ -2,3 +2,6 @@
 *.sublime*
 /db/redmine.sqlite
 *.bak
+*.erb~
+*.rb~
+*.yml~
