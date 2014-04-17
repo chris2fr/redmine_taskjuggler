@@ -49,30 +49,30 @@ Redmine (c) 2006-2013 Jean-Philippe Lang <a href="http://www.redmine.org">http:/
 <script type="text/javascript">
 function tj3_com(){
 
-	<% name_file = "#{@project.identifier.gsub(/-/,'_')}" + '-' + "#{@project.tj_version.to_s.gsub(/\./,'_')}"  + '.tjp' %>
-	<% name_proj = "#{@project.identifier.gsub(/-/,'_')}" %>
-	<% name_csvrep = 'redmine_update_issues_csv_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
-	<% name_htmlrep = 'redmine_update_issues_html_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
+	<% #name_file = "#{@project.identifier.gsub(/-/,'_')}" + '-' + "#{@project.tj_version.to_s.gsub(/\./,'_')}"  + '.tjp' %>
+	<% #name_proj = "#{@project.identifier.gsub(/-/,'_')}" %>
+	<% #name_csvrep = 'redmine_update_issues_csv_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
+	<% #name_htmlrep = 'redmine_update_issues_html_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
 
-	<% Dir.chdir "/home/kitsune/tj3web-test/" %>
-	<% outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
+	<% #Dir.chdir "/home/kitsune/tj3web-test/" %>
+	<% #outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
 
 	document.getElementById('placeForText').innerHTML=document.getElementById('some_doing').innerHTML
 
-	<% IO.popen("tj3client report #{name_proj} #{name_htmlrep}") %>
-	<% IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
+	<% #IO.popen("tj3client report #{name_proj} #{name_htmlrep}") %>
+	<% #IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
 
-	<% f = IO.readlines("tj3d.log") %>
-	<% outp2 = f[-1] %>
+	<% #f = IO.readlines("tj3d.log") %>
+	<% #outp2 = f[-1] %>
 
 }
 </script>
 
 <script type="text/template" id="some_doing">
 
-  <%= outp2 %>
+  <%#= outp2 %>
 
-  <%= outp1 %>
+  <%#= outp1 %>
   
 </script>
 

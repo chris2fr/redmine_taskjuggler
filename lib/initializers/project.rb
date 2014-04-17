@@ -1,4 +1,5 @@
 require_dependency 'project'
+require_dependency 'user'
 
 module RedmineTaskjuggler
   module Patch

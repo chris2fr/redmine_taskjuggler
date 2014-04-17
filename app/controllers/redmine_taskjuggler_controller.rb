@@ -51,8 +51,8 @@ class RedmineTaskjugglerController < ApplicationController
 
     f_name = @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
     data = tjp.to_s
-    Dir.chdir "/home/kitsune/tj3web-test/"
-    File.write(f_name, data)
+    # Dir.chdir "/home/kitsune/tj3web-test/"
+    # File.write(f_name, data)
 
     send_data data, :filename => f_name, :type => 'text/plain'
   end
