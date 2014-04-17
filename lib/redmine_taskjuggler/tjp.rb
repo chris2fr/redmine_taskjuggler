@@ -114,9 +114,18 @@ EOS
     # Returns Taskjuggler TJP representation
     def to_s
       tjpString = project_to_s(@project)
+      team = nil
       @resources.each {|res|
+	if team != res.team
+	  if team != nil
+	    tjpString += "}\n"
+	  end
+	  tjpString += "resource " + res.team + " \"" + res.team + "\" {\n"
+	  team = res.team
+	end
         tjpString += resource_to_s(res)
       }
+      tjpString += "}\n"
       if @flags != []
         tjpString += "flags " + flags.join(", ") + "\n"
       end
