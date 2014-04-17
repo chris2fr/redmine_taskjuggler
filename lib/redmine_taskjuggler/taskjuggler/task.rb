@@ -15,7 +15,8 @@ module RedmineTaskjuggler
         # :complete,
         :flags,
         :note,
-        :timeEffort # Where does it start and how long does it take
+        :timeEffort, # Where does it start and how long does it take
+        :issueEtc
         
       def id
         parent = @parent
@@ -26,13 +27,14 @@ module RedmineTaskjuggler
         end
         id
       end
-      def initialize (localId, name, parent = nil, children = [], flags = [], note = nil)
+      def initialize (localId, name, parent = nil, children = [], flags = [], note = nil, issueEtc = nil)
         @name = name
         @localId = localId
         @note = note
         @parent = parent
         @children = children
         @flags = flags
+        @issueEtc = issueEtc
       end
     end
   end

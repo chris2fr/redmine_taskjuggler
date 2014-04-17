@@ -135,7 +135,8 @@ class RedmineTaskjugglerController < ApplicationController
           topTask,
           child_task(issue, project),
           [],
-          issue.description
+          issue.description,
+          issue.tj_issue_etc
         )
 
         redID = issue.id
@@ -165,7 +166,8 @@ class RedmineTaskjugglerController < ApplicationController
 		    end, 
           	    child_task(issue_depend, project),
           	    [], 
-          	    issue_depend.description
+          	    issue_depend.description,
+          	    issue_depend.tj_issue_etc
           	  ),
 		  RedmineTaskjuggler::Taskjuggler::Gap.new(
                     # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
@@ -253,7 +255,8 @@ class RedmineTaskjugglerController < ApplicationController
           topTask,
           child_task(issue, project),
           [],
-          issue.description
+          issue.description,
+          issue.tj_issue_etc
         )
 
         redID = issue.id
@@ -283,7 +286,8 @@ class RedmineTaskjugglerController < ApplicationController
 		    end, 
           	    child_task(issue_depend, project),
           	    [], 
-          	    issue_depend.description
+          	    issue_depend.description,
+          	    issue_depend.tj_issue_etc
           	  ),
 		  RedmineTaskjuggler::Taskjuggler::Gap.new(
                     # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
@@ -362,7 +366,8 @@ class RedmineTaskjugglerController < ApplicationController
              parent_task(child.parent, project),
              child_task(child, project),
              [],
-             child.description
+             child.description,
+             child.tj_issue_etc
           )
 
 	  redID = child.id
@@ -391,7 +396,8 @@ class RedmineTaskjugglerController < ApplicationController
 			 end, 
           		 child_task(issue_depend, project),
           		 [], #issue.tj_flags,
-          		 issue_depend.description
+          		 issue_depend.description,
+          		 issue_depend.tj_issue_etc
           	      ),
                      RedmineTaskjuggler::Taskjuggler::Gap.new(
                            # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
@@ -471,7 +477,8 @@ class RedmineTaskjugglerController < ApplicationController
 	  end, 
 	  [],
           [],
-          issue_par.description
+          issue_par.description,
+          issue_par.tj_issue_etc
        )
   end
 

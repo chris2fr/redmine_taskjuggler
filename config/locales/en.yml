@@ -89,3 +89,8 @@ en:
   tooltip_tj_start: "TJ start time (more precise) TaskJuggler needs to know when the work was done."
   tooltip_tj_rate: "TJ rate per day (if you use accounting)"
   tooltip_tj_vacations: "TJ vacations (specific format) vacation 2013-01-01 +1d, 2013-12-25 +1d."
+
+  tooltip_tj_issue_etc: "TJ arbitrary extra stuff for an issue in a TJ Task."
+  label_tj_issue_etc: "TJ Issue/Task Etc."
+  field_tj_issue_etc: "TJ Issue/Task Etc."
+  tj_issue_etc: "TJ Issue/Task Etc."

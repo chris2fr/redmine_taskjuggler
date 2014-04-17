@@ -17,7 +17,8 @@ module RedmineTaskjuggler
             'tj_allocates', # Users
             'tj_limits',
 	    'tj_priority',	# add Priority for issue
-	    'tj_efficiency'	# add Efficiency for resource
+	    'tj_efficiency',	# add Efficiency for resource
+	    'tj_issue_etc'
 		
         end
         attr_accessible :tj_activated,
@@ -28,7 +29,8 @@ module RedmineTaskjuggler
             :tj_allocates, # Users
 	    :tj_limits,
 	    :tj_priority,	# add Priority for issue
-	    :tj_efficiency	# add Efficiency for resource
+	    :tj_efficiency,	# add Efficiency for resource
+	    :tj_issue_etc
 		
       end
       
@@ -54,4 +56,5 @@ Issue.safe_attributes :tj_activated,
             :tj_allocates, # Users
 	    :tj_limits,
 	    :tj_priority,	# add Priority for issue
-	    :tj_efficiency	# add Efficiency for resource
+	    :tj_efficiency,	# add Efficiency for resource
+	    :tj_issue_etc

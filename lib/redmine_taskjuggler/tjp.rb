@@ -63,6 +63,9 @@ module RedmineTaskjuggler
         if task.flags.class == Array and task.flags != []
           tjpString += "  flags " + task.flags.join(", ") + "\n"
         end
+        if task.issueEtc.class == String and task.issueEtc !=""
+	  tjpString += task.issueEtc.gsub(/^/,'  ') + "\n" # Might be one indentation too much
+        end
         if task.note.class == String and task.note != ""
           tjpString += <<EOS
   note -8<-

@@ -18,8 +18,9 @@ module RedmineTaskjuggler
         :description,
         :assigned_to, # User
         :estimated_hours,
-        :priority
-	:category
+        :priority,
+	:category,
+	:issue_etc
     end
     class IssuePriority
       
