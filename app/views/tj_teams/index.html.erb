@@ -8,3 +8,9 @@
   </p>
 
 <% end %>
+
+<%= form_tag("/redmine_taskjuggler_teams/new", method: "post") do %>
+  <%= label_tag(:tj_team_name, "New team :") %>
+  <%= text_field_tag(:tj_team_name) %>
+  <%= submit_tag("New") %>
+<% end %>

@@ -24,7 +24,7 @@
     <%#teams_array = TjTeam.all.map { |team| [team.name, team.id] } %>
     <%#= select(:user,:tj_team, teams_array) %>
     <%# teams = TjTeam.all %>
-    <%= collection_select(:user, :tj_team_id, TjTeam.all, :id, :name) %>
+    <%= collection_select(:user, :tj_team_id, TjTeam.all, :id, :name, :prompt => true) %>
   </p>
   <p>
   <%= f.label :tj_limits %>
