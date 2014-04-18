@@ -12,8 +12,6 @@ class RedmineTaskjugglerController < ApplicationController
     @project = Project.find(params[:id])
   end
   
-  
-  
   # This is a TJP download
   def tjp
     # Project hierarchy TaskJuggler creation
@@ -37,23 +35,63 @@ class RedmineTaskjugglerController < ApplicationController
         )
     tjResources = []
     User.where(tj_activated: true).order(:tj_team_id).find_each do |user|
-        if user.login.to_s != ""
-	  team = "team_" + (user.tj_team_id || "default").to_s
-          tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_'),
-                  user.firstname + ' ' + user.lastname,
-		  user.tj_limits,	# add limits, vacations and rate for Resource
-		  user.tj_vacations,	#
-		  user.tj_rate,		#
-                  user.tj_parent,
-		  [],
-		  team )) #,
-                 # team.downsize.gsub('-','_').gsub(' ','_')))
-        end	
+      if user.login.to_s != ""
+	team = "team_" + (user.tj_team_id || "default").to_s
+	tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_'),
+	  user.firstname + ' ' + user.lastname,
+	  user.tj_limits,	# add limits, vacations and rate for Resource
+	  user.tj_vacations,	#
+	  user.tj_rate,		#
+	  user.tj_parent,
+	  [],
+	  team )) #,
+	 # team.downsize.gsub('-','_').gsub(' ','_')))
+      end
     end
     
+    #
+    # Booking generation here
+    # 
+    tjBookings = []
+    tjProjectName = @project.identifier.gsub("-","_")
+    tes = TimeEntry.where(spent_on: Date.parse(@project.tj_period[0..9])..Date.parse(@project.tj_period[13..22])).order('spent_on ASC, user_id ASC')
+    #tes = TimeEntry.all
+    puts "\n\n =======================================================\n\n"
+    puts Date.parse(@project.tj_period[0..9])..Date.parse(@project.tj_period[13..22])
+    puts 'spent_on ASC, user_id ASC'
+    puts tes
+    puts "\n\n =======================================================\n\n"
+    iUserId = nil
+    iUserLogin = nil
+    iIssueId = nil
+    iDay = nil
+    iHour = 10 # I start each day arbitrarily at 10:00
+    iPeriods = []
+    # Use a today object with a date and a start time
+    # For each Time Entry
+    tes.each do |te|
+      if iDay != te.spent_on or iUserId != te.user_id
+	if iDay != nil
+	  # set task and resource ids
+	  tjBookings.append(RedmineTaskjuggler::Taskjuggler::Booking.new(tjProjectName + ".red" + te.issue_id.to_s, te.user.login, iPeriods))
+	end
+	iHour = 10
+	iDay = te.spent_on
+	iUserId = te.user_id
+	iPeriods = []
+      end
+      # Create a period from the current date and start time and for the duration.
+      iPeriods.push(RedmineTaskjuggler::Taskjuggler::Period.new(te.spent_on, te.hours))
+      iHour = iHour + te.hours # increment the task hour
+      iIssueId = te.issue_id # actually only for the last iteration
+      iUserLogin = te.user.login # actually only for the last iteration
+    end
+    if iDay != nil
+      tjBookings.append(RedmineTaskjuggler::Taskjuggler::Booking.new(tjProjectName + ".red" + iIssueId.to_s, iUserLogin, iPeriods))
+    end
     topTask = redmine_project_to_taskjuggler_task(@project)
    
-    tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask)
+    tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask,[],tjBookings)
 
 #    send_data tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain'
   end
@@ -147,15 +185,15 @@ class RedmineTaskjugglerController < ApplicationController
 
         redID = issue.id
         irs = IssueRelation.find(:all,
-                :conditions => {:issue_to_id => redID,
-                  # Strangely enough, only preecedes is used, and not follows
-                  # as does blocks and not blocked by
-                  # TODO: think about the issue_relation duplicates as an invalidator
-                  :relation_type => [IssueRelation::TYPE_PRECEDES,
-                    IssueRelation::TYPE_BLOCKS
-                  ]
-                }
-              )
+	  :conditions => {:issue_to_id => redID,
+	    # Strangely enough, only preecedes is used, and not follows
+	    # as does blocks and not blocked by
+	    # TODO: think about the issue_relation duplicates as an invalidator
+	    :relation_type => [IssueRelation::TYPE_PRECEDES,
+	      IssueRelation::TYPE_BLOCKS
+	    ]
+	  }
+	)
         if irs.size > 0
           depends = []
           irs.each {
@@ -318,23 +356,23 @@ class RedmineTaskjugglerController < ApplicationController
           )
         elsif issue.tj_allocates.to_s.length != 0
           if start_point.toTJP == ""
-		   unless issue.children.to_s == "[]"
-	              tjTask.timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortEffort.new(
-	                RedmineTaskjuggler::Taskjuggler::TimePointStart.new(issue.start_date),
-                        RedmineTaskjuggler::Taskjuggler::Allocate.new([issue.tj_allocates]),
-                        [],
-	                RedmineTaskjuggler::Taskjuggler::Priority.new([issue.tj_priority]),   # add Priority for Issue
-	                RedmineTaskjuggler::Taskjuggler::TaskLimits.new([issue.tj_limits])    # add Limits for Issue
-                      )
-		    else
-		      tjTask.timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortEffort.new(
-	                RedmineTaskjuggler::Taskjuggler::TimePointStart.new(issue.start_date),
-                        RedmineTaskjuggler::Taskjuggler::Allocate.new([issue.tj_allocates]),
-                        RedmineTaskjuggler::Taskjuggler::TimeSpan.new(issue.estimated_hours,'h'),
-	                RedmineTaskjuggler::Taskjuggler::Priority.new([issue.tj_priority]),   # add Priority for Issue
-	                RedmineTaskjuggler::Taskjuggler::TaskLimits.new([issue.tj_limits])    # add Limits for Issue
-                      )
-		    end
+	    unless issue.children.to_s == "[]"
+	       tjTask.timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortEffort.new(
+		 RedmineTaskjuggler::Taskjuggler::TimePointStart.new(issue.start_date),
+		 RedmineTaskjuggler::Taskjuggler::Allocate.new([issue.tj_allocates]),
+		 [],
+		 RedmineTaskjuggler::Taskjuggler::Priority.new([issue.tj_priority]),   # add Priority for Issue
+		 RedmineTaskjuggler::Taskjuggler::TaskLimits.new([issue.tj_limits])    # add Limits for Issue
+	       )
+	     else
+	       tjTask.timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortEffort.new(
+		 RedmineTaskjuggler::Taskjuggler::TimePointStart.new(issue.start_date),
+		 RedmineTaskjuggler::Taskjuggler::Allocate.new([issue.tj_allocates]),
+		 RedmineTaskjuggler::Taskjuggler::TimeSpan.new(issue.estimated_hours,'h'),
+		 RedmineTaskjuggler::Taskjuggler::Priority.new([issue.tj_priority]),   # add Priority for Issue
+		 RedmineTaskjuggler::Taskjuggler::TaskLimits.new([issue.tj_limits])    # add Limits for Issue
+	       )
+	     end
 	  else
 	    tjTask.timeEffort = RedmineTaskjuggler::Taskjuggler::TimeEffortEffort.new(
               # TODO: Better determine start
@@ -518,5 +556,4 @@ class RedmineTaskjugglerController < ApplicationController
     end
     return topTask
   end
-
 end
