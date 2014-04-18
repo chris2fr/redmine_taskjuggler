@@ -1,4 +1,6 @@
+require_dependency 'redmine_taskjuggler'
 require_dependency 'redmine_taskjuggler' 
+
 #
 # Redmine Taskjuggler main controller
 #
@@ -34,14 +36,18 @@ class RedmineTaskjugglerController < ApplicationController
         @project.tj_timingresolution.to_s
         )
     tjResources = []
-    User.where(tj_activated: true).find_each do |user|
+    User.where(tj_activated: true).order(:tj_team_id).find_each do |user|
         if user.login.to_s != ""
+	  team = "team_" + (user.tj_team_id || "default").to_s
           tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_'),
                   user.firstname + ' ' + user.lastname,
 		  user.tj_limits,	# add limits, vacations and rate for Resource
 		  user.tj_vacations,	#
 		  user.tj_rate,		#
-                  user.tj_parent))
+                  user.tj_parent,
+		  [],
+		  team )) #,
+                 # team.downsize.gsub('-','_').gsub(' ','_')))
         end	
     end
     
@@ -66,7 +72,7 @@ class RedmineTaskjugglerController < ApplicationController
     project = Project.find(params[:id])
     f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
     data = tjp.to_s
-    Dir.chdir "/var/www/redmine/taskjuggler/"
+    Dir.chdir "/tmp"
     File.write(f_name, data)
     redirect_to :back
   end
@@ -85,7 +91,7 @@ class RedmineTaskjugglerController < ApplicationController
     if uploaded_io    # Condition for updating csv from computer of from server
       data = uploaded_io.tempfile
 	else
-	  path = "/var/www/redmine/taskjuggler/"
+	  path = "/tmp"
 	  name_f = "redmine_update_issues_csv_" + project.identifier + "_" + project.tj_version.to_s.gsub(/\./,"_")  + ".csv"
 	  data = "#{path}#{name_f}"
 	end
@@ -135,7 +141,8 @@ class RedmineTaskjugglerController < ApplicationController
           topTask,
           child_task(issue, project),
           [],
-          issue.description
+          issue.description,
+          issue.tj_issue_etc
         )
 
         redID = issue.id
@@ -165,7 +172,8 @@ class RedmineTaskjugglerController < ApplicationController
 		    end, 
           	    child_task(issue_depend, project),
           	    [], 
-          	    issue_depend.description
+          	    issue_depend.description,
+          	    issue_depend.tj_issue_etc
           	  ),
 		  RedmineTaskjuggler::Taskjuggler::Gap.new(
                     # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
@@ -253,7 +261,8 @@ class RedmineTaskjugglerController < ApplicationController
           topTask,
           child_task(issue, project),
           [],
-          issue.description
+          issue.description,
+          issue.tj_issue_etc
         )
 
         redID = issue.id
@@ -283,7 +292,8 @@ class RedmineTaskjugglerController < ApplicationController
 		    end, 
           	    child_task(issue_depend, project),
           	    [], 
-          	    issue_depend.description
+          	    issue_depend.description,
+          	    issue_depend.tj_issue_etc
           	  ),
 		  RedmineTaskjuggler::Taskjuggler::Gap.new(
                     # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
@@ -362,7 +372,8 @@ class RedmineTaskjugglerController < ApplicationController
              parent_task(child.parent, project),
              child_task(child, project),
              [],
-             child.description
+             child.description,
+             child.tj_issue_etc
           )
 
 	  redID = child.id
@@ -391,7 +402,8 @@ class RedmineTaskjugglerController < ApplicationController
 			 end, 
           		 child_task(issue_depend, project),
           		 [], #issue.tj_flags,
-          		 issue_depend.description
+          		 issue_depend.description,
+          		 issue_depend.tj_issue_etc
           	      ),
                      RedmineTaskjuggler::Taskjuggler::Gap.new(
                            # TODO: the +1 is actually inaccurate here and needs adjusting with overload of issue or non-use of internal follows
@@ -471,7 +483,8 @@ class RedmineTaskjugglerController < ApplicationController
 	  end, 
 	  [],
           [],
-          issue_par.description
+          issue_par.description,
+          issue_par.tj_issue_etc
        )
   end
 

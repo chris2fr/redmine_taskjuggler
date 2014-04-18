@@ -27,16 +27,27 @@
         <div class="splitcontentright">
 
            <p>
+	    <% teams_array = TjTeam.all.map {
+		|team|
+		[team.name, team.name.downcase.sub('-','_').gsub(' ','_') ]
+	    }
+	    %>
             <% users_array = User.all.map { |user| [user.firstname + ' ' + user.lastname, user.login.sub('-','_') ] } %>
+	    <% select_array = teams_array.concat(users_array)%>
             <%= f.label :tj_allocates %>
-            <%= select(:issue,:tj_allocates,users_array) %>
+            <%= select(:issue,:tj_allocates,select_array) %>
             <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_allocates) %>')">(?)</a>
           </p>
           <p>
             <%= f.label :tj_limits %>
             <%= f.text_field :tj_limits %>
             <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_limits) %>')">(?)</a>
-            </p>
+          </p>
+	  <p>
+            <%= f.label :tj_issue_etc %>
+            <%= f.text_field :tj_issue_etc %>
+            <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_issue_etc) %>')">(?)</a>
+          </p>
 	
 
 

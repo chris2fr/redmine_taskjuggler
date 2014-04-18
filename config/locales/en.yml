@@ -89,3 +89,38 @@ en:
   tooltip_tj_start: "TJ start time (more precise) TaskJuggler needs to know when the work was done."
   tooltip_tj_rate: "TJ rate per day (if you use accounting)"
   tooltip_tj_vacations: "TJ vacations (specific format) vacation 2013-01-01 +1d, 2013-12-25 +1d."
+  
+  # Recently added in order
+
+  tooltip_tj_issue_etc: "TJ arbitrary extra stuff for an issue in a TJ Task."
+  label_tj_issue_etc: "TJ Issue/Task Etc."
+  field_tj_issue_etc: "TJ Issue/Task Etc."
+  tj_issue_etc: "TJ Issue/Task Etc."
+  
+  tooltip_tj_team: "TJ Team of Users"
+  label_tj_team: "TJ Team of Users"
+  field_tj_team: "TJ Team of Users"
+  tj_team: "TJ Team of Users"
+  
+  # Workload language
+  
+  workload_label: "Workload"
+  loggedissuestoday_label: "Issues Logged Today"
+  assignedissues_label: "Assigned Issues"
+  watchedissues_label : "Watched Issues"
+  user_label: "User"
+  date_label: "Date"
+  changeuseranddate_label: "Change user and date"
+  daystoday_label: "day(s) for today"
+  submitdailyworkload_label: "Submit Daily Workload"
+  update_label: "Update"
+  present_label: "Present"
+  future_label: "Future"
+  past_label: "Past"
+  back_label: "Retour"
+  previous_day_label: "Following day"
+  following_day_label: "Previous day"
+  summary_label: "Overview"
+  summary_user_label: "Personal Overview"
+  summary_all_label: "Everything Overview"
+  consult_timetable_of_label: "Consult the timetable of"

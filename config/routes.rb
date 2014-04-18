@@ -4,6 +4,18 @@
 #resources :redmine_taskjuggler_projects
 #resources :redmine_taskjuggler
 
+post '/redmine_taskjuggler_teams/new', to: 'tj_teams#new'
+get '/redmine_taskjuggler_teams/detail/:id', to: 'tj_teams#detail'
+get '/redmine_taskjuggler_teams', to: 'tj_teams#index'
+
+get '/redmine_workload/timetable_summary', to: 'redmine_workload#timetable_summary'
+post '/redmine_workload/timetable_update', to: 'redmine_workload#timetable_update'
+get '/redmine_workload/timetable_update', to: 'redmine_workload#timetable_update'
+get '/redmine_workload/timetable', to: 'redmine_workload#timetable'
+get '/redmine_workload/summary', to: 'redmine_workload#summary'
+get '/redmine_workload/index', to: 'redmine_workload#index'
+get '/redmine_workload/', to: 'redmine_workload#index'
+
 get '/redmine_taskjuggler/:id', to: 'redmine_taskjuggler#tjindex'
 #get '/redmine_taskjuggler/:id/tjp', to: 'redmine_taskjuggler#tjp'
 get '/redmine_taskjuggler/:id/tjp', to: 'redmine_taskjuggler#tjp_save'

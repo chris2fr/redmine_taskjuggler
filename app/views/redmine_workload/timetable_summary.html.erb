@@ -1,0 +1,6 @@
+<H2>Timetable summary</H2>
+
+<H2 align="right"><%= l(:future_label) %></h2>
+<%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @current_date, :date_fin => @current_date + @interval } %>
+<H2 align="left"><%= l(:past_label) %></h2>
+<%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @current_date - @interval, :date_fin => @current_date} %>

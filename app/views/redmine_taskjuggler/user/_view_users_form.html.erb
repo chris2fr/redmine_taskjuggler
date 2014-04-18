@@ -19,7 +19,13 @@
   <%= f.label :tj_vacations %>
   <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_vacations) %>')">(?)</a>
   <%= f.text_area :tj_vacations, rows: 5 %>
-  
+  <p>
+    <%= f.label :tj_team %>
+    <%#teams_array = TjTeam.all.map { |team| [team.name, team.id] } %>
+    <%#= select(:user,:tj_team, teams_array) %>
+    <%# teams = TjTeam.all %>
+    <%= collection_select(:user, :tj_team_id, TjTeam.all, :id, :name, :prompt => true) %>
+    <a href="/redmine_taskjuggler_teams/">New <%= l(:tj_team) %></a>
   </p>
   <p>
   <%= f.label :tj_limits %>

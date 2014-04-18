@@ -12,9 +12,10 @@ module RedmineTaskjuggler
         :name,
         :rate,
         :limits,
-	:vacations
+	:vacations,
+	:team
 	# add limits, vacations and rate
-      def initialize (id, name, limits, vacations, rate, parent = nil, children = [])
+      def initialize (id, name, limits, vacations, rate, parent = nil, children = [], team = nil)
         @id = id
         @name = name
 	@limits = limits
@@ -22,6 +23,7 @@ module RedmineTaskjuggler
 	@rate = rate
 	@parent = parent
         @children = children
+        @team = team
       end
     end
     class Booking

@@ -9,7 +9,8 @@ module RedmineTaskjuggler
       attr_accessor :login,
         :firstname,
         :lastname,
-        :mail
+        :mail,
+        :team
     end
   end
 end

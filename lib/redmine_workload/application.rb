@@ -1,6 +1,6 @@
 require 'singleton'
 
-module RedmineTaskjuggler
+module RedmineWorkload
   class Application
     include Singleton
     attr_reader :version
