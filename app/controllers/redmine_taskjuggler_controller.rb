@@ -1,5 +1,6 @@
 require_dependency 'redmine_taskjuggler'
 require_dependency 'redmine_taskjuggler' 
+
 #
 # Redmine Taskjuggler main controller
 #

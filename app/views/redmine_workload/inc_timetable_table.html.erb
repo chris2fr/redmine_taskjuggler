@@ -1,0 +1,58 @@
+<table border="1">
+<tr>
+<td>&nbsp;&nbsp;<B><%= @current_user.login %></B>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<%
+((date_debut)..(date_fin)).each do |idate|
+	if idate.wday != 0 and idate.wday != 6
+	%>
+	<td><%= idate.to_s()[8,2]%>/<%= idate.to_s()[5,2]%></td>
+<%
+	end
+end
+%>
+</TR>
+<%
+@logged_issues.each do |id,li|
+	%>
+<TR>
+<td>#<a href="/issues/show/<%= li.id %>"><%= li.id %></a> <b><%= li.subject %></b> (<%= li.spent_hours.to_f() / 8.0 %> j booked / <%= li.estimated_hours.to_f() / 8.0 %> j total) </td>
+<%
+	((date_debut)..(date_fin)).each do |idate|
+		if idate.wday != 0 and idate.wday != 6
+			idate = (idate).to_s()
+			if @logged_days[li.id].has_key?(idate)
+				hours = @logged_days[li.id][idate]
+			else
+				hours = 0
+			end
+%>
+	<TD <%
+		%>style="background-color:rgb(255, 255, <%= 255 - (255 * hours).to_i()  %>)"<%
+	%>
+><%= hours %></TD>
+<%
+		end
+	end
+	%></TR><%
+end
+%>
+<TR>
+<TD align="right"><B>TOTAL<B></TD>
+<%
+((date_debut)..(date_fin)).each do |idate|
+	if idate.wday != 0 and idate.wday != 6
+	%>
+	<td><B><%
+		if @total_days.has_key?(idate.to_s())
+			%><%= @total_days[idate.to_s()] %><%
+		else
+			%>0<%
+		end
+	
+	%></B></td>
+<%
+	end
+end
+%>
+</TR>
+</TABLE>

@@ -18,8 +18,9 @@ require_dependency 'helpers/view_timelog_edit_form_bottom'
 require_dependency 'helpers/view_users_form'
 
 require_dependency 'redmine_taskjuggler/application'
+require_dependency 'redmine_workload/application'
 
-puts RedmineTaskjuggler::Application.instance.version
+# puts RedmineTaskjuggler::Application.instance.version # This is a debug call
 
 Redmine::Plugin.register :redmine_taskjuggler do
   name 'Redmine Taskjuggler plugin'
@@ -46,6 +47,10 @@ Redmine::Plugin.register :redmine_taskjuggler do
     :controller => 'tj_teams',
     :action => 'index'
   }
+  
+  menu :account_menu, :redmine_workload, {
+    :controller => 'redmine_workload', :action => 'timetable'
+  }, :caption => :workload_label
   
   settings :default => {'empty' => true}, :partial => 'settings/redmine_taskjuggler_settings'
   
