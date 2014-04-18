@@ -73,23 +73,23 @@ function tj3_com(){
 	<% name_htmlrep = 'redmine_update_issues_html_'+ "#{@project.identifier.gsub(/-/,'_')}" + '_' + "#{@project.tj_version.to_s.gsub(/\./,'_')}" %>
 
 	
-	<%# Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"] %>
+	<% Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"] %>
 
 	<% content = "\n \n" %>
 	
 	<% target = "tj3d.log" %>
-	<%# File.open(target, "w+") do |f| %>
-  	<%# f.write(content) %>
-	
+	<% File.open(target, "w+") do |f| %>
+  	<% f.write(content) %>
+        <% end %>	
 
-	<%# outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
+	<% outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
 
 	document.getElementById('placeForText').innerHTML=document.getElementById('some_doing').innerHTML
 
-	<%# IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
+	<% IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
 
-	<%# f = IO.readlines("tj3d.log") %>
-	<%# outp2 = f[-1] %>
+	<% f = IO.readlines("tj3d.log") %>
+	<% outp2 = f[-1] %>
 	
 
 }
@@ -99,9 +99,9 @@ end
 %>
 <script type="text/template" id="some_doing">
 
-  <%#= outp2 %>
+  <%= outp2 %>
 
-  <%#= outp1 %>
+  <%= outp1 %>
   
 </script>
 
