@@ -105,10 +105,10 @@ EOS
     
     def booking_to_s (booking)
         tjpString = "supplement task #{booking.task_id} {\n  booking #{booking.resource_id} "
-        @booking.periods.each {|per|
-          tjpString += per.toTJP + ", "
+        booking.periods.each {|per|
+          tjpString = tjpString + per.toTJP.to_s + ", "
         }
-        tjpString[0, -2] + "\n}"
+        tjpString = tjpString[0..-3].concat("\n}")
     end
 
     # Returns Taskjuggler TJP representation
