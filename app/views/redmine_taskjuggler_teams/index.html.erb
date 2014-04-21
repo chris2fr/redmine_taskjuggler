@@ -3,11 +3,12 @@
 <% @tj_teams.each do |team| %>
 
   <p>
-    <%# link_to team.name, { :action => 'detail', :id => team[:id]}, method => 'get' } %>
-    <a href="/redmine_taskjuggler_teams/detail/<%= team.id %>"><%= team.name %></a>
+    <%= link_to team.name, redmine_taskjuggler_team_path(team) %>
   </p>
 
 <% end %>
+
+Relative Root : <%=Redmine::Utils.relative_url_root %>
 
 <%= form_tag("/redmine_taskjuggler_teams/new", method: "post") do %>
   <%= label_tag(:tj_team_name, "New team :") %>
@@ -15,4 +16,4 @@
   <%= submit_tag("New") %>
 <% end %>
 
-Plugin settings are <a href="/settings/plugin/redmine_taskjuggler">here</a>.
+Plugin settings are <a href="/settings/plugin/redmine_taskjuggler">here</a>

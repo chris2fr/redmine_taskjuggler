@@ -30,27 +30,41 @@ Redmine::Plugin.register :redmine_taskjuggler do
   url 'https://github.com/chris2fr/redmine_taskjuggler'
   author_url 'http://mann.fr'
 
-  permission :redmine_taskjuggler, { :redmine_taskjuggler => [:tjindex, :tjp, :csv] }, :public => true
+  permission :redmine_taskjuggler, {
+    :redmine_taskjuggler_projects => [:index, :tjp, :csv]
+  },
+  :public => true
+  
+  
+  
+  
   # This permission has to be explicitly given
   # It will be listed on the permissions screen
   # permission :redmine_taskjuggler_admin, {:redmine_taskjuggler => [:admin]}
   # This permission can be given to project members only
   # permission :redmine_taskjuggler_member, {:redmine_taskjuggler => [:import, :export]}, :require => :member
 
-
-  menu :project_menu, :redmine_taskjuggler, {
-    :controller => 'redmine_taskjuggler',
-    :action => 'tjindex'
-  }, :after => :activity, :caption => :taskjuggler, :param => :id
+  menu :project_menu, :redmine_taskjuggler_projects, {
+    :controller => 'redmine_taskjuggler_projects',
+    :action => 'index',
+    :project_id => @project,
+    :set_filter => 1
+  },
+  :after => :activity,
+  :caption => :taskjuggler,
+  :param => :id
   
-  menu :admin_menu, :tj_teams, {
-    :controller => 'tj_teams',
+  menu :admin_menu, :redmine_taskjuggler_teams, {
+    :controller => 'redmine_taskjuggler_teams',
     :action => 'index'
-  }
+  },
+  :caption => 'teams'
   
-  menu :account_menu, :redmine_workload, {
-    :controller => 'redmine_workload', :action => 'timetable'
-  }, :caption => :workload_label
+  menu :account_menu, :redmine_taskjuggler_workloads, {
+    :controller => 'redmine_taskjuggler_workloads',
+    :action => 'index'
+  },
+  :caption => :workload_label
   
   settings :default => {'empty' => true}, :partial => 'settings/redmine_taskjuggler_settings'
   

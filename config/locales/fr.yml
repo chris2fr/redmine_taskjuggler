@@ -104,18 +104,18 @@ fr:
   
   # Workload language
   
-  workload_label: "Compte-Rendu d'Activité"
-  loggedissuestoday_label: "Demandes pour lesquelles une activité est saisie aujourd'hui"
-  assignedissues_label: "Demandes assignées à cet utilisateur"
-  watchedissues_label : "Demandes observées par cet utilisateur"
+  workload_label: "Compte-Rendu d'ActivitÃ©"
+  loggedissuestoday_label: "Demandes pour lesquelles une activitÃ© est saisie aujourd'hui"
+  assignedissues_label: "Demandes assignÃ©es Ã  cet utilisateur"
+  watchedissues_label : "Demandes observÃ©es par cet utilisateur"
   user_label: "Utilisateur"
   date_label: "Date"
   changeuseranddate_label: "Changer utilisateur et/ou date"
   daystoday_label: "jour/homme saisie pour ce jour"
-  submitdailyworkload_label: "Soumettre le compte-rendu d'activité pour ce jour"
-  update_label: "Mise à jour"
-  present_label: "Présent"
-  future_label: "Après"
+  submitdailyworkload_label: "Soumettre le compte-rendu d'activitÃ© pour ce jour"
+  update_label: "Mise Ã  jour"
+  present_label: "PrÃ©sent"
+  future_label: "AprÃ¨s"
   past_label: "Avant"
   back_label: "Retour"
   previous_day_label: "la veille"
@@ -124,3 +124,9 @@ fr:
   summary_user_label: "Vue d'ensemble individulelle"
   summary_all_label: "Vue d'ensemble de tout"
   consult_timetable_of_label: "Consulter le tableau de charges de"
+  
+  # New controllers
+  redmine_taskjuggler_projects: "RedTask Projects"
+  redmine_taskjuggler_workloads: "RedTask Workloads"
+  redmine_taskjuggler_teams: "RedTask Teams"
+  
