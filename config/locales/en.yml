@@ -124,3 +124,9 @@ en:
   summary_user_label: "Personal Overview"
   summary_all_label: "Everything Overview"
   consult_timetable_of_label: "Consult the timetable of"
+  
+  # New controllers
+  redmine_taskjuggler_projects: "RedTask Projects"
+  redmine_taskjuggler_workloads: "RedTask Workloads"
+  redmine_taskjuggler_teams: "RedTask Teams"
+  

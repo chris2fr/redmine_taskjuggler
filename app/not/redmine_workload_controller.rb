@@ -1,5 +1,4 @@
 require_dependency 'redmine_workload'
-require_dependency 'redmine_workload'
 
 #
 # Utility functions
