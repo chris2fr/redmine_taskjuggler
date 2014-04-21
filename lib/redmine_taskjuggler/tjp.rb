@@ -153,6 +153,14 @@ taskreport redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\.
 }
 EOREPORT
 
+      tjpString += <<EOREPORT
+taskreport index 'index' {
+  formats html
+  hidetask ~RedmineIssue
+  columns no, name, start, end, effort, effortdone, priority, chart
+}
+EOREPORT
+
       tjpString
     
     end
