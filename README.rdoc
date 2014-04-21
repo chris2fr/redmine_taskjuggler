@@ -63,7 +63,7 @@ There is a demo set up here: http://redtask.configmagic.com
 
 == Installation
 
-Install into /plugins directory.
+Install into redmine/plugins directory. Really the redmine/plugins directory. If that directory is not there, on the top level, please create it. This is important actully.
 
   bundle exec rake redmine:plugins RAILS_ENV=production
 
