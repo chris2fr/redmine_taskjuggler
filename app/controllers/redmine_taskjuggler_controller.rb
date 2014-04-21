@@ -72,7 +72,7 @@ class RedmineTaskjugglerController < ApplicationController
     project = Project.find(params[:id])
     f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
     data = tjp.to_s
-    Dir.chdir "/tmp"
+    Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"]
     File.write(f_name, data)
     redirect_to :back
   end
@@ -91,7 +91,7 @@ class RedmineTaskjugglerController < ApplicationController
     if uploaded_io    # Condition for updating csv from computer of from server
       data = uploaded_io.tempfile
 	else
-	  path = "/tmp"
+	  path = Setting.plugin_redmine_taskjuggler["tjp_path"]
 	  name_f = "redmine_update_issues_csv_" + project.identifier + "_" + project.tj_version.to_s.gsub(/\./,"_")  + ".csv"
 	  data = "#{path}#{name_f}"
 	end

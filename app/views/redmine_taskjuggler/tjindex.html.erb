@@ -12,7 +12,7 @@ if Setting.plugin_redmine_taskjuggler["tjp_path"].length > 1 then
 <p>
 <%= submit_tag "Compute in TJ", :type => 'button', :onclick => "javascript:tj3_com()" %>
 </p>
-<textarea id='placeForText' cols='90' rows='20' disabled></textarea>
+<textarea id='placeForText' cols='90' rows='10' disabled></textarea>
 <p>
 <a href="/taskjuggler"> Taskjuggler html-reports </a>
 </p>
@@ -75,22 +75,21 @@ function tj3_com(){
 	
 	<% Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"] %>
 
-	<% content = "\n \n" %>
-	
-	<% target = "tj3d.log" %>
-	<% File.open(target, "w+") do |f| %>
-  	<% f.write(content) %>
-        <% end %>	
+        <% File.open("#{name_file}.log", 'w') {|file| file.truncate(0)} %>
 
-	<% outp1 = IO.popen("tj3client add #{name_file}"){|tj3_io| tj3_result = tj3_io.read} %>
+        <% `LANG=ru_RU.UTF-8 tj3 --silent #{name_file} > #{name_file}.log 2>&1` %>
 
-	document.getElementById('placeForText').innerHTML=document.getElementById('some_doing').innerHTML
+	<% outp1 = IO.read("#{name_file}.log") %>
 
-	<% IO.popen("tj3client report #{name_proj} #{name_csvrep}") %>
+<%# Code to find and Errors in log-file %>
+	<% outp2 = "" %>
+	<% File.open("#{name_file}.log") do |f| %>
+	<% f.each_line do |line| %>
+	<% outp2 += line if line.include?('Error')%>
+	<% end %>
+	<% end %>
 
-	<% f = IO.readlines("tj3d.log") %>
-	<% outp2 = f[-1] %>
-	
+        document.getElementById('placeForText').innerHTML=document.getElementById('some_doing').innerHTML
 
 }
 </script>
@@ -98,8 +97,6 @@ function tj3_com(){
 end
 %>
 <script type="text/template" id="some_doing">
-
-  <%= outp2 %>
 
   <%= outp1 %>
   
