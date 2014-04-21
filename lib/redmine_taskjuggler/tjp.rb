@@ -111,6 +111,15 @@ EOS
         tjpString[0, -2] + "\n}"
     end
 
+    def incl_file
+      tjpString = "\n"
+      tjpString += "flags team, hidden" + "\n"
+      tjpString += "account cost \"Costs\"" + "\n"
+      tjpString += "account rev \"Payments\"" + "\n"
+      tjpString += "include \"reports.tji\""
+      tjpString += "\n" + "\n"
+    end
+
     # Returns Taskjuggler TJP representation
     def to_s
       tjpString = project_to_s(@project)
@@ -129,6 +138,7 @@ EOS
       if @flags != []
         tjpString += "flags " + flags.join(", ") + "\n"
       end
+      tjpString << incl_file
       @tasks.each {|task|
 	tjpString << task_to_s(task)  + "\n"
       }
@@ -142,6 +152,7 @@ taskreport redmine_update_issues_csv_#{@project.id}_#{@project.version.gsub(/\./
   formats csv
   hidetask ~RedmineIssue
   columns Redmine, start, end, effort, effortdone, priority
+  balance cost rev
 }
 EOREPORT
 
@@ -150,14 +161,7 @@ taskreport redmine_update_issues_html_#{@project.id}_#{@project.version.gsub(/\.
   formats html
   hidetask ~RedmineIssue
   columns no, name, start, end, effort, effortdone, priority, chart
-}
-EOREPORT
-
-      tjpString += <<EOREPORT
-taskreport index 'index' {
-  formats html
-  hidetask ~RedmineIssue
-  columns no, name, start, end, effort, effortdone, priority, chart
+  balance cost rev
 }
 EOREPORT
 
