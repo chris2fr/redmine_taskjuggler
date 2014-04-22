@@ -30,13 +30,10 @@ Redmine::Plugin.register :redmine_taskjuggler do
   url 'https://github.com/chris2fr/redmine_taskjuggler'
   author_url 'http://mann.fr'
 
-  permission :redmine_taskjuggler, {
-    :redmine_taskjuggler_projects => [:index, :tjp, :csv]
+  permission :redmine_taskjuggler_projects, {
+    :redmine_taskjuggler_projects => [:show, :index, :tjp, :csv]
   },
   :public => true
-  
-  
-  
   
   # This permission has to be explicitly given
   # It will be listed on the permissions screen
@@ -46,12 +43,12 @@ Redmine::Plugin.register :redmine_taskjuggler do
 
   menu :project_menu, :redmine_taskjuggler_projects, {
     :controller => 'redmine_taskjuggler_projects',
-    :action => 'show',
-    :project_id => @project,
-    :set_filter => 1
+    :action => 'show' #,
+    #:project_id => @project,
+    #:set_filter => 1
   },
-  :after => :activity,
   :caption => :taskjuggler,
+  :after => :activity,
   :param => :project_id
   
   menu :admin_menu, :redmine_taskjuggler_teams, {
