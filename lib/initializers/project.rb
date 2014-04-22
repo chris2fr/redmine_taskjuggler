@@ -18,7 +18,8 @@ module RedmineTaskjuggler
             'tj_numberformat',
             'tj_timingresolution',
             'tj_timeformat'
-          has_many :redmine_taskjuggler_projects
+          has_many 'redmine_taskjuggler_projects'
+          validates_presence_of 'tj_period'
         end
         base.class_eval do
           attr_accessible :tj_activated,
@@ -31,6 +32,7 @@ module RedmineTaskjuggler
             :tj_timingresolution,
             :tj_timeformat
           has_many :redmine_taskjuggler_projects
+          validates_presence_of :tj_period
         end
       end
       
