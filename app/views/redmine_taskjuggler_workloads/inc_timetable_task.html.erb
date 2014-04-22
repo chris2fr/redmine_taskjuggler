@@ -45,5 +45,7 @@
 			end
 		%>>7/8</OPTION>
 	</SELECT>[<%= @category_list[issue.category_id] %>]  <%= @project_list[issue.project_id] %> 
-	<a href="/issues/show/<%= issue.id%>">#<%= issue.id %></a>. "<b><%= issue.subject %></b>" (<%= @status_list[issue.status_id] %>)</DT> <DD><INPUT TYPE="text" SIZE="35" NAME="time_entires_comments[<%= issue.id%>]" VALUE="<%= @time_entries_comments[issue.id] %>" /> (<INPUT NAME="issues_estimates[<%= issue.id%>]" TYPE="text" SIZE="2" VALUE="<%= issue.estimated_hours.to_f() / 8.0 %>">&nbsp;j/h&nbsp;est.
+	<%= link_to "#" + issue.id.to_s, issues_path(issue.id) %>
+	
+	<!a href="/issues/show/<%= issue.id%>">#<%= issue.id %><!/a>. "<b><%= issue.subject %></b>" (<%= @status_list[issue.status_id] %>)</DT> <DD><INPUT TYPE="text" SIZE="35" NAME="time_entires_comments[<%= issue.id%>]" VALUE="<%= @time_entries_comments[issue.id] %>" /> (<INPUT NAME="issues_estimates[<%= issue.id%>]" TYPE="text" SIZE="2" VALUE="<%= issue.estimated_hours.to_f() / 8.0 %>">&nbsp;j/h&nbsp;est.
 <%= issue.spent_hours.to_f() / 8.0 %>&nbsp;j/h&nbsp;saisis)</DD>
