@@ -65,11 +65,11 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
 	  @hours_total += time_entry.hours
 	  seen_te[time_entry.issue_id].save()
 	  TimeEntry.delete(time_entry.id)
-	  @logged_issues[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id, @rtjwl.user_id,@rtjwl.current_date)
+	  @logged_issues[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id,@rtjwl.current_date)
 	else
 	  seen_te[time_entry.issue_id] = time_entry
 	  @logged_issues[time_entry.issue_id] = Issue.find(:first,:conditions => {:id => time_entry.issue_id})
-	  @time_entries_hours[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id, @rtjwl.user_id,@rtjwl.current_date)
+	  @time_entries_hours[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id, @rtjwl.current_date)
 	  @hours_total += time_entry.hours
 	  if @time_entries_hours[time_entry.issue_id] > 0
 	    @time_entries_comments[time_entry.issue_id] = time_entry.comments
