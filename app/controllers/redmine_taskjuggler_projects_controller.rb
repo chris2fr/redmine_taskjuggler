@@ -1,5 +1,5 @@
 require_dependency 'redmine_taskjuggler'
-
+# require_dependency 'redmine_taskjuggler_projects'
 #
 # Redmine Taskjuggler Projects controller
 #
@@ -7,7 +7,6 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   unloadable
   
   def index
-    @project = Project.find(params[:id])
   end
   
   def new
@@ -16,21 +15,19 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   def create
   end
   
-  def show
-  end
   
-  def edit
+  def show # from tjindex
+    @project = Project.find(params[:id])
+    @redmine_taskjuggler_project = RedmineTaskjugglerProjects.where("project_id = ?", @project.id).first
+    if not @redmine_taskjuggler_project
+      @redmine_taskjuggler_project = RedmineTaskjugglerProjects.new()
+      @redmine_taskjuggler_project.project_id = @project.id
+      @redmine_taskjuggler_project.save
+    end
   end
-  
-  def update
-  end
-  
-  def destroy
-  end
-  
   
   # This is a TJP download
-  def tjp
+  def edit # tjp
     # Project hierarchy TaskJuggler creation
     def redmine_project_to_taskjuggler_task(project)
       if project.children.to_s == "[]"
@@ -42,7 +39,9 @@ class RedmineTaskjugglerProjectsController < ApplicationController
    
     #include RedmineTaskjuggler
     @project = Project.find(params[:id])
-        tjProject = RedmineTaskjuggler::Taskjuggler::Project.new(@project.identifier.gsub("-","_"),
+    @redmine_taskjuggler_project = RedmineTaskjugglerProjects.where("project_id = ?", @project.id).first
+    
+    tjProject = RedmineTaskjuggler::Taskjuggler::Project.new(@project.identifier.gsub("-","_"),
         @project.to_s,
         @project.tj_period.to_s,
         @project.tj_now.to_s,
@@ -71,13 +70,16 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     # 
     tjBookings = []
     tjProjectName = @project.identifier.gsub("-","_")
-    tes = TimeEntry.where(spent_on: Date.parse(@project.tj_period[0..9])..Date.parse(@project.tj_period[13..22])).order('spent_on ASC, user_id ASC')
+    if not @project.tj_period
+      raise "tj_period in Project needs to be specified."
+    end
+    tes = TimeEntry.where(spent_on: (Date.parse(@project.tj_period[0..9])+0)..Date.parse(@project.tj_period[13..22])).order('spent_on ASC, user_id ASC')
     #tes = TimeEntry.all
-    puts "\n\n =======================================================\n\n"
-    puts Date.parse(@project.tj_period[0..9])..Date.parse(@project.tj_period[13..22])
-    puts 'spent_on ASC, user_id ASC'
-    puts tes
-    puts "\n\n =======================================================\n\n"
+    #puts "\n\n =======================================================\n\n"
+    #puts Date.parse(@project.tj_period[0..9])..Date.parse(@project.tj_period[13..22])
+    #puts 'spent_on ASC, user_id ASC'
+    #puts tes
+    #puts "\n\n =======================================================\n\n"
     iUserId = nil
     iUserLogin = nil
     iIssueId = nil
@@ -108,35 +110,19 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     end
     topTask = redmine_project_to_taskjuggler_task(@project)
    
-    tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask,[],tjBookings)
-
-#    send_data tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain'
+    @tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask,[],tjBookings) 
+    send_data @tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain', :x_sendfile => true
   end
-
-  # Save tjp-file to computer
-  def tjp_save
-    project = Project.find(params[:id])
-    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
-    data = tjp.to_s
-
-    send_data data, :filename => f_name, :type => 'text/plain'
-    end
-
-  # Save tjp-file to server
-  def tjp_to_server
-    project = Project.find(params[:id])
-    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
-    data = tjp.to_s
-    Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"]
-    File.write(f_name, data)
-    redirect_to :back
-  end
-
+  
+  #def edit
+  #end
+  
   # This is a CSV upload
-  def csv
+  def update # from CSV
     project = Project.find(params[:id])
     # Get the CSV File
-    uploaded_io = params[:csvfile]
+    #puts params
+    uploaded_io = params[:redmine_taskjuggler_projects][:csvfile]
     #if uploaded_io[0,19] != '"Id";"Start";"End"'
     #  raise l(:exception_not_csv_issue_update)
     #end
@@ -145,11 +131,11 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   
     if uploaded_io    # Condition for updating csv from computer of from server
       data = uploaded_io.tempfile
-	else
-	  path = Setting.plugin_redmine_taskjuggler["tjp_path"]
-	  name_f = "redmine_update_issues_csv_" + project.identifier + "_" + project.tj_version.to_s.gsub(/\./,"_")  + ".csv"
-	  data = "#{path}#{name_f}"
-	end
+    else
+      path = Setting.plugin_redmine_taskjuggler["tjp_path"]
+      name_f = "redmine_update_issues_csv_" + project.identifier + "_" + project.tj_version.to_s.gsub(/\./,"_")  + ".csv"
+      data = "#{path}#{name_f}"
+    end
 
     # Update Redmine with the dates and effort
 #    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
@@ -171,6 +157,27 @@ class RedmineTaskjugglerProjectsController < ApplicationController
         @lines.push("#" + csvline["Redmine"].to_s + ". #{issue.subject} : #{issue.start_date} - #{issue.due_date} " ) # + link_to_issue(issue)
       end
     }
+  end
+  
+  def destroy
+  end
+
+  # Save tjp-file to computer
+  def tjp_save
+    project = Project.find(params[:id])
+    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
+    data = tjp.to_s
+    send_data data, :filename => f_name, :type => 'text/plain'
+  end
+
+  # Save tjp-file to server
+  def tjp_to_server
+    project = Project.find(params[:id])
+    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
+    data = tjp.to_s
+    Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"]
+    File.write(f_name, data)
+    redirect_to :back
   end
 
   # Method using if chosen main project (all subprojects/ all tasks)

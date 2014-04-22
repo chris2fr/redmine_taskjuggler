@@ -5,8 +5,6 @@ resources :redmine_taskjuggler_teams
 resources :redmine_taskjuggler_workloads
 resources :redmine_taskjuggler_projects
 
-
-
 #get '/redmine_taskjuggler_project/view/:id', to: 'RedmineTaskjugglerProject#view'
 #resources :redmine_taskjuggler_projects
 #resources :redmine_taskjuggler
