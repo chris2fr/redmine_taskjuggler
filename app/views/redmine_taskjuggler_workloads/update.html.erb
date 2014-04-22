@@ -1,14 +1,18 @@
 <H2><%= l(:update_label) %></H2>
 
-<a href="/redmine_workload/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> <%= l(:back_label) %> </a>
-<H2 align="center"><%= l(:present_label) %></h2>
+
+
+<%= link_to l(:back_label), redmine_taskjuggler_workloads_path + "?user_id=" + @rtjwl.user_id.to_s + "&date=" + @rtjwl.current_date.to_s() %>
+
+<H2 align="center">|-- <%= l(:present_label) %> --|</h2>
 <%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @rtjwl.current_date - 9, :date_fin => @rtjwl.current_date + 9 } %>
 
-<H2 align="right"><%= l(:future_label) %></h2>
+<H2 align="center">--&gt; <%= l(:future_label) %> --&gt;</h2>
 <%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @rtjwl.current_date + 10, :date_fin => @rtjwl.current_date + 29 } %>
-<H2 align="left"><%= l(:past_label) %></h2>
+<H2 align="center">&lt;-- <%= l(:past_label) %> &lt;--</h2>
 <%= render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_table.html.erb'), :locals => { :date_debut => @rtjwl.current_date - 29, :date_fin => @rtjwl.current_date - 10 } %>
-<a href="/redmine_workload/timetable?user_id=<%= params[:user_id] %>&issue_id=<%= params[:issue_id] %>&date=<%= params[:date] %>"> <%= l(:back_label) %> </a>
+
+<%= link_to l(:back_label), redmine_taskjuggler_workloads_path + "?user_id=" + @rtjwl.user_id.to_s + "&date=" + @rtjwl.current_date.to_s() %>
 
 <H2>By Category</H2>
 
