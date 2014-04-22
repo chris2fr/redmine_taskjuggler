@@ -26,7 +26,7 @@ if Setting.plugin_redmine_taskjuggler["tjp_path"].length > 1 then
 <%
 else
 %>
-Set up server path <a href="/settings/plugin/redmine_taskjuggler">here</a> for workflow on server (requires tj_client on server).
+Set up server path <a href="<%=Redmine::Utils.relative_url_root %>/settings/plugin/redmine_taskjuggler">here</a> for workflow on server (requires tj_client on server).
 <%
 end
 %>

@@ -10,10 +10,10 @@
 
 Relative Root : <%=Redmine::Utils.relative_url_root %>
 
-<%= form_tag("/redmine_taskjuggler_teams/new", method: "post") do %>
+<%= form_tag redmine_taskjuggler_teams, method: "post" do %>
   <%= label_tag(:tj_team_name, "New team :") %>
   <%= text_field_tag(:tj_team_name) %>
-  <%= submit_tag("New") %>
+  <%= submit_tag("Create") %>
 <% end %>
 
-Plugin settings are <a href="/settings/plugin/redmine_taskjuggler">here</a>
+Plugin settings are <a href="<%=Redmine::Utils.relative_url_root %>/settings/plugin/redmine_taskjuggler">in the administration -> plugins -> configure from Redmine Taskjuggler</a> (if no pu)
