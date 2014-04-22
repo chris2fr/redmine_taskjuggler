@@ -10,10 +10,15 @@
 
 Relative Root : <%=Redmine::Utils.relative_url_root %>
 
-<%= form_tag redmine_taskjuggler_teams, method: "post" do %>
+<%= form_tag redmine_taskjuggler_teams_path, method: "post" do %>
   <%= label_tag(:tj_team_name, "New team :") %>
   <%= text_field_tag(:tj_team_name) %>
   <%= submit_tag("Create") %>
 <% end %>
 
+<hr/>
+Actually, you can add people to teams from user administration, I think.
+
+<!--
 Plugin settings are <a href="<%=Redmine::Utils.relative_url_root %>/settings/plugin/redmine_taskjuggler">in the administration -> plugins -> configure from Redmine Taskjuggler</a> (if no pu)
+-->

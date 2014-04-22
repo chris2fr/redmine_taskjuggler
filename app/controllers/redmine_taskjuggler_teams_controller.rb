@@ -13,6 +13,7 @@ class RedmineTaskjugglerTeamsController < ApplicationController
   end
   
   def create
+    @tj_team = TjTeam.create(:name => params[:tj_team_name])
   end
   
   def show
