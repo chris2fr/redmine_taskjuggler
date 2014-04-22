@@ -2,7 +2,8 @@
 
 
 <HR/>
-<FORM action="/redmine_workload/timetable">
+<%= form_tag redmine_taskjuggler_workloads_path do  %>
+
 <%= l(:user_label) %> : <SELECT NAME="user_id">
 <%
 @users.each do |user|
@@ -19,7 +20,9 @@ end
 </SELECT>
 <%= l(:date_label) %> : <input type="text" name="date" value="<%= @rtjwl.current_date %>">
  <input type="submit" value="<%= l(:changeuseranddate_label) %>">
-</FORM>
+
+<% end %>
+
 <BR/>
 <%
 @rtjwl.current_date = Date::parse(@rtjwl.current_date.to_s())
@@ -34,11 +37,17 @@ else
 	previous_adjust = 0
 end
 %>
-<a href="/redmine_workload/timetable?user_id=<%=@rtjwl.user_id %>&date=<%= (@rtjwl.current_date - 1 - previous_adjust ).to_s() %>"> <-- <%= l(:previous_day_label) %></a>
+
+<%= link_to "<-- " + l(:previous_day_label), redmine_taskjuggler_workloads_path + "?user_id=" + @rtjwl.user_id.to_s + "&date=" + (@rtjwl.current_date - 1 - previous_adjust ).to_s() %>
+
 |
-<a href="/redmine_workload/timetable?user_id=<%=@rtjwl.user_id %>&date=<%= (@rtjwl.current_date + 1 + follow_adjust).to_s() %>"><%= l(:following_day_label) %> --></a>
+
+<%= link_to l(:following_day_label) + " -->", redmine_taskjuggler_workloads_path + "?user_id=" + @rtjwl.user_id.to_s + "&date=" + (@rtjwl.current_date + 1 + previous_adjust ).to_s() %>
+
 <BR>
-<A href="/redmine_workload/timetable_summary?user_id=<%= @rtjwl.user_id%>&date=<%= @rtjwl.current_date %>"><%= l(:consult_timetable_of_label) %> : <%=  @current_user_name %></a>
+	
+<!A href="/redmine_taskjuggler_workloads/timetable_summary?user_id=<%= @rtjwl.user_id%>&date=<%= @rtjwl.current_date %>"><%= l(:consult_timetable_of_label) %> : <%=  @current_user_name %></a>
+
 </div>
 <HR/>
 <%#= form_for @rtjwl do |f| %>
