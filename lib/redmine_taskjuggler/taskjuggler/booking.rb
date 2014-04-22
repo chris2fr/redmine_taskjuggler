@@ -16,7 +16,9 @@ module RedmineTaskjuggler
       attr_accessor :tjDateTimeStart,
         :tjDuration
       def toTJP ()
-        tjpString = tjDateTimeStart.to_s + " +" + tjDuration.to_s + "h"
+        # TODO, adjust start time of day
+        # TODO, check overtime necessity
+        tjpString = tjDateTimeStart.to_s + "-10:00 +" + tjDuration.to_s + "h {overtime 1}"
         tjpString
       end
       def initialize (tjDateTimeStart, tjDuration)

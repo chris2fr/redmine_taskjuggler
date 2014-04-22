@@ -1,6 +1,4 @@
-
-
-class RedmineTaskJugglerWorkload < ActiveRecord::Base
+class RedmineTaskjugglerWorkload < ActiveRecord::Base
   unloadable
   has_one :users
   attr_accessible :current_user_id, :current_date
