@@ -52,7 +52,7 @@ Redmine::Plugin.register :redmine_taskjuggler do
   },
   :after => :activity,
   :caption => :taskjuggler,
-  :param => :id
+  :param => :project_id
   
   menu :admin_menu, :redmine_taskjuggler_teams, {
     :controller => 'redmine_taskjuggler_teams',
