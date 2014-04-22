@@ -46,7 +46,7 @@ Redmine::Plugin.register :redmine_taskjuggler do
 
   menu :project_menu, :redmine_taskjuggler_projects, {
     :controller => 'redmine_taskjuggler_projects',
-    :action => 'index',
+    :action => 'show',
     :project_id => @project,
     :set_filter => 1
   },
