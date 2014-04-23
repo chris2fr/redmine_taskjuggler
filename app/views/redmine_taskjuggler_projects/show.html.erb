@@ -37,7 +37,7 @@ end
 <p>Round-trip workflow :
 <ol>
   <li><%= link_to "Export TJP File", edit_redmine_taskjuggler_project_path(@project.id) %></li>
-  <li>Compute in TaskJuggler : <code>$ tj3 <%= @project.identifier.gsub(/-/,"_") %>-<%= @project.tj_version %></code></li>
+  <li>Compute in TaskJuggler : <code>$ tj3 <%= @project.identifier.gsub(/-/,"_") %>-<%= @project.tj_version %>.tjp</code></li>
 
   <li>See HTML file: <%= 'redmine_update_issues_html_' %><%= @project.identifier.gsub(/-/,"_") %>_<%= @project.tj_version.to_s.gsub(/\./,"_") + ".html" %> </li>
 
