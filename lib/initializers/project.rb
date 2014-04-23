@@ -1,3 +1,6 @@
+# encoding: utf-8
+##
+#
 require_dependency 'project'
 require_dependency 'user'
 

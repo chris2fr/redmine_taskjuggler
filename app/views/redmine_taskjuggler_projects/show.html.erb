@@ -1,3 +1,4 @@
+<!-- encoding: utf-8 -->
 <h2><%= l(:redmine_taskjuggler)%></h2>
 
 <h4><%= l(:project)%> : <%= @project %> - <%= @project.identifier %> </h4>
@@ -29,7 +30,8 @@ else
 Set up server path <a href="<%=Redmine::Utils.relative_url_root %>/settings/plugin/redmine_taskjuggler">here</a> for workflow on server (requires tj_client on server).
 <%
 end
-%>
+%>
+
 <!-- Taskjuggler work on computer -->
 <fieldset>
 <p>Round-trip workflow :

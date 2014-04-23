@@ -1,5 +1,8 @@
+# encoding: utf-8
 require 'set'
 
+##
+# Is inxbill's rake export.
 def find_recursive_resources(issues)
   ret = Set.new
 

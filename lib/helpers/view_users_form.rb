@@ -1,3 +1,6 @@
+# encoding: utf-8
+##
+#
 module RedmineTaskjugglerViewListener
     class ViewHookListener < Redmine::Hook::ViewListener
       render_on(:view_users_form, :partial => 'redmine_taskjuggler/user/view_users_form')

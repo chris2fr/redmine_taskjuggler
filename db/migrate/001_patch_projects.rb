@@ -1,3 +1,6 @@
+# encoding: utf-8
+##
+# Extra fields to have tasks from projects
 class PatchProjects < ActiveRecord::Migration
   def change
     add_column :projects, :tj_activated, :boolean, :default => true

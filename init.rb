@@ -1,3 +1,4 @@
+# encoding: utf-8
 # Patches to the Redmine core.
 
 ActionDispatch::Callbacks.to_prepare do

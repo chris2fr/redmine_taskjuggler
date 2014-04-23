@@ -1,3 +1,6 @@
+# encoding: utf-8
+##
+# Extra fields to have tasks from Issues
 class PatchIssues < ActiveRecord::Migration
   def change
     add_column :issues, :tj_activated, :boolean, :default => true

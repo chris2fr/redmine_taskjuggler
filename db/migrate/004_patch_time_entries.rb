@@ -1,3 +1,6 @@
+# encoding: utf-8
+##
+# I think this is too much and not needed. I compute the start time now.
 class PatchTimeEntries < ActiveRecord::Migration
   def change
     add_column :time_entries, :tj_start, :string

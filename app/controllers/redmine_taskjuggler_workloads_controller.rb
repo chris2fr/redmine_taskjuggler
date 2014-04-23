@@ -1,11 +1,12 @@
+# encoding: utf-8
 require_dependency 'redmine_taskjuggler'
-# require_dependency 'redmine_taskjuggler_projects'
-#
+##
 # Redmine Taskjuggler Projects controller
 #
 class RedmineTaskjugglerWorkloadsController < ApplicationController
   unloadable
   
+  ##
   # :params['user_id'] - the current user
   # :params['current_date'] - the date around which we will work
   # :params['interval'] - the days before and after the current date

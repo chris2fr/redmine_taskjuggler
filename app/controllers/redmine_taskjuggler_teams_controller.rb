@@ -1,4 +1,5 @@
-#
+# encoding: utf-8
+##
 # Redmine Taskjuggler Temas controller
 #
 class RedmineTaskjugglerTeamsController < ApplicationController

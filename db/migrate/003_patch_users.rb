@@ -1,3 +1,6 @@
+# encoding: utf-8
+##
+# Extra fields to have resources from users
 class PatchUsers < ActiveRecord::Migration
   def change
     add_column :users, :tj_activated, :boolean, :default => true
