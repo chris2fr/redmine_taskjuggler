@@ -26,7 +26,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   ##
   # This is the main page for any given project. The parameter comes by way of query string, strangely enough.
   def show # from tjindex
-    @project = Project.find(params[:project_id])
+    @project = Project.find(params[:id])
     
     @redmine_taskjuggler_project = RedmineTaskjugglerProjects.where("project_id = ?", @project.id).first
     if not @redmine_taskjuggler_project
