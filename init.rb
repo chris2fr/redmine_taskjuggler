@@ -53,13 +53,12 @@ Redmine::Plugin.register :redmine_taskjuggler do
   # Add a menu in the project
   menu :project_menu, :redmine_taskjuggler_projects, {
     :controller => 'redmine_taskjuggler_projects',
-    :action => 'show' #,
-    #:project_id => @project,
+    :action => 'show'#,
+    #:id => @project.id,
     #:set_filter => 1
   },
   :caption => :taskjuggler,
-  :after => :activity,
-  :param => :project_id
+  :after => :activity
   
   ##
   # Add a menu in the Administration part of the application
