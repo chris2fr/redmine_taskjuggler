@@ -63,7 +63,11 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     tjResources = []
     User.where(tj_activated: true).order(:tj_team_id).find_each do |user|
       if user.login.to_s != ""
-	team = "team_" + (user.tj_team_id || "default").to_s
+        team_name = "default_team"
+        if user.tj_team_id and user.tj_team_id.to_i > 0
+          team_name = TjTeam.find(user.tj_team_id).name.downcase.gsub(" ","_").gsub("-","_")
+        end
+	# team = "team_" + (user.tj_team_id || "default").to_s
 	tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_'),
 	  user.firstname + ' ' + user.lastname,
 	  user.tj_limits,	# add limits, vacations and rate for Resource
@@ -71,7 +75,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
 	  user.tj_rate,		#
 	  user.tj_parent,
 	  [],
-	  team )) #,
+	  team_name )) #,
 	 # team.downsize.gsub('-','_').gsub(' ','_')))
       end
     end
