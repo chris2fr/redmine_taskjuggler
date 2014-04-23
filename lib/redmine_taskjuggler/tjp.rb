@@ -1,16 +1,32 @@
 #encoding: utf-8
 
 module RedmineTaskjuggler
-  
+  ##
+  # TJP represents the TJP file for taskjuggler computation
   class TJP
-    
-    attr_accessor :file_path,
-      :project,
-      :resources,
-      :flags,
-      :tasks,
-      :bookings
+    ##
+    # Where the file will be deposited, full path
+    attr_accessor :file_path
+    ##
+    # Project associated 
+    attr_accessor :project
+    ##
+    # Array of Resource associated, or perhaps a nested set of Resource ,
+    # I am not sure.
+    attr_accessor :resources
+    ##
+    # Array of strings I think
+    attr_accessor :flags
+    ##
+    # Array or nested set of Task
+    attr_accessor :tasks
+    ##
+    # Array of Booking
+    attr_accessor :bookings
       
+    ##
+    # Constructor. Needs +project+ Project , +resources+ Resource , +tasks+ Task ,
+    # +flags+ an array of strings , +bookings+ Booking
     def initialize (project, resources, tasks, flags = [], bookings = [])
       @project = project
       @resources = resources
@@ -23,6 +39,8 @@ module RedmineTaskjuggler
       end
     end
     
+    ##
+    # A string representation of a project. In the future, we should use Project.to_s
     def project_to_s (project)
         tjpString = "project #{project.id} \"#{project.name}\" \"#{project.version}\" #{project.period}  {\n"
         {'timeformat' => project.timeformat,
@@ -50,6 +68,9 @@ module RedmineTaskjuggler
         return tjpString
     end
     
+    ##
+    # A String representation of a task. In the future, we should use
+    # Task.to_s
     def task_to_s (task)
         tjpString = "task #{task.localId} \"#{task.name}\" {\n"
         if task.timeEffort != nil
@@ -82,6 +103,9 @@ EOS
         return tjpString
     end
 
+    ##
+    # A string representation of the Resource . In the future we should use
+    # Resource.to_s
     def resource_to_s (resource)
         tjpString = "resource #{resource.id} \"#{resource.name}\" {\n"
         if resource.children != []
@@ -102,15 +126,10 @@ EOS
 	tjpString += "}\n"
 	tjpString
     end
-    
-    def booking_to_s (booking)
-        tjpString = "supplement task #{booking.task_id} {\n  booking #{booking.resource_id} "
-        booking.periods.each {|per|
-          tjpString = tjpString + per.toTJP.to_s + ", "
-        }
-        tjpString = tjpString[0..-3].concat("\n}")
-    end
 
+    ##
+    # Added by Russians for including reports
+    # TODO see if we can put this in parameters in Settings as either a text field or file (uploaded) or both
     def incl_file
       tjpString = "\n"
       tjpString += "flags team, hidden" + "\n"
@@ -120,6 +139,7 @@ EOS
       tjpString += "\n" + "\n"
     end
 
+    ##
     # Returns Taskjuggler TJP representation
     def to_s
       tjpString = project_to_s(@project)
@@ -144,7 +164,7 @@ EOS
       }
       if @bookings.size > 0
         @bookings.each {|book|
-          tjpString << booking_to_s(book).gsub(/^/,"  ") + "\n"
+          tjpString << book.to_s.gsub(/^/,"  ") + "\n"
         }
       end
       tjpString += <<EOREPORT
