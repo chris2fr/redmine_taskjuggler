@@ -107,7 +107,7 @@ EOS
     # A string representation of the Resource . In the future we should use
     # Resource.to_s
     def resource_to_s (resource)
-        tjpString = "resource #{resource.id} \"#{resource.name}\" {\n"
+        tjpString = "resource #{resource.id.gsub(/\./,'_')} \"#{resource.name}\" {\n"
         if resource.children != []
           resource.children.each {|child|
             tjpString += resource_to_s(child).gsub(/^/, "  ") + "\n"
