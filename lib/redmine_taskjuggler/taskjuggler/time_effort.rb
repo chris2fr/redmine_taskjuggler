@@ -178,7 +178,7 @@ module RedmineTaskjuggler
       end
       def toTJP
         tjpString = "allocate "
-        tjpString += @resources.join(", ")
+        tjpString += @resources.join(", ").gsub(/\./,'_')
         tjpString += " {"  + @attributes.join(", ") + "}"
         return tjpString
       end

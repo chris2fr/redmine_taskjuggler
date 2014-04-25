@@ -31,4 +31,4 @@ resources :redmine_taskjuggler_projects
 #get '/redmine_taskjuggler/:id/tjp', to: 'redmine_taskjuggler#tjp'
 get '/redmine_taskjuggler_projects/:id/tjp', to: 'redmine_taskjuggler_projects#tjp_save'
 get '/redmine_taskjuggler_projects/:id/tjp_to_server', to: 'redmine_taskjuggler_projects#tjp_to_server'
-post '/redmine_taskjuggler_projects/:id/csv', to: 'redmine_taskjuggler_projects#csv'
+post '/redmine_taskjuggler_projects/:id/csv', to: 'redmine_taskjuggler_projects#update'

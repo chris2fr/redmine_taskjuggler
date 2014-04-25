@@ -7,6 +7,7 @@ require_dependency 'redmine_taskjuggler'
 class RedmineTaskjugglerProjectsController < ApplicationController
   unloadable
   
+  before_filter :edit, :only => [:tjp_to_server, :tjp_save]
   ##
   # Not yet implemented, I did have a screen with a listing of projects
   def index
@@ -148,9 +149,10 @@ class RedmineTaskjugglerProjectsController < ApplicationController
           iPeriods))
     end
     topTask = redmine_project_to_taskjuggler_task(@project)
-   
+ 
     @tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask,[],tjBookings) 
-    send_data @tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain', :x_sendfile => true
+
+#    send_data @tjp.to_s, :filename => @project.identifier + "-" + @project.tj_version.to_s.gsub(/\./,"_") + ".tjp", :type => 'text/plain', :x_sendfile => true
   end
   
   ##
@@ -159,7 +161,9 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     project = Project.find(params[:id])
     # Get the CSV File
     #puts params
-    uploaded_io = params[:redmine_taskjuggler_projects][:csvfile]
+    
+    uploaded_io = params[:csvfile]
+#    uploaded_io = params[:redmine_taskjuggler_projects][:csvfile]
     #if uploaded_io[0,19] != '"Id";"Start";"End"'
     #  raise l(:exception_not_csv_issue_update)
     #end
@@ -206,8 +210,8 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   def tjp_save
     project = Project.find(params[:id])
     f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
-    data = tjp.to_s
-    send_data data, :filename => f_name, :type => 'text/plain'
+    data = @tjp.to_s
+    send_data data, :filename => f_name, :type => 'text/plain', :x_sendfile => true
   end
 
   ##
@@ -215,7 +219,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   def tjp_to_server
     project = Project.find(params[:id])
     f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
-    data = tjp.to_s
+    data = @tjp.to_s
     Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"]
     File.write(f_name, data)
     redirect_to :back
