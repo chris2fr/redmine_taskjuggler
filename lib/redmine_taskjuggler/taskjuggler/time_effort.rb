@@ -5,16 +5,19 @@ module RedmineTaskjuggler
   # Abstraction module for TaskJuggler data model
   #
   module Taskjuggler
-    #
+    ##
     # Models the timespan part of any task
-    #
     class TimeSpan
       attr_accessor :number,
         :units
+      ##
+      # Constructor Int , String
       def initialize (number, units)
         @number = number
         @units = units
       end
+      ##
+      # Should be to_s I suppose
       def toTJP
         "#{number}#{units}"
       end
@@ -28,6 +31,8 @@ module RedmineTaskjuggler
         @tjDateTime = tjDateTime
       end
     end
+    ##
+    # The start point of any TimeEffort
     class TimePointStart < TimePoint   
       def toTJP
         "start #{tjDateTime}"
@@ -111,8 +116,12 @@ module RedmineTaskjuggler
         @timePointStart = timePointStart
       end
     end
+    ##
+    # The initial point of a TimeSpan (I think)
     class TimeEffortStartSpan < TimeEffort
       attr_accessor :timeSpan
+      ##
+      # Constructor TimePointStart , TimeSpan
       def initialize (timePointStart, timeSpan)
         super(timePointStart)
         @timeSpan = timeSpan

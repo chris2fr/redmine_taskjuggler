@@ -5,7 +5,10 @@ require_dependency 'project'
 require_dependency 'user'
 
 module RedmineTaskjuggler
+  ##
+  # Enriches core Redmine features with stuff we need for RedmineTaskjuggler
   module Patch
+    ##
     # Patches Redmine's Projects dynamically.
     module Project
       extend ActiveSupport::Concern

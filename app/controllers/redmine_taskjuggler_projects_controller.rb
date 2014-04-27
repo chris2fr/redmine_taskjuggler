@@ -69,14 +69,15 @@ class RedmineTaskjugglerProjectsController < ApplicationController
           team_name = TjTeam.find(user.tj_team_id).name.downcase.gsub(" ","_").gsub("-","_")
         end
 	# team = "team_" + (user.tj_team_id || "default").to_s
-	tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_'),
+	tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_').gsub(/./,'_'),
 	  user.firstname + ' ' + user.lastname,
+	  user.tj_parent,
+	  [],
 	  user.tj_limits,	# add limits, vacations and rate for Resource
 	  user.tj_vacations,	#
 	  user.tj_rate,		#
-	  user.tj_parent,
-	  [],
-	  team_name )) #,
+	  team_name
+	)) #,
 	 # team.downsize.gsub('-','_').gsub(' ','_')))
       end
     end

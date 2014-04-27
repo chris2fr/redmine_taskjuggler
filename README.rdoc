@@ -20,7 +20,7 @@ Here is what this plugin does with you :
 * New (from Workload) : Sets up time sheets for resources with Redmine TimeEntries as a datastore
 * New (from Workload) : Pre-reserves slots for resources into TaskJuggler from the Redmine TimeEntries datastore
 
-== Notes on the current version 0.2.beta
+== Notes on the current version 0.1.2-beta
 
 This is a begining beta release. It works, and we have incorporated a major new feature set from RedmineWorkload.
 
@@ -28,7 +28,12 @@ Reserves :
 * On the project being compiled, you need to input by hand the tj_period such that the start and end dates are coherent with the project (yyyy-mm-dd - yyyy-mm-dd). In the future I can change them with containing TimeEntries.
 * In some cases, and I have not yet been able to reproduce this, the TJP file will have the keywork start without a date in a task. This will cause the TJ3 program to fail to compile and you need to change it by hand by removing start or adding a date. Please tell me if you can reproduce.
 
-== Notes on the previous version 0.1.alpha
+== Running automated tests
+
+  `rake redmine:plugins:test`
+  I think you can add NAME="redmine_taskjuggler" or PLUGIN="redmine_taskjuggler"
+
+== Notes on the previous version 0.1.1-alpha
 
 This is an advanced alpha release. It works, but one should follow a few indications.
 
