@@ -15,8 +15,6 @@ class RedmineTaskjugglerTaskjugglerProjectTest < Test::Unit::TestCase
   def makeMeATask
     task = Taskjuggler::Task.new('test', \
            'This is a Test Task')
-    ##
-    # TODO: Investigate impact of having five arguments instead of two
     task.timeEffort = Taskjuggler::TimeEffortStartSpan.new( \
                       Taskjuggler::TimePointStart.new('2013-02-02'),\
                       Taskjuggler::TimeSpan.new(5, 'd'))
@@ -70,8 +68,6 @@ class RedmineTaskjugglerTaskjugglerProjectTest < Test::Unit::TestCase
     tjp = TJP.new(project,[],[task])
     assert_match "task nested_task", tjp.to_s
   end
-  ##
-  # Creates a resource. The signature has changed.
   def test_create_resource
     resource = Taskjuggler::Resource.new('test','This is a test resource')
     assert_equal resource.class, Taskjuggler::Resource
