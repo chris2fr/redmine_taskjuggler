@@ -69,7 +69,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
           team_name = TjTeam.find(user.tj_team_id).name.downcase.gsub(" ","_").gsub("-","_")
         end
 	# team = "team_" + (user.tj_team_id || "default").to_s
-	tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_').gsub(/\\./,'_'),
+	tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_').gsub(/\./,'_'),
 	  user.firstname + ' ' + user.lastname,
 	  user.tj_parent,
 	  [],                   # Was this always an empty array ?
