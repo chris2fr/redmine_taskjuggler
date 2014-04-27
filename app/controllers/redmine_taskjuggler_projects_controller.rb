@@ -1,6 +1,5 @@
 # encoding: utf-8
 require_dependency 'redmine_taskjuggler'
-# require_dependency 'redmine_taskjuggler_projects'
 #
 # Redmine Taskjuggler Projects controller
 #
