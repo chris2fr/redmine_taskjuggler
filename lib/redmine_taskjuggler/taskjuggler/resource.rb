@@ -33,7 +33,7 @@ module RedmineTaskjuggler
       attr_accessor :team
 	# add limits, vacations and rate to the end...
       ##
-      # Constructor Int, String, Taskjuggler::Resource , Array of Taskjuggler::Resource; TjTeam ,
+      # Constructor Int, String, Taskjuggler::Resource , Array of Taskjuggler::Resource; String (from TjTeam) ,
       # String , String , String ? (notsure about that last one)
       def initialize (id, name, parent = nil, children = [], team = nil, limits = nil, vacations = nil, rate = nil)
         @id = id

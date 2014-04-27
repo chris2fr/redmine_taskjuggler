@@ -72,11 +72,11 @@ class RedmineTaskjugglerProjectsController < ApplicationController
 	tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_').gsub(/./,'_'),
 	  user.firstname + ' ' + user.lastname,
 	  user.tj_parent,
-	  [],
+	  [],                   # Was this always an empty array ?
+	  team_name,
 	  user.tj_limits,	# add limits, vacations and rate for Resource
 	  user.tj_vacations,	#
-	  user.tj_rate,		#
-	  team_name
+	  user.tj_rate		#
 	)) #,
 	 # team.downsize.gsub('-','_').gsub(' ','_')))
       end
