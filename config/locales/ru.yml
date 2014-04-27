@@ -1,6 +1,6 @@
 # encoding: utf-8
 # Russian strings go here for Rails i18n
-en:
+ru:
   project: "Проект"
   taskjuggler: "Taskjuggler"
   redmine_taskjuggler: "Redmine Taskjuggler"
