@@ -5,8 +5,10 @@
 <p>TJ Teams can be administered <a href="/redmine_taskjuggler_teams">here</a>.</p>
 <!-- Taskjuggler work on the server -->
 <%
-if Setting.plugin_redmine_taskjuggler["tjp_path"].length > 1 then
-%>
+unless not defined? Setting.plugin_redmine_taskjuggler["tjp_path"] or
+  not Setting.plugin_redmine_taskjuggler["tjp_path"].nil? or
+  Setting.plugin_redmine_taskjuggler["tjp_path"].length < 1 then
+ %>
 <p>
 <a href="./<%= params[:id] %>/tjp_to_server">Export TJP File to Server</a>
 </p>
@@ -29,16 +31,10 @@ if Setting.plugin_redmine_taskjuggler["tjp_path"].length > 1 then
   <%= form_tag('./' + params[:id] + "/csv", :multipart => true) do %>
   <% file_field_tag 'csvfile', :accept => 'text/csv', :value => @project.identifier + "-" + @project.tj_version.to_s.sub(".","_") + ".csv" %>
   <%= submit_tag "Update CSV" %>
-  <% end %>
+  <%  end %>
 </p>
-<%
-else
-%>
+<%  end %>
 Set up server path <a href="<%=Redmine::Utils.relative_url_root %>/settings/plugin/redmine_taskjuggler">here</a> for workflow on server (requires tj_client on server).
-<%
-end
-%>
-
 <!-- Taskjuggler work on computer -->
 <fieldset>
 <p>Round-trip workflow :
