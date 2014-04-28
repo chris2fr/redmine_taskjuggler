@@ -1,9 +1,8 @@
 <!-- encoding: utf-8 -->
 <div align="center"><!A HREF="/redmine_workload/summary"><%= l(:summary_all_label) %></A>
 
-
 <HR/>
-<%= form_tag redmine_taskjuggler_workloads_path do  %>
+<%= form_tag redmine_taskjuggler_workloads_path, {:method => :get} do  %>
 
 <%= l(:user_label) %> : <SELECT NAME="user_id">
 <%
