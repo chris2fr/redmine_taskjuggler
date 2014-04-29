@@ -1,0 +1,6 @@
+#+TITLE: Taskjuggler.net, Welcome !
+#+AUTHOR: Christopher Mann <christopher@mann.fr>
+
+Hi, this is taskjuggler.net. I am not affiliated directly with "taskjuggler.org":http://www.taskjuggler.org. I am offering taskjuggler.net as a sandbox for the different possibilities of the Taskjuggler server infrasturcture.
+
+Here is a [[file:howto-taskjuggler-supervisor-ubuntu.org][howto]] on our server setup and configuration. This server exposes the listed services and you can access them directly on the corresponding ports.

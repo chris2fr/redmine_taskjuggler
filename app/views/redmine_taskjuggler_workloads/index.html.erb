@@ -2,26 +2,30 @@
 <div align="center"><!A HREF="/redmine_workload/summary"><%= l(:summary_all_label) %></A>
 
 <HR/>
-<%= form_tag redmine_taskjuggler_workloads_path, {:method => :get} do  %>
+<%=
+form_tag redmine_taskjuggler_workloads_path, {:method => :get} do
+%>
 
 <%= l(:user_label) %> : <SELECT NAME="user_id">
 <%
-@users.each do |user|
+	@users.each do |user|
 %>
 <OPTION VALUE="<%= user.id%>" <%
-if user.id == @rtjwl.user_id
-@current_user_name = user.name
+		if user.id == @rtjwl.user_id
+			@current_user_name = user.name
 %> SELECTED <%
-end
+		end
 %>><%=user.name%></OPTION>
 <%
-end
+	end
 %>
 </SELECT>
 <%= l(:date_label) %> : <input type="text" name="date" value="<%= @rtjwl.current_date %>">
  <input type="submit" value="<%= l(:changeuseranddate_label) %>">
 
-<% end %>
+<%
+end
+%>
 
 <BR/>
 <%
@@ -78,7 +82,7 @@ end
 <% @assigned_issues.each do |issue_id,issue|
 	%>
 <%= 
-		render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_task.html.erb'), :locals => { :issue => issue } %>
+	render :file  => File.join(File.dirname(__FILE__), 'inc_timetable_task.html.erb'), :locals => { :issue => issue } %>
 <BR/>
 	<%
 end
