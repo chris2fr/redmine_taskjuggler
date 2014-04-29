@@ -5,3 +5,6 @@
 *.erb~
 *.rb~
 *.yml~
+*~
+#*#
+/doc/taskjuggler.net/www

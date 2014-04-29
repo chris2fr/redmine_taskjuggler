@@ -1,0 +1,46 @@
+This is a file of things to do in order to put some sense into redmine_taskjuggler.
+
+I just started a website for taskjuggler.net, so I would like to publish that. I will start on taskjuggler.mann.fr
+* DONE Declare domain taskjuggler.mann.fr and redtask.mann.fr to point to ovh server
+The OVH Server is 92.222.4.203 and 2001:41D0:0052:0A00:0000:0000:0000:089b
+* TODO Setup a static website for taskjuggler.mann.fr on the ovh server
+** DONE Put the files generated with EMacs Org Mode in /var/www/taskjuggler
+** TODO Configure a virtual host to recognize taskjuggler.mann.fr
+This is not working. For some reason the DNS request doesn't seem to make it yet on mann.fr.
+* DONE Point projuggler.net and redmine.mann.fr to ovh server
+* TODO Setup virtual host for redmine.mann.fr and projuggler.net
+See comment above about subdomaines on mann.fr.
+
+* TODO Go through all the code in users/christopher/draft
+* TODO Look into user/inxbil code
+* TODO TimeEntry calibrating
+* TODO Initiate doc directory (not very organized)
+* TODO Add fields to issues views (which ones?)
+* TODO Manage priorities
+* TODO On-the-server execution
+* TODO Between-servers execution
+
+* TODO Change timeingresolution to enumeration 5, 10, 15, 30, 60min
+* TODO Add fields to Views : Project, User, TimeEntry
+* TODO Add fields to mass-edit dialogue
+* TODO Update demo server and have demo roles, as well as demo scenarios
+* TODO Cool idea : setup public compilation server for anyone to use
+* TODO Re-establish categories and versions in taskjuggler reports
+* TODO More accounting integration
+* TODO Field for reports specifications (text, uploadable)
+* TODO Nested tasks
+* TODO Aribtrary groups
+* TODO Look into modelisation options from Taskjuggler and those accessible by RedmineTaskjuggler and mapping the difference
+* TODO Right-click edit
+* TODO Create a website for this project
+* TODO Close Workload
+
+* DONE Factorize code
+* DONE Migrate custom-fields to own data model
+** DONE Augment Issues, Projects, Ressources 
+** DONE Add fields to issue update
+* DONE Institute test procedures
+* DONE CSV import
+* DONE TJP export
+* DONE Take screen shots (in wiki and in doc I think)
+* DONE Incoporate Workload into this plugin

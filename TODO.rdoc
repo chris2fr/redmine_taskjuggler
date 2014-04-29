@@ -6,49 +6,6 @@ The main todo is now managed in the issue management system of GitHub here :
 
 https://github.com/chris2fr/redmine_taskjuggler/issues
 
-This is a list of things do to for the plugin:
-
-Partially done :
-
-* Go through all the code in users/christopher/draft
-* Look into user/inxbil code
-* TimeEntry calibrating
-* Initiate doc directory (not very organized)
-* Add fields to issues views (which ones?)
-* Manage priorities
-* On-the-server execution
-* Between-servers execution
-
-Todo:
-
-* Change timeingresolution to enumeration 5, 10, 15, 30, 60min
-* Add fields to Views : Project, User, TimeEntry
-* Add fields to mass-edit dialogue
-* Update demo server and have demo roles, as well as demo scenarios
-* Cool idea : setup public compilation server for anyone to use
-* Re-establish categories and versions in taskjuggler reports
-* More accounting integration
-* Field for reports specifications (text, uploadable)
-* Nested tasks
-* Aribtrary groups
-* Look into modelisation options from Taskjuggler and those accessible by RedmineTaskjuggler and mapping the difference
-* Right-click edit
-* Create a website for this project
-* Close Workload
-
-Done :
-
-* Factorize code
-* Migrate custom-fields to own data model
-  * Augment Issues, Projects, Ressources 
-  * Add fields to issue update
-* Institute test procedures
-* CSV import
-* TJP export
-* Take screen shots (in wiki and in doc I think)
-* Incoporate Workload into this plugin
-
-
 Here is a wish list for later on:
 
 * Native integration with Taskjuggler 3 (also in Ruby whereas TJ2 was in C / QT)
