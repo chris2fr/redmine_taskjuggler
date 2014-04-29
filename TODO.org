@@ -3,12 +3,12 @@ This is a file of things to do in order to put some sense into redmine_taskjuggl
 I just started a website for taskjuggler.net, so I would like to publish that. I will start on taskjuggler.mann.fr
 * DONE Declare domain taskjuggler.mann.fr and redtask.mann.fr to point to ovh server
 The OVH Server is 92.222.4.203 and 2001:41D0:0052:0A00:0000:0000:0000:089b
-* TODO Setup a static website for taskjuggler.mann.fr on the ovh server
-** DONE Put the files generated with EMacs Org Mode in /var/www/taskjuggler
-** TODO Configure a virtual host to recognize taskjuggler.mann.fr
 This is not working. For some reason the DNS request doesn't seem to make it yet on mann.fr.
+* DONE Setup a static website for taskjuggler.mann.fr on the ovh server
+** DONE Put the files generated with EMacs Org Mode in /var/www/taskjuggler
+** DONE Configure a virtual host to recognize taskjuggler.mann.fr
 * DONE Point projuggler.net and redmine.mann.fr to ovh server
-* TODO Setup virtual host for redmine.mann.fr and projuggler.net
+* DONE Setup virtual host for redmine.mann.fr and projuggler.net
 See comment above about subdomaines on mann.fr.
 
 * TODO Go through all the code in users/christopher/draft

@@ -21,8 +21,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   # Not yet implemented
   def create
   end
-  
-  
+
   ##
   # This is the main page for any given project. The parameter comes by way of query string, strangely enough.
   def show # from tjindex
@@ -49,7 +48,6 @@ class RedmineTaskjugglerProjectsController < ApplicationController
       end
     end
    
-    #include RedmineTaskjuggler
     @project = Project.find(params[:id])
     @redmine_taskjuggler_project = RedmineTaskjugglerProjects.where("project_id = ?", @project.id).first
     
@@ -77,8 +75,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
 	  user.tj_limits,	# add limits, vacations and rate for Resource
 	  user.tj_vacations,	#
 	  user.tj_rate		#
-	)) #,
-	 # team.downsize.gsub('-','_').gsub(' ','_')))
+	))
       end
     end
     
@@ -90,13 +87,9 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     if not @project.tj_period
       raise "tj_period in Project needs to be specified."
     end
+    ##
+    # TODO better handle the tj_period
     tes = TimeEntry.where(spent_on: (Date.parse(@project.tj_period[0..9])+0)..Date.parse(@project.tj_period[13..22])).order('spent_on ASC, user_id ASC')
-    #tes = TimeEntry.all
-    #puts "\n\n =======================================================\n\n"
-    #puts Date.parse(@project.tj_period[0..9])..Date.parse(@project.tj_period[13..22])
-    #puts 'spent_on ASC, user_id ASC'
-    #puts tes
-    #puts "\n\n =======================================================\n\n"
     iUserId = nil
     iUserLogin = nil
     iIssueId = nil
@@ -179,7 +172,6 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     end
 
     # Update Redmine with the dates and effort
-#    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
     CSV.foreach(data, :headers => true, :col_sep => ';') {
       |csvline|
       if csvline["Redmine"].to_s != ""

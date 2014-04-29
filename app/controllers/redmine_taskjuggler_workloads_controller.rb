@@ -7,6 +7,7 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
   unloadable
   
   ##
+  # Previously known as #timetable should be show
   # :params['user_id'] - the current user
   # :params['current_date'] - the date around which we will work
   # :params['interval'] - the days before and after the current date
@@ -16,11 +17,6 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     #@current_user = User.find(@current_user_id)
 
     @rtjwl = getRedmineTaskjugglerWorkload(params)
-      
-    
-      
-    # rtjwl.save
-    #puts @rtjwl
 
     @users = User.find(:all,:order => ['firstname'])
     projects = Project.find(:all, :conditions => {:status => 1}, :order => ['parent_id,name'])
@@ -120,75 +116,6 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
   def create
   end
   
-  #Utility
-  def getRedmineTaskjugglerWorkload(params)
-    @rtjwl = RedmineTaskjugglerWorkload.new
-    if params[:user_id]
-      @rtjwl.user_id = params[:user_id].to_i()
-    else
-      @rtjwl.user_id = User.current.id.to_i()
-    end
-    if params[:date]
-      @rtjwl.current_date = Date::parse(params[:date])
-    end
-    if not @rtjwl.current_date.is_a?(Date)
-      now = DateTime::now()
-      @rtjwl.current_date = Date::civil(now.year,now.month,now.mday)
-    end
-    if params[:interval]
-      @rtjwl.interval = interval
-    else
-      @rtjwl.interval = 30
-    end
-    
-    @start_date = params[:start_date] ? Date::parse(params[:start_date]) : @rtjwl.current_date - @rtjwl.interval # was 10
-    @end_date = params[:end_date] ? Date::parse(params[:end_date]) : @rtjwl.current_date + @rtjwl.interval # was 30
-    
-    # @current_user_id = get_current_user_id(params)
-    # interval = params.has_key?("interval") ? params[:interval] : 15
-    conditions = ' spent_on > "' + (@rtjwl.current_date - @rtjwl.interval).to_s() + '" AND spent_on < "' + (@rtjwl.current_date - @rtjwl.interval).to_s() + '"'
-    @logged_te = TimeEntry.find(:all,:conditions => [conditions], :order => ['issue_id,spent_on'] )
-    @logged_days = {}
-    @total_days = {}
-    @projcat = {}
-    @projects = Project.find(:all, :conditions => {:status => 1}, :order => ['parent_id,name'])
-    @projects.each do |projet|
-      @projcat[projet.id] = {}
-      @projcat[projet.id]["total"] = 0.0
-      @projcat[projet.id]["other"] = {}
-      @projcat[projet.id]["other"]["total"] = 0.0
-      # issue_categories = projet.issue_categories
-      projet.issue_categories.each do |cat|
-        @projcat[projet.id][cat.id] = {}
-        @projcat[projet.id][cat.id]["total"] = 0.0
-      end
-    end
-    @logged_te.each do |te|
-      if te.spent_on and te.issue.project
-        cat_id = te.issue.category ? te.issue.category.id : "other"
-        logger.debug ("cat_id")
-        logger.debug (cat_id)
-        unless @projcat[te.issue.project.id][cat_id].has_key?(te.spent_on.to_s())
-                @projcat[te.issue.project.id][cat_id][te.spent_on.to_s()] = 0.0
-        end
-        @projcat[te.issue.project.id][cat_id][te.spent_on.to_s()] += te.hours.to_f() / 8
-        @projcat[te.issue.project.id][cat_id]["total"] += te.hours.to_f() / 8
-        unless @total_days.has_key?(te.spent_on.to_s())
-                @total_days[te.spent_on.to_s()] = {}
-                @total_days[te.spent_on.to_s()]["total"] = 0.0
-        end
-        unless @total_days[te.spent_on.to_s()].has_key?(te.project.id)
-                @total_days[te.spent_on.to_s()][te.project.id] = 0.0
-        end
-        @total_days[te.spent_on.to_s()]["total"] += te.hours.to_f() / 8
-        @projcat[te.issue.project.id]["total"] += te.hours.to_f() / 8
-        ####@projcat[te.issue.project.id][cat_id]["total"] += te.hours.to_f() / 8
-        @total_days[te.spent_on.to_s()][te.project.id] += te.hours.to_f() / 8
-      end
-    end
-    @rtjwl
-  end
-  
   def show # From timetable_summary
     @rtjwl = getRedmineTaskjugglerWorkload(params)
     get_timetable_info @rtjwl.user_id, @rtjwl.current_date, @rtjwl.interval
@@ -260,7 +187,82 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
   #
   # Utility functions
   #
-  
+
+  ##
+  # Check to see if redoundant with get_timetable_info
+  def getRedmineTaskjugglerWorkload(params)
+    @rtjwl = RedmineTaskjugglerWorkload.new
+    if params[:user_id]
+      @rtjwl.user_id = params[:user_id].to_i()
+    else
+      @rtjwl.user_id = User.current.id.to_i()
+    end
+    if params[:date]
+      @rtjwl.current_date = Date::parse(params[:date])
+    end
+    if not @rtjwl.current_date.is_a?(Date)
+      now = DateTime::now()
+      @rtjwl.current_date = Date::civil(now.year,now.month,now.mday)
+    end
+    if params[:interval]
+      @rtjwl.interval = interval
+    else
+      @rtjwl.interval = 30
+    end
+    
+    @start_date = params[:start_date] ? Date::parse(params[:start_date]) : @rtjwl.current_date - @rtjwl.interval # was 10
+    @end_date = params[:end_date] ? Date::parse(params[:end_date]) : @rtjwl.current_date + @rtjwl.interval # was 30
+    
+    # @current_user_id = get_current_user_id(params)
+    # interval = params.has_key?("interval") ? params[:interval] : 15
+    conditions = ' spent_on > "' + (@rtjwl.current_date - @rtjwl.interval).to_s() + '" AND spent_on < "' + (@rtjwl.current_date - @rtjwl.interval).to_s() + '"'
+    @logged_te = TimeEntry.find(:all,:conditions => [conditions], :order => ['issue_id,spent_on'] )
+    @logged_days = {}
+    @total_days = {}
+    @projcat = {}
+    @projects = Project.find(:all, :conditions => {:status => 1}, :order => ['parent_id,name'])
+    @projects.each do |projet|
+      @projcat[projet.id] = {}
+      @projcat[projet.id]["total"] = 0.0
+      @projcat[projet.id]["other"] = {}
+      @projcat[projet.id]["other"]["total"] = 0.0
+      # issue_categories = projet.issue_categories
+      projet.issue_categories.each do |cat|
+        @projcat[projet.id][cat.id] = {}
+        @projcat[projet.id][cat.id]["total"] = 0.0
+      end
+    end
+    @logged_te.each do |te|
+      if te.spent_on and te.issue.project
+        cat_id = te.issue.category ? te.issue.category.id : "other"
+        logger.debug ("cat_id")
+        logger.debug (cat_id)
+        unless @projcat[te.issue.project.id][cat_id].has_key?(te.spent_on.to_s())
+                @projcat[te.issue.project.id][cat_id][te.spent_on.to_s()] = 0.0
+        end
+        @projcat[te.issue.project.id][cat_id][te.spent_on.to_s()] += te.hours.to_f() / 8
+        @projcat[te.issue.project.id][cat_id]["total"] += te.hours.to_f() / 8
+        unless @total_days.has_key?(te.spent_on.to_s())
+                @total_days[te.spent_on.to_s()] = {}
+                @total_days[te.spent_on.to_s()]["total"] = 0.0
+        end
+        unless @total_days[te.spent_on.to_s()].has_key?(te.project.id)
+                @total_days[te.spent_on.to_s()][te.project.id] = 0.0
+        end
+        @total_days[te.spent_on.to_s()]["total"] += te.hours.to_f() / 8
+        @projcat[te.issue.project.id]["total"] += te.hours.to_f() / 8
+        ####@projcat[te.issue.project.id][cat_id]["total"] += te.hours.to_f() / 8
+        @total_days[te.spent_on.to_s()][te.project.id] += te.hours.to_f() / 8
+      end
+    end
+    @rtjwl
+  end
+
+  ##
+  # Returns the formatted timetable mainly for consulting
+  # user_id integer
+  # current_date String I guess
+  # interval integer
   def get_timetable_info (user_id, current_date, interval)
     puts @rtjwl.current_date
     #@logged_te = @rtjwl.get_time_entries
@@ -299,6 +301,8 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     end
   end
   
+  ##
+  # This my be redoundant. I think I do the same calculation differently, but not as artful.
   def get_spent_hours(user_id,issue_id,date)
     te = TimeEntry.find(:first,:conditions => {:user_id => user_id, :spent_on => date, :issue_id => issue_id})
     if te
@@ -310,6 +314,9 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     return spent_hours
   end
   
+  ##
+  # I am not sure I still use this. It seems that versions and categories
+  # are no longer used.
   def add_to_projcat(projcat, proj, cat, te)
     unless projcat.has_key?(proj.id)
       projcat[proj.id] = {}

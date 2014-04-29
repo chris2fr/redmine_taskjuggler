@@ -6,6 +6,8 @@
 # File : init.rb
 # Code for integrating redmine_taskjuggler into Redmine
 
+require 'redmine'
+
 ##
 # Patches to the Redmine core.
 ActionDispatch::Callbacks.to_prepare do
@@ -85,7 +87,9 @@ Redmine::Plugin.register :redmine_taskjuggler do
   
   ##
   # Add an application-wide settings hash for plugin global settings
-  settings :default => {'empty' => true}, :partial => 'settings/redmine_taskjuggler_settings'
+  settings :default => { 'tjp_path' => "",
+			 'empty' => true},
+	   :partial => 'settings/redmine_taskjuggler_settings'
   
   # menu :application_menu, :redmine_taskjuggler, { :controller => 'redmine_taskjuggler_projects', :action => 'index' }, :caption => :tj_project
   
