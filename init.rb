@@ -43,13 +43,43 @@ Redmine::Plugin.register :redmine_taskjuggler do
   version '0.1.master'
   url 'https://github.com/chris2fr/redmine_taskjuggler'
   author_url 'http://mann.fr'
-
+  
   ##
-  # Add a permission
-  permission :redmine_taskjuggler_projects, {
-    :redmine_taskjuggler_projects => [:show, :index, :tjp, :csv]
-  },
-  :public => true
+  # Add an application-wide settings hash for plugin global settings
+  settings :default => { 'tjp_path' => "",
+			 'empty' => true},
+	   :partial => 'settings/redmine_taskjuggler_settings'
+  
+  ##
+  # Add redmine_taskjuggler as a module
+  project_module :redmine_taskjuggler do
+    # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
+    permission :redmine_taskjuggler_projects_view, {
+      :redmine_taskjuggler_projects => :show
+    }
+    permission :redmine_taskjuggler_projects_tjp_save, {
+      :redmine_taskjuggler_projects => :tjp_save
+    }
+    permission :redmine_taskjuggler_projects_tjp, {
+      :redmine_taskjuggler_projects => :tjp
+    }
+    permission :redmine_taskjuggler_projects_update, {
+      :redmine_taskjuggler_projects => [:csv, :update]
+    }
+  end
+
+  ###
+  ## Add a globol permission
+  permission :redmine_taskjuggler_workloads_edit, {
+    :redmine_taskjuggler_workloads => [:new, :create, :edit, :update]
+  }
+  permission :redmine_taskjuggler_workloads_show, {
+    :redmine_taskjuggler_workloads => [:index, :show]
+  }
+  #permission :redmine_taskjuggler_projects, {
+  #  :redmine_taskjuggler_projects => [:show, :index, :tjp, :csv]
+  #},
+  #:public => true
   
   # This permission has to be explicitly given
   # It will be listed on the permissions screen
@@ -85,11 +115,7 @@ Redmine::Plugin.register :redmine_taskjuggler do
   },
   :caption => :workload_label
   
-  ##
-  # Add an application-wide settings hash for plugin global settings
-  settings :default => { 'tjp_path' => "",
-			 'empty' => true},
-	   :partial => 'settings/redmine_taskjuggler_settings'
+  
   
   # menu :application_menu, :redmine_taskjuggler, { :controller => 'redmine_taskjuggler_projects', :action => 'index' }, :caption => :tj_project
   

@@ -1,0 +1,20 @@
+Dear visitor,
+
+Re{project}source :
+* _proposes_ and _offers_ an open-source plugin *"Redmine_Taskjuggler":http://redmine.mann.fr/projects/redmine_taskjuggler* with +Taskjuggler as planning management+ and +Redmine as a backlog tool+; 
+* _offers_ *"Taskjuggler as a service":http://redmine.mann.fr/projects/taskjuggler-as-a-service* for simple cloud +use of Taskjuggler by any backlog system+ such as, but not limited to, Redmine with Redmine_Taskjuggler, and; 
+* _helps anyone_ *"bridge the gap between projects and resources":http://redmine.mann.fr/projects/ways-and-means* in +any methodology+ and +any tool set+.
+
+Re{project}source's objective is to +prepare dynamic release roadmaps and/or budgets+ by methodologically aggregating available systemic information +from work backlogs+ and from other sources in a forecasting system.  The _methodology_ can be anything _from Agile to waterfall_. The _backlog_ and _forecasting systems_ can be _paper, spreadsheet, or software_. 
+
+The advantages of a constructed model are :
+* better use of available information sooner, 
+* a common language for more efficient arbitration,
+* anticipation of information needs to stakeholders, 
+* and ultimately reinforced tranquility of team members.
+
+Re{project}source is made available with team managers, project managers, team members, executive officers, and others in mind. I hope you find what you need, and perhaps even contribute.
+
+Sincerely,
+
+Christopher Mann <christopher@mann.fr>

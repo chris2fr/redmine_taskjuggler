@@ -1,15 +1,14 @@
 <!-- encoding: utf-8 -->
+<%
+# Only show this bit if the module is enabled and the person can see it
+%>
+<% if @project.module_enabled?("redmine_taskjuggler") and User.current.allowed_to?(:redmine_taskjuggler_projects_view) %>
 <fieldset class="tabular"><legend>redmine_taskjuggler</legend>
 <% tr = @project.tj_timingresolution %>
 <%= labelled_fields_for(@project) do |f| %>
 <div id="taskjuggler" class="attributes">
   <div class="splitcontent">
     <div class="splitcontentleft">
-      <p>
-        <%= f.label :tj_activated %>
-        <%= f.check_box :tj_activated, :default => 1 %>
-        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_activated) %>')">(?)</a>
-      </p>
       <p>
         <%= f.label :tj_version %>
         <%= f.text_field :tj_version %>
@@ -57,3 +56,4 @@
 </div>
 <% end %>
 </fieldset>
+<% end %>

@@ -1,10 +1,7 @@
 <!-- encoding: utf-8 -->
+<% if @project.module_enabled?("redmine_taskjuggler") and User.current.allowed_to?(:redmine_taskjuggler_projects_view) %>
 <div class="issues box">
 <p>
-  <h3><%= l(:tj_activated) %></h3>
-  <%= l(:tj_activated) %> : 
-  <%= @project.tj_activated%>
-<br/>
   <%= l(:tj_version) %> :
   <%= @project.tj_version %>
 <br/>
@@ -30,3 +27,4 @@
   <%= @project.tj_timeformat %>
 </p>
 </div>
+<% end %>

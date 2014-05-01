@@ -15,8 +15,7 @@ module RedmineTaskjuggler
       included do
         extend ClassMethods
         base.class_eval do
-          safe_attributes 'tj_activated',
-            'tj_version',
+          safe_attributes 'tj_version',
             'tj_dailyworkinghours',
             'tj_period',
             'tj_currency',
@@ -28,8 +27,7 @@ module RedmineTaskjuggler
           validates_presence_of 'tj_period'
         end
         base.class_eval do
-          attr_accessible :tj_activated,
-            :tj_version,
+          attr_accessible :tj_version,
             :tj_dailyworkinghours,
             :tj_period,
             :tj_currency,
@@ -55,8 +53,7 @@ end
 
 Project.send(:includes,RedmineTaskjuggler::Patch::Project)
 Project.send(:includes,RedmineTaskjuggler::Patch::Project::InstanceMethods)
-Project.safe_attributes :tj_activated,
-          :tj_version,
+Project.safe_attributes :tj_version,
           :tj_dailyworkinghours,
           :tj_period,
           :tj_currency,
