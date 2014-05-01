@@ -1,5 +1,5 @@
 <!-- encoding: utf-8 -->
-<% if @project.module_enabled?("redmine_taskjuggler") and User.current.allowed_to?(:redmine_taskjuggler_projects_view) %>
+<% if @project.module_enabled?("redmine_taskjuggler") and User.current.allowed_to?(:redmine_taskjuggler_projects_view, @project) %>
 <div class="issues box">
 <p>
   <%= l(:tj_version) %> :

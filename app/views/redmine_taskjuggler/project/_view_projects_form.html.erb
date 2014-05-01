@@ -2,7 +2,7 @@
 <%
 # Only show this bit if the module is enabled and the person can see it
 %>
-<% if @project.module_enabled?("redmine_taskjuggler") and User.current.allowed_to?(:redmine_taskjuggler_projects_view) %>
+<% if @project.module_enabled?("redmine_taskjuggler") and User.current.allowed_to?(:redmine_taskjuggler_projects_view,@project) %>
 <fieldset class="tabular"><legend>redmine_taskjuggler</legend>
 <% tr = @project.tj_timingresolution %>
 <%= labelled_fields_for(@project) do |f| %>
