@@ -1,0 +1,36 @@
+This is my notepad for issue 37. 
+I seem to want to re-architecture my solution here a bit. 
+
+* Here are my objects
+** TJP
+** CSV
+** Redmine
+*** Project
+*** Issue
+*** User
+*** TimeEntry
+*** Settings
+** Taskjuggler
+*** Project
+*** Task
+*** Resource
+*** Booking
+*** TimeEffort
+** Plugin
+*** controllers
+    These are Redmine controllers for visiting different places of Redmine.
+*** helpers
+*** models
+    These are ActiveRecord Models dependent on Rails and from my own creation.
+**** redmine_taskjuggler_projects_controller
+**** redmine_taskjuggler_teams_controller
+**** redmine_taskjuggler_workloads
+*** views
+**** redmine_taskjuggler
+**** redmine_taskjuggler_projects
+**** redmine_taskjuggler_teams
+**** redmine_taskjuggler_workloads
+**** settings
+
+* Here is my ideal architecture
+** Redmine::Project

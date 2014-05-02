@@ -5,10 +5,10 @@
 # https://github.com/chris2fr/redmine_taskjuggler/
 # File : app/controllers/dates_updates_controller.rb
 ##
-# A utility resource. We are interested in the attached project.
-# Later, this class could take on the role of a particular planning
-# session by the TaskMaster.
-class RedmineTaskjugglerProjects < ActiveRecord::Base
+# ActiveRectord Tj3Client represents an execution of the tj3_client
+class Tj3Client < Tj3
   unloadable
-  belongs_to :projects
+  attr_accessible server,
+    port
+  
 end

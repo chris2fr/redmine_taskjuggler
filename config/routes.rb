@@ -2,6 +2,34 @@
 # Plugin's routes
 # See: http://guides.rubyonrails.org/routing.html
 
+resources :projects do
+  resources :csvs
+  resources :tjps
+  resources :bookings
+end
+
+resources :issues do
+  resources :bookings
+end
+
+resources :users do
+  resources :bookings
+end
+
+resources :bookings
+resources :csvs
+resources :tjps
+
+resources :teams
+
+##
+# Everything below is old
+
+
+
+
+
+
 resources :redmine_taskjuggler_teams
 resources :redmine_taskjuggler_workloads
 resources :redmine_taskjuggler_projects
