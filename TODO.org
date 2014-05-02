@@ -44,3 +44,7 @@ See comment above about subdomaines on mann.fr.
 * DONE TJP export
 * DONE Take screen shots (in wiki and in doc I think)
 * DONE Incoporate Workload into this plugin
+* TODO Setup as module
+  if @project.module_enabled?("<module_name>")
+* TODO Setup really cool installation document
+  like this one [[http://www.redminebacklogs.net/en/installation.html]]

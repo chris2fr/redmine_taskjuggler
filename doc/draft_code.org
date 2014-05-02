@@ -24,3 +24,13 @@ My guess is that csv_imort, tjp_export and mass_edit_gui are not done.
 * Other notes
 ** Installing RVM and Passenger on Ubuntu
    I also installed RVM and Passenger on Ubuntu with this : https://www.digitalocean.com/community/articles/how-to-install-rails-and-nginx-with-passenger-on-ubuntu 
+
+* Architecture
+** TODO write-up the architecture somewhere
+** Redmine_Taskjuggler is a Redmine Plugin
+** Modules of Redmine Taskjuggler
+*** Duties as a Redmine Plugin
+*** Modelisation of Redmine Entities
+    I do wonder if this is extranious because Redmine already models itself and accessible. It does make it harder though to test if all the manipulated entities are Redmine dependent. That is why we have all these proxy entities.
+*** Modelisation of Taskjuggler Entities
+    These are the Taskjuggler entities that I model in Redmine. I wonder if I could grab the interfaces from Taskjuggler.
