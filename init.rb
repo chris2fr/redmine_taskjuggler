@@ -96,7 +96,7 @@ Redmine::Plugin.register :redmine_taskjuggler do
     #:set_filter => 1
   },
   :caption => :taskjuggler,
-  :after => :activity
+  :after => :issues
   
   ##
   # Add a menu in the Administration part of the application
