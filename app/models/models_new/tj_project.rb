@@ -36,19 +36,16 @@ class TjProject < ActiveRecord::Base
   has_many :tj_reports
   ##
   # project_id
-  attr_accessible :project_id
+  attr_accessible :code
   ##
   # project_name 
-  attr_accessible :project_name
+  attr_accessible :name
   ##
   # project_version 
-  attr_accessible :project_version
+  attr_accessible :version
   ##
-  # start_date 
-  attr_accessible :start_date
-  ##
-  # end_date 
-  attr_accessible :end_date
+  # start and end dates
+  attr_accessible :interval
   ##
   # currency 
   attr_accessible :currency
@@ -61,3 +58,4 @@ class TjProject < ActiveRecord::Base
   ##
   # now 
   attr_accessible :now
+end

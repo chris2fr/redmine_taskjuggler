@@ -8,6 +8,7 @@
 # The Extending of a Resource or Task within the Project declaration in TaskJuggler
 class TjMacro < ActiveRecord::Base
   unloadable
+  belongs_to :tj_project
   ##
   # The exntesion itself as included inline
   attr_accessor :value
