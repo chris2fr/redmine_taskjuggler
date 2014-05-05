@@ -1,0 +1,12 @@
+task <%= task.code %> "<%= task.name %>" {
+    <% task.allocates.each do |allocate| %>
+        <%= render partial: "allocate", locals: {allocate: allocate} %>
+    <% end %>
+    <%= render partial: "abstract_multiple_named_tokens", locals: {
+        name: "flags", tokens: flags, sep: ', '} %>
+    <%= render partial: "task", locals: {task: tj_task} %>
+    <% end %>
+    <% task.tj_tasks.each do |tj_task| %>
+    <%= render partial: "task", locals: {task: tj_task} %>
+    <% end %>
+}

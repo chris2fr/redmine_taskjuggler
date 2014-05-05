@@ -1,0 +1,14 @@
+<%
+##
+# Takes a name and tokens
+%>
+<% if tokens.length > 0
+    comma = "" 
+    puts "#{name} "
+    tokens.each do |token|
+        puts "#{comma} #{token}"
+        puts comma
+        puts flag 
+        comma ||= sep
+    end
+end %>

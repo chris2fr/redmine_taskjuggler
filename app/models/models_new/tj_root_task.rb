@@ -4,9 +4,3 @@
 # Licence GPL v3.0 Affero
 # https://github.com/chris2fr/redmine_taskjuggler/
 # File : app/models/tj_root_task.rb
-##
-# This is a task that represents a project
-class TjRootTask < TjTask
-  unloadable
-  has_one :project
-end

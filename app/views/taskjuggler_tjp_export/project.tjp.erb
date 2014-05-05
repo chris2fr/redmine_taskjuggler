@@ -7,39 +7,38 @@ project <%= @tj_project.code %> "<%= @tj_project.name %>" "<%= @tj_project.versi
   timeformat "<%= @tj_project.timeformat %>"
   now <%= @tj_project.now %>
   extend resource {
-    <% @tj_project.extend_resources.each {|extend_resource| { %>
-        <%= render partial: "extend", locals: { extend_resource: extend_resource} %>
+    <% @tj_project.extend_resources.each {|extend| { %>
+        <%= extend.vartype %> <%= extend.code %> "<%= extend.name %>"
     <% } %>
   }
   extend task {
     <% @tj_project.extend_resources.each {|extend_resource| %>
-        <%= render partial: "extend", locals: { extend_resource: extend_resource} %>
+        <%= extend.vartype %> <%= extend.code %> "<%= extend.name %>"
     <% } %>
   }
   <% @tj_project.scenarios.each {|scenario| %>
     <%= render partial: "scenario", locals: { scenarios: scenarios} %>
   <% } %>
 }
-<% if @tj_project.leaves? and @tj_project.leaves.length > 0
-    comma = ""
-    puts "leaves "
-    @tj_project.leaves.each {|leave|
-        puts comma
-        puts leave 
-        comma = ", \n"
-    }
-end %>
-<%= render partial: "flags" @tj_project.flags %>
+<%= render partial: "abstract_multiple_named_tokens", locals: {
+    name: "leaves",
+    tokens: @tj_project.leaves,
+    sep: ", /n  "
+    } %>
+<%= render partial: "abstract_multiple_named_tokens", locals: {
+    name: "flags",
+    tokens: flags,
+    sep: ", "} %>
 <% @tj_project.macros.each { |macro|
     puts macro
     puts '\n'
 }
 %>
 <% if @tj_project.accounts? and @tj_project.accounts.length > 1
-    @tj_project.accounts.each {|account| %>
+    @tj_project.tj_accounts.each {|account| %>
         <%= render partial: "account", locals {account: account}
     <% } %>
-    balance <%= @tj_project.accounts[0].code %> <%= @tj_project.accounts[1].code %>
+    balance <%= @tj_project.tj_accounts[0].code %> <%= @tj_project.tj_accounts[1].code %>
 <% end %>
 <% @tj_project.resources.each {|resource| %>
     <%= render partial: "resource", locals {resource: resource}

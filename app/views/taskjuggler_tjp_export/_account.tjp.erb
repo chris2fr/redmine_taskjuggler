@@ -1,0 +1,5 @@
+account <%= account.code %> "<%= account.name %>" {
+    <% @account.tj_accounts.each {|child| %>
+        <%= render partial: "account", locals {account: child}
+    <% } %>
+}

@@ -1,0 +1,10 @@
+supplement task <%= booking.task.fullcode %> {
+    booking <%= booking.resource.code%> <%
+        comma = ""
+        booking.intervals.each { |interval|
+            puts comma
+            puts interval.to_s
+            comma = ",\n            "
+        }
+    %> {sloppy 1}
+}
