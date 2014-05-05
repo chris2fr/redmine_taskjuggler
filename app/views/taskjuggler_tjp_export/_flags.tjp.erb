@@ -1,0 +1,9 @@
+<% if flags? and flags.length > 0
+    comma = ""
+    puts "leaves "
+    flags.each {|flag|
+        puts comma
+        puts flag 
+        comma = ", \n"
+    }
+end %>

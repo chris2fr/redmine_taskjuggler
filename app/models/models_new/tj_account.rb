@@ -18,4 +18,16 @@ class TjAccount < ActiveRecord::Base
   # Name of the account
   attr_accessor :name
   
+  def to_hashtable
+    result = {
+      code: code,
+      name: name,
+      tj_accounts: {}
+    }
+    tj_accounts.each { | account |
+      result[:tj_accounts] << tj_account.to_hashtable
+    }
+    result
+  end
+
 end

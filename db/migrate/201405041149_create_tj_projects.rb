@@ -10,8 +10,9 @@ class CreateTjProjects < ActiveRecord::Migration
       t.string :version
       t.string :interval
       t.string :currency
-      t.string :number_format
-      t.string :time_format
+      t.string :numberformat
+      t.string :timeformat
+      t.string :timezone
       t.date :now
       t.timestamps
     end

@@ -2,16 +2,15 @@
 ##
 # A migration for workload, I guess preferences. Rails likes objects
 # to be tangible.
-class CreateTjExtends < ActiveRecord::Migration
+class CreateTjLeaves < ActiveRecord::Migration
   def change
-    create_table :tj_extends do |t|
+    create_table :tj_leaves do |t|
       t.string :code
       t.string :name
-      t.string :vartype
-      t.string :type
+      t.string :date_or_interval
       t.int :tj_project_id
       t.timestamps
     end
-    add_index(:tj_extends, :tj_project_id)
+    add_index(:tj_leaves, :tj_project_id)
   end
 end

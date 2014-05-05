@@ -1,0 +1,55 @@
+project <%= @tj_project.code %> "<%= @tj_project.name %>" "<%= @tj_project.version %>" <%= @tj_project.interval %> {
+  timezone "<%= @tj_project.timezone %>"
+  timeformat "<%= @tj_project.timeformat %>"
+  currencyformat <%= @tj_project.currencyformat %>
+  currency "<%= @tj_project.currency %>"
+  numberformat <%= @tj_project.numberformat %>
+  timeformat "<%= @tj_project.timeformat %>"
+  now <%= @tj_project.now %>
+  extend resource {
+    <% @tj_project.extend_resources.each {|extend_resource| { %>
+        <%= render partial: "extend", locals: { extend_resource: extend_resource} %>
+    <% } %>
+  }
+  extend task {
+    <% @tj_project.extend_resources.each {|extend_resource| %>
+        <%= render partial: "extend", locals: { extend_resource: extend_resource} %>
+    <% } %>
+  }
+  <% @tj_project.scenarios.each {|scenario| %>
+    <%= render partial: "scenario", locals: { scenarios: scenarios} %>
+  <% } %>
+}
+<% if @tj_project.leaves? and @tj_project.leaves.length > 0
+    comma = ""
+    puts "leaves "
+    @tj_project.leaves.each {|leave|
+        puts comma
+        puts leave 
+        comma = ", \n"
+    }
+end %>
+<%= render partial: "flags" @tj_project.flags %>
+<% @tj_project.macros.each { |macro|
+    puts macro
+    puts '\n'
+}
+%>
+<% if @tj_project.accounts? and @tj_project.accounts.length > 1
+    @tj_project.accounts.each {|account| %>
+        <%= render partial: "account", locals {account: account}
+    <% } %>
+    balance <%= @tj_project.accounts[0].code %> <%= @tj_project.accounts[1].code %>
+<% end %>
+<% @tj_project.resources.each {|resource| %>
+    <%= render partial: "resource", locals {resource: resource}
+<% } %>
+<% @tj_project.tasks.each {|task| %>
+    <%= render partial: "task", locals {task: task}
+<% } %>
+<% @tj_project.bookings.each {|booking| %>
+    <%= render partial: "booking", locals {booking: booking}
+<% } %>
+<% @tj_project.reports.each {|report| %>
+    <%= render partial: "report", locals {report: report}
+<% } %>

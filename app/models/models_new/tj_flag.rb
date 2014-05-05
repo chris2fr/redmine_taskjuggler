@@ -11,4 +11,7 @@ class TjAccount < ActiveRecord::Base
   ##
   # The flag itself is an identifier
   attr_accessor :code
+  def to_s
+    code
+  end
 end
