@@ -1,0 +1,19 @@
+# Permalinks
+permalink:        pretty
+relative_permalinks: true
+
+# Setup
+title:            Redmine Taskjuggler Plugin
+tagline:          Redmine and Taskjuggler together are like Cookies and Milk
+url:              http://chris2fr.github.io/redmine_taskjuggler
+paginate:         1
+baseurl:          /
+author:
+  name:           Christopher Mann
+  url:            http://www.mann.fr/
+  email:          christopher@mann.fr
+
+# Custom vars
+version:          1.0.0
+github:
+  repo:           https://github.com/chris2fr/redmine_taskjuggler
