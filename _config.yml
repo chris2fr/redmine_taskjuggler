@@ -4,7 +4,7 @@ relative_permalinks: true
 
 # Setup
 title:            Redmine Taskjuggler Plugin
-tagline:          Redmine and Taskjuggler together are like Cookies and Milk
+tagline:          Redmine and Taskjuggler go together are like Cookies and Milk
 url:              http://chris2fr.github.io/redmine_taskjuggler
 paginate:         1
 baseurl:          /redmine_taskjuggler/
