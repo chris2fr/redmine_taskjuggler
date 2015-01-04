@@ -1,0 +1,33 @@
+<!-- encoding: utf-8 -->
+<!-- view_issues_bulk_edit_details_bottom -->
+
+<fieldset><legend><%= l(:redmine_taskjuggler) %></legend>
+
+            <p>
+            <label for="tj_activated"><%= l(:tj_activated) %></label>
+            <%= check_box_tag 'issue[tj_activated]', 1 %>
+            <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_activated) %>')">(?)</a>
+            </p>
+           <p>
+              <label for="tj_scheduled"><%= l(:tj_scheduled) %></label>
+              <%= check_box_tag 'issue[tj_scheduled]', 1%>
+              <a href="#" onClick="javascript:confirm('<%= l(:tooltiptj_scheduled_) %>')">(?)</a>
+            </p>
+
+<!-- add priority for the issue -->
+	    <p>
+              <label for="tj_priority"><%= l(:tj_priority) %></label>
+              <%= text_field_tag 'issue[tj_priority]' %>
+              <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_priority) %>')">(?)</a>
+            </p>
+          <p>
+              <% users_array = User.all.map { |user| [user.firstname + ' ' + user.lastname, user.login.sub('-','_') ] } %>
+              <label for="tj_allocates"><%= l(:tj_allocates) %></label>
+              <%= select_tag('issue[tj_allocates]',users_array) %>
+              <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_allocates) %>')">(?)</a>
+                        </p>
+                       <p>
+              <label for="tj_limits"><%= l(:tj_limits) %></label>
+              <%= text_field_tag 'issue[tj_limits]' %>
+              <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_limits) %>')">(?)</a>
+            </p>

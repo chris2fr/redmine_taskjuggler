@@ -1,0 +1,46 @@
+<%
+
+%>task t<%= issue.id %> "#<%= issue.id %> : <%= issue.subject.sub("\"","'") %>" {
+				complete 0
+				priority <%= (issue.priority_id + 1) * 100 %><% 
+has_end = false
+if issue.assigned_to and issue.estimated_hours.to_f > 0%>
+				allocate <%= issue.assigned_to.login.sub(".","_") %>
+				effort <%= issue.estimated_hours.to_f / 8 %>d
+<%
+elsif config_vals['milestone'] and not config_vals['milestone'] == "0"
+	## It's a milestone
+	%>
+				milestone
+<%
+	if config_vals['force_dates_free_resources'] and not config_vals['force_dates_free_resources'] == "0"
+%>				start <%= issue.start_date %>
+<%				has_end = true
+	end
+else %>
+				start <%= issue.start_date %>
+<%	
+	if issue.due_date
+		has_end = true
+%>				end <%= issue.due_date %><%
+	end
+end  %><% 
+if issue.relations_to[0] and not has_end
+	i = 0
+	depends = ""
+	comma = ""
+	issue.relations_to.each do |dep| 
+		if dep.relation_type == "precedes" and @IssueFullName["t" + dep.issue_from_id.to_s]
+			if i > 0 
+				comma = ", "
+			else
+				i += 1
+			end
+			depends +=  comma + @IssueFullName["t" + dep.issue_from_id.to_s] 
+		end
+	end
+	if depends > ""
+%>				depends <%= depends %>
+<%	end
+end %>
+			}

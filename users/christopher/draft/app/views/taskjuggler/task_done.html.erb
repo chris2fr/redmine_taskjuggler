@@ -1,0 +1,6 @@
+task t<%= issue.id %> "#<%= issue.id %> : <%= issue.subject.sub("\"","'") %>" {
+				complete 100
+				scheduled
+				start <%= issue.start_date %>
+				end <%= issue.due_date %>
+			}

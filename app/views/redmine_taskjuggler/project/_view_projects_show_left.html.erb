@@ -1,0 +1,30 @@
+<!-- encoding: utf-8 -->
+<% if @project.module_enabled?("redmine_taskjuggler") and User.current.allowed_to?(:redmine_taskjuggler_projects_view, @project) %>
+<div class="issues box">
+<p>
+  <%= l(:tj_version) %> :
+  <%= @project.tj_version %>
+<br/>
+  <%= l(:tj_dailyworkinghours) %> :
+  <%= @project.tj_dailyworkinghours %>
+<br/>
+  <%= l(:tj_period) %> :
+  <%= @project.tj_period %>
+<br/>
+  <%= l(:tj_currency) %> :
+  <%= @project.tj_currency%>
+<br/>
+  <%= l(:tj_now) %> :
+  <%= @project.tj_now %>
+<br/>
+  <%= l(:tj_numberformat) %> :
+  <%= @project.tj_numberformat %>
+<br/>
+  <%= l(:tj_timingresolution) %> :
+  <%= @project.tj_timingresolution%>
+<br/>
+  <%= l(:tj_timeformat) %> :
+  <%= @project.tj_timeformat %>
+</p>
+</div>
+<% end %>

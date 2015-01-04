@@ -1,0 +1,11 @@
+<!-- encoding: utf-8 -->
+<fieldset class="tabular"><legend><%= l(:redmine_taskjuggler) %></legend>
+<%= labelled_fields_for(@time_entry) do |f| %>
+<div id="taskjuggler" class="attributes">
+      <p>
+        <%= f.label :tj_start %>
+        <%= f.text_field :tj_start, :default => '10:00', size: 5 %>
+        <a href="#" onClick="javascript:confirm('<%= l(:tooltip_tj_start) %>')">(?)</a>
+      </p>
+</div>
+<% end %>

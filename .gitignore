@@ -39,3 +39,16 @@ validation-report.json
 
 # Folders to ignore
 node_modules
+
+# Extra by chris2fr
+
+*.sublime*
+/db/redmine.sqlite
+*.bak
+*.erb~
+*.rb~
+*.yml~
+*~
+#*#
+/doc/taskjuggler.net/www
+*.org#
