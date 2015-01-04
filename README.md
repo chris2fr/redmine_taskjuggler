@@ -1,3 +1,8 @@
+---
+layout: default
+title: README
+---
+
 # Redmine_Taskjuggler plugin
 
 This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
