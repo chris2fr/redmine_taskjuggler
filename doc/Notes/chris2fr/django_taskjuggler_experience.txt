@@ -130,3 +130,4 @@ $ WSGIScriptAlias /django /var/mmm/djtj3/apache/django.wsgi
 $ sudo /etc/init.d/apache2 restart
 $ sudo chown -R www-data:www-data /var/mmm
 $ sudo ln -s /var/mmm/djtj3/media /var/www/media
+

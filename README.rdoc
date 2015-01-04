@@ -2,11 +2,9 @@
 
 This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
 
-Further documentation to this README can be found at the project wiki here:
+Further documentation to this README can be found in the subfolder ./doc/: HOWTOs, diagrams, notes, credits, license, and todo.
 
-https://github.com/chris2fr/redmine_taskjuggler/wiki
-
-Copyright (C) 2009 - 2014 Christopher Mann <christopher@mann.fr> AGPL v.3 (see LICENSE.rdoc and CREDITS.rdoc)
+Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see LICENSE.rdoc and CREDITS.rdoc)
 
 Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity planning software!
 
@@ -77,7 +75,7 @@ Here is the backlog
 * Look into plugins kanban, etc.
 * Native backend to Taskjuggler 
 
-There is a demo set up here: http://redtask.configmagic.com
+There was a demo set up here: http://redtask.configmagic.com
 
 
 == Installation
@@ -115,7 +113,7 @@ A copy of the released version can be downloaded from  {GitHub}[http://github.co
 
 == Installation and Setup
 
-1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins Make sure the plugin is installed to +vendor/plugins/redmine_taskjuggler+
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins Make sure the plugin is installed to +plugins/redmine_taskjuggler+
 2. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
 3. Login and click the Workload in the top left menu
 
@@ -129,7 +127,7 @@ A copy of the released version can be downloaded from  {GitHub}[http://github.co
 
 === Git
 
-1. Open a shell to your Redmine's vendor/plugins/redmine_taskjuggler folder (move to plugins because vendor/plugins is no longer in Redmine 2.X)
+1. Open a shell to your Redmine's plugins/redmine_taskjuggler folder
 2. Update your Git copy with `git pull`
 3. Restart your Redmine
 
