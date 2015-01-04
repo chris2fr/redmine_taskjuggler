@@ -10,7 +10,7 @@ This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskju
 
 Further documentation to this README can be found in the subfolder [./doc/](./doc/): HOWTOs, diagrams, notes, credits, license, and todo.
 
-Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see [./doc/LICENSE.md](./doc/LICENSE) and [CREDITS.md])
+Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see [./doc/LICENSE.md](/doc/LICENSE) and [CREDITS.md])
 
 
 Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity planning software!
