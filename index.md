@@ -1,5 +1,6 @@
 ---
-
+layout: default
+title: Home
 ---
 
 # Redmine_Taskjuggler plugin
