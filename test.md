@@ -1,5 +1,6 @@
 ---
 title: This is a Test Jekyll page
+layout: default
 ---
 
 # Test Jekyl page
