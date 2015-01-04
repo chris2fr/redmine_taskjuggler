@@ -1,26 +1,17 @@
 ---
-<<<<<<< HEAD
 layout: default
 title: README
 ---
 
-=======
-
----
->>>>>>> origin/master
 # Redmine_Taskjuggler plugin
 
 This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
 
-<<<<<<< HEAD
-Further documentation to this README can be found in the subfolder ./doc/: HOWTOs, diagrams, notes, credits, license, and todo.
 
-Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see LICENSE.rdoc and CREDITS.rdoc)
-=======
 Further documentation to this README can be found in the subfolder [./doc/](./doc/): HOWTOs, diagrams, notes, credits, license, and todo.
 
 Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see [LICENSE.md] and [CREDITS.md])
->>>>>>> origin/master
+
 
 Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity planning software!
 
