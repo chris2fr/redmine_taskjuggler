@@ -1,9 +1,0 @@
-digraph redmine_taskjuggler {
-	node [shape=rectangle]
-	edge [arrowhead=crow]
-	# TJ3Project Project [rank=same]
-	TJ3Project -> Project [dir=none constraint=false]
-	Project -> User
-	Project -> Issue
-	TJ3Issue -> Issue [dir=none constraint=false]
-}

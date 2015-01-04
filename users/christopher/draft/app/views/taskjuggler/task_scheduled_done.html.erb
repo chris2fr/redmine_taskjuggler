@@ -1,7 +1,0 @@
-			task t<%= issue.id %> "#<%= issue.id %> : <%= issue.subject.sub("\"","'") %>" {
-				complete <%= issue.done_ratio %>
-				priority <%= (issue.priority_id + 1) * 100 %>
-				start <%= issue.start_date %>
-				scheduled
-				end <%= issue.due_date %>-08:00
-			}
