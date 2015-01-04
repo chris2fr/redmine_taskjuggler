@@ -1,0 +1,3 @@
+utf_in_windows
+
+chcp 65001

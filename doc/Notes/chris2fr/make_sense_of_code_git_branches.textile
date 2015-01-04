@@ -1,0 +1,42 @@
+make_sense_of_code_git_branches.textile
+
+
+Trying to make sense of the state of the code.
+
+I have three GIT copies:
+
+* redmine_taskjuggler
+* c\redmine_taskjuggler -> has komodo project file
+* n\redmine_taskjuggler
+
+ 
+
+Here are the Branches:
+
+* 0.1.1-alpha
+* 0.1.2-beta
+* architecture
+* issue33
+* issue35
+* master
+
+---
+
+* chris2fr
+* corrections
+* issue28
+* issue29
+* mak
+* without_version
+
+Here are the tags
+* 0.1.0-alpha.1,2,3
+
+Here are the remotes
+
+* naminko999, naminko999wov, origin
+
+---
+ 
+* upstream
+

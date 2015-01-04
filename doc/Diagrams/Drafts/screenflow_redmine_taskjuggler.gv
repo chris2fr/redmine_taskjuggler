@@ -1,0 +1,23 @@
+digraph redmine_taskjuggler_screenflow {
+	project_index
+	project_show
+	project_edit
+	project_update
+	project_new
+	project_create
+	project_destroy
+	team_index
+	team_show
+	team_edit
+	team_update
+	team_new
+	team_create
+	team_destroy
+	workload_index
+	workload_show
+	workload_edit
+	workload_update
+	workload_new
+	workload_create
+	workload_destroy
+}

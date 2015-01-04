@@ -1,0 +1,26 @@
+These are notes on the draft code on the draft code in users/christopher/draft
+
+* Code in users/christopher/draft
+** app
+** db
+** lib
+
+* Project refactoring
+** Finish plugin
+*** TODO Tests
+*** DONE GUI
+**** TODO Time Entry Calibration
+*** TODO CSV Import
+*** TODO Mass-Edit GUI
+*** DONE CRUD
+**** DONE User
+**** DONE Issue
+**** DONE Project
+**** DONE Time Entry
+*** TODO TJP Export
+
+My guess is that csv_imort, tjp_export and mass_edit_gui are not done.
+
+* Other notes
+** Installing RVM and Passenger on Ubuntu
+   I also installed RVM and Passenger on Ubuntu with this : https://www.digitalocean.com/community/articles/how-to-install-rails-and-nginx-with-passenger-on-ubuntu 
