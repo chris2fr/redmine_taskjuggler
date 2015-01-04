@@ -1,3 +1,8 @@
+---
+layout: default
+title: Redmine_Taskjuggler is under GNU AFFERO GENERAL PUBLIC LICENSE
+---
+
 # GNU AFFERO GENERAL PUBLIC LICENSE
 
 Version 3, 19 November 2007
