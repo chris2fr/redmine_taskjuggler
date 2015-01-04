@@ -7,7 +7,7 @@ title:            Redmine Taskjuggler Plugin
 tagline:          Redmine and Taskjuggler together are like Cookies and Milk
 url:              http://chris2fr.github.io/redmine_taskjuggler
 paginate:         1
-baseurl:          /
+baseurl:          /redmine_taskjuggler/
 author:
   name:           Christopher Mann
   url:            http://www.mann.fr/
