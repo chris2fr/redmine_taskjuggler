@@ -1,0 +1,19 @@
+Here are the mapped entities:
+
+project -> project
+issue -> task
+time_entry -> booking
+user -> resource
+
+Think about the following global settings:
+Allow cross-project issue relations
+Allow issue assignment to groups
+Non-working days
+Allow cross-project subtasks
+
+
+Think about use of the following project settings
+sub-projects      
+categories
+versions
+eventually activities

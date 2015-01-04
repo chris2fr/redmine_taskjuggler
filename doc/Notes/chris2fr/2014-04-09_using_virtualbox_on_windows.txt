@@ -1,0 +1,16 @@
+2014-04-09_using_virtualbox_on_windows
+
+Here is what I am doing now, 2014-04-09
+
+sudo dpkg-reconfigure console-data
+
+cd /usr/share/redmine/
+ruby script/rails server webrick -e production
+
+I just installed Mysql-Server with user/password root/root
+
+I think I have it working in c_share
+
+I need to find the command to mount 
+
+Instead of recompiling the kernel modules each time, I can use open-vm-tools package, or something like that.

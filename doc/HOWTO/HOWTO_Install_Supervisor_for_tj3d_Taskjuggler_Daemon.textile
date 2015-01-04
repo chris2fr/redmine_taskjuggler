@@ -149,7 +149,7 @@ h2. Bringing it all together
 
 Check http://localhost:9001/ with supervisor tj3d and tj3webd statuses.
 
-You now can have http://localhost:8080/taskjuggler with *«Welcome to the TaskJuggler Project Server»*
+You now can have http://localhost:8080/taskjuggler with *Â«Welcome to the TaskJuggler Project ServerÂ»*
 
 Now you can add your project file by command:
 
