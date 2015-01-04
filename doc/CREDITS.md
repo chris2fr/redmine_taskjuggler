@@ -1,3 +1,6 @@
+---
+---
+
 # Redmine_Taskjuggler plugin credits
 
 https://github.com/chris2fr/redmine_taskjuggler
