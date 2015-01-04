@@ -3,4 +3,4 @@ layout: default
 title: Home
 ---
 
-{{ include README.md }}
+{% include_relative README.md %}
