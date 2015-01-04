@@ -28,7 +28,8 @@
         </ul>
       </header>
       <section>
-        <p>= Redmine_Taskjuggler plugin</p>
+        <h1>
+<a id="redmine_taskjuggler-plugin" class="anchor" href="#redmine_taskjuggler-plugin" aria-hidden="true"><span class="octicon octicon-link"></span></a>Redmine_Taskjuggler plugin</h1>
 
 <p>This is Redmine <a href="http://www.redmine.org">http://www.redmine.org</a> and TaskJuggler (tm) <a href="http://www.taskjuggler.org">http://www.taskjuggler.org</a> integration maintained on the Github project page <a href="https://github.com/chris2fr/redmine_taskjuggler">https://github.com/chris2fr/redmine_taskjuggler</a>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!</p>
 
@@ -38,7 +39,8 @@
 
 <p>Taskjuggler is available at <a href="http://www.taskjuggler.org">http://www.taskjuggler.org</a>. It is fantastic capacity planning software!</p>
 
-<p>== Features</p>
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <p>Here is what this plugin does with you :</p>
 
@@ -50,7 +52,8 @@
 <li>New (from Workload) : Pre-reserves slots for resources into TaskJuggler from the Redmine TimeEntries datastore</li>
 </ul>
 
-<p>== Notes on the current version 0.1.2-beta</p>
+<h2>
+<a id="notes-on-the-current-version-012-beta" class="anchor" href="#notes-on-the-current-version-012-beta" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes on the current version 0.1.2-beta</h2>
 
 <p>This is a begining beta release. It works, and we have incorporated a major new feature set from RedmineWorkload.</p>
 
@@ -61,12 +64,14 @@
 <li>In some cases, and I have not yet been able to reproduce this, the TJP file will have the keywork start without a date in a task. This will cause the TJ3 program to fail to compile and you need to change it by hand by removing start or adding a date. Please tell me if you can reproduce.</li>
 </ul>
 
-<p>== Running automated tests</p>
+<h2>
+<a id="running-automated-tests" class="anchor" href="#running-automated-tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Running automated tests</h2>
 
 <p><code>rake redmine:plugins:test</code>
   I think you can add NAME="redmine_taskjuggler" or PLUGIN="redmine_taskjuggler"</p>
 
-<p>== Notes on the previous version 0.1.1-alpha</p>
+<h2>
+<a id="notes-on-the-previous-version-011-alpha" class="anchor" href="#notes-on-the-previous-version-011-alpha" aria-hidden="true"><span class="octicon octicon-link"></span></a>Notes on the previous version 0.1.1-alpha</h2>
 
 <p>This is an advanced alpha release. It works, but one should follow a few indications.</p>
 
@@ -120,7 +125,8 @@
 
 <p>There was a demo set up here: <a href="http://redtask.configmagic.com">http://redtask.configmagic.com</a></p>
 
-<p>== Installation</p>
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>Install into redmine/plugins directory. Really the redmine/plugins directory. If that directory is not there, on the top level, please create it. This is important actully.</p>
 
@@ -136,7 +142,8 @@
 
 <p>rake db:migrate:plugin NAME=redmine_taskjuggler VERSION=0</p>
 
-<p>== Workflow</p>
+<h2>
+<a id="workflow" class="anchor" href="#workflow" aria-hidden="true"><span class="octicon octicon-link"></span></a>Workflow</h2>
 
 <p>Many steps were manual in the first version. Today, the idea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:</p>
 
@@ -150,11 +157,13 @@
 <li>Redmine will then update per issue the start, end, and effort fields</li>
 </ol>
 
-<p>== Getting the plugin</p>
+<h2>
+<a id="getting-the-plugin" class="anchor" href="#getting-the-plugin" aria-hidden="true"><span class="octicon octicon-link"></span></a>Getting the plugin</h2>
 
 <p>A copy of the released version can be downloaded from  {GitHub}[<a href="http://github.com/chris2fr/redmine_taskjuggler">http://github.com/chris2fr/redmine_taskjuggler</a>]</p>
 
-<p>== Installation and Setup</p>
+<h2>
+<a id="installation-and-setup" class="anchor" href="#installation-and-setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation and Setup</h2>
 
 <ol>
 <li>Follow the Redmine plugin installation steps at: <a href="http://www.redmine.org/wiki/redmine/Plugins">http://www.redmine.org/wiki/redmine/Plugins</a> Make sure the plugin is installed to +plugins/redmine_taskjuggler+</li>
@@ -162,9 +171,11 @@
 <li>Login and click the Workload in the top left menu</li>
 </ol>
 
-<p>== Upgrade</p>
+<h2>
+<a id="upgrade" class="anchor" href="#upgrade" aria-hidden="true"><span class="octicon octicon-link"></span></a>Upgrade</h2>
 
-<p>=== Zip or tar files</p>
+<h3>
+<a id="zip-or-tar-files" class="anchor" href="#zip-or-tar-files" aria-hidden="true"><span class="octicon octicon-link"></span></a>Zip or tar files</h3>
 
 <ol>
 <li>Download the latest file as described in Getting the plugin</li>
@@ -172,7 +183,8 @@
 <li>Restart your Redmine</li>
 </ol>
 
-<p>=== Git</p>
+<h3>
+<a id="git" class="anchor" href="#git" aria-hidden="true"><span class="octicon octicon-link"></span></a>Git</h3>
 
 <ol>
 <li>Open a shell to your Redmine's plugins/redmine_taskjuggler folder</li>
@@ -181,7 +193,8 @@
 <li>Restart your Redmine</li>
 </ol>
 
-<p>== License</p>
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  </p>
 
@@ -189,7 +202,8 @@
 
 <p>You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p>
 
-<p>== Design Decisions</p>
+<h2>
+<a id="design-decisions" class="anchor" href="#design-decisions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Design Decisions</h2>
 
 <p>Design decisions concern mainly the way redmine_taskjuggler maps Redmine objects to TaskJuggler objects.</p>
 
@@ -201,15 +215,18 @@
 </li>
 </ul>
 
-<p>== Project help</p>
+<h2>
+<a id="project-help" class="anchor" href="#project-help" aria-hidden="true"><span class="octicon octicon-link"></span></a>Project help</h2>
 
 <p>If you need help you can contact the maintainer at his email address (See CREDITS.txt) or create an issue in the Bug Tracker.</p>
 
-<p>=== Bug tracker</p>
+<h3>
+<a id="bug-tracker" class="anchor" href="#bug-tracker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Bug tracker</h3>
 
 <p>If you would like to report a bug or request a new feature the bug tracker is located at: <a href="http://github.com/chris2fr/redmine_taskjuggler">http://github.com/chris2fr/redmine_taskjuggler</a></p>
 
-<p>=== ToDo</p>
+<h3>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>ToDo</h3>
 
 <p>In timetable! sort by project then project category.</p>
       </section>
