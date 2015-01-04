@@ -1,120 +1,161 @@
-# Poole
+# Redmine_Taskjuggler plugin
 
-*The Strange Case of Dr. Jekyll and Mr. Hyde* tells the story of a lawyer investigating the connection of two persons, Dr. Henry Jekyll and Mr. Edward Hyde. Chief among the novel's supporting cast is a man by the name of Mr. Poole, Dr. Jekyll's loyal butler.
+This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
 
------
+Further documentation to this README can be found in the subfolder ./doc/: HOWTOs, diagrams, notes, credits, license, and todo.
 
-Poole is the butler for [Jekyll](http://jekyllrb.com), the static site generator. It's designed and developed by [@mdo](https://twitter.com/mdo) to provide a clear and concise foundational setup for any Jekyll site. It does so by furnishing a full vanilla Jekyll install with example templates, pages, posts, and styles.
+Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see LICENSE.rdoc and CREDITS.rdoc)
 
-![Poole](https://f.cloud.github.com/assets/98681/1834359/71ae4048-73db-11e3-9a3c-df38eb170537.png)
+Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity planning software!
 
-See Poole in action with [the demo site](http://demo.getpoole.com).
+## Features
 
-There are currently two official themes built on Poole:
+Here is what this plugin does with you :
 
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
+* Exports from Redmine a Taskjuggler project
+* Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Redmine","Start","End","Priority","Effort","Dependencies")
+* Converts time-entries in Redmine to journal entries in Taskjuggler (ordering them hour-to-hour for Task-juggler bookings) 
+* New (from Workload) : Sets up time sheets for resources with Redmine TimeEntries as a datastore
+* New (from Workload) : Pre-reserves slots for resources into TaskJuggler from the Redmine TimeEntries datastore
 
-Individual theme feedback and bug reports should be submitted to the theme's individual repository.
+## Notes on the current version 0.1.2-beta
 
+This is a begining beta release. It works, and we have incorporated a major new feature set from RedmineWorkload.
 
-## Contents
+Reserves :
+* On the project being compiled, you need to input by hand the tj_period such that the start and end dates are coherent with the project (yyyy-mm-dd - yyyy-mm-dd). In the future I can change them with containing TimeEntries.
+* In some cases, and I have not yet been able to reproduce this, the TJP file will have the keywork start without a date in a task. This will cause the TJ3 program to fail to compile and you need to change it by hand by removing start or adding a date. Please tell me if you can reproduce.
 
-- [Usage](#usage)
-- [Options](#options)
-  - [Rems, `font-size`, and scaling](#rems-font-size-and-scaling)
-- [Development](#development)
-- [Author](#author)
-- [License](#license)
+## Running automated tests
 
+  `rake redmine:plugins:test`
+  I think you can add NAME="redmine_taskjuggler" or PLUGIN="redmine_taskjuggler"
 
-## Usage
+## Notes on the previous version 0.1.1-alpha
 
-### 1. Install Jekyll
+This is an advanced alpha release. It works, but one should follow a few indications.
 
-Poole is built for use with Jekyll, so naturally you'll need to install that. On Macs, it's rather straightforward:
+* Estimated Time is the remaining estimated time.
+* Do not use the Follows and Preceeds in Redmine itself
+* Activate individually the projects, issues, and users for Redmine
+* The screens modify issue/update, project/settings, admin/user/form
+* You will need to input the necessary data manually everywhere
+* TimeEntries are not yet implemented
 
-```bash
-$ gem install jekyll
-```
+The basic idea is that you :
 
-**Windows users:** Windows users have a bit more work to do, but luckily [@juthilo](https://github.com/juthilo) has your back with his [Run Jekyll on Windows](https://github.com/juthilo/run-jekyll-on-windows) guide.
+1. set up the model in Redmine first,
+2. then export the TJP file,
+3. then compute the TJP file on your own computer, 
+4. and then upload the computed CSV file to redmine.
 
-You may also need to install Pygments, the Python syntax highlighter for code snippets that plays nicely with Jekyll. Read more about this [in the Jekyll docs](http://jekyllrb.com/docs/templates/#code_snippet_highlighting).
+Here are the features under developement:
 
-### 2a. Quick start
+* Bookings
+* TimeEntry calibration (TaskJuggler likes to know exactly when the work was done.)
+* Organize features form version 0.0.2
+* Tests
+* Estimated Effort calibration
+* Have the computation done on the server (I suppose that would need factoring of the backends)
+* Integrate with Redmine Workload
+* Do manual
+* More fields
 
-To help anyone with any level of familiarity with Jekyll quickly get started, Poole includes everything you need for a basic Jekyll site. To that end, just download Poole and start up Jekyll.
+Here is the backlog
 
-### 2b. Roll your own Jekyll site
+* Sanity check for the information in Redmine for TaskJuggler
+* Bulk-edit of issues for TJ
+* Dealing with the Follows and Preceeds in Redmine
+* Activate or disactivate plugin
+* Deal with permissions
+* Disactivate unused fields
+* Document mapping decisions
+* Look into Feng's Django implementation to see if anything good in that
+* Look into that plugin than let's you graphicly manipulate things
+* Look into plugins kanban, etc.
+* Native backend to Taskjuggler 
 
-Folks wishing to use Jekyll's templates and styles can do so with a little bit of manual labor. Download Poole and then copy what you need (likely `_layouts/`, `*.html` files, `atom.xml` for RSS, and `public/` for CSS, JS, etc.).
-
-### 3. Running locally
-
-To see your Jekyll site with Poole applied, start a Jekyll server. In Terminal, from `/Poole` (or whatever your Jekyll site's root directory is named):
-
-```bash
-$ jekyll serve
-```
-
-Open <http://localhost:4000> in your browser, and voilà.
-
-### 4. Serving it up
-
-If you host your code on GitHub, you can use [GitHub Pages](https://pages.github.com) to host your project.
-
-1. Fork this repo and switch to the `gh-pages` branch.
-  1. If you're [using a custom domain name](https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages), modify the `CNAME` file to point to your new domain.
-  2. If you're not using a custom domain name, **modify the `baseurl` in `_config.yml`** to point to your GitHub Pages URL. Example: for a repo at `github.com/username/poole`, use `http://username.github.io/poole/`. **Be sure to include the trailing slash.**
-3. Done! Head to your GitHub Pages URL or custom domain.
-
-No matter your production or hosting setup, be sure to verify the `baseurl` option file and `CNAME` settings. Not applying this correctly can mean broken styles on your site.
-
-## Options
-
-Poole includes some customizable options, typically applied via classes on the `<body>` element.
-
-
-### Rems, `font-size`, and scaling
-
-Poole is built almost entirely with `rem`s (instead of pixels). `rem`s are like `em`s, but instead of building on the immediate parent's `font-size`, they build on the root element, `<html>`.
-
-By default, we use the following:
-
-```css
-html {
-  font-size: 16px;
-  line-height: 1.5;
-}
-@media (min-width: 38em) {
-  html {
-    font-size: 20px;
-  }
-}
-
-```
-
-To easily scale your site's typography and components, simply customize the base `font-size`s here.
+There was a demo set up here: http://redtask.configmagic.com
 
 
-## Development
+## Installation
 
-Poole has two branches, but only one is used for active development.
+Install into redmine/plugins directory. Really the redmine/plugins directory. If that directory is not there, on the top level, please create it. This is important actully.
 
-- `master` for development.  **All pull requests should be to submitted against `master`.**
-- `gh-pages` for our hosted site, which includes our analytics tracking code. **Please avoid using this branch.**
+  bundle exec rake redmine:plugins RAILS_ENV=production
+
+or
+
+  rake db:migrate:plugin NAME=redmine_taskjuggler
+  
+then restart the webserver.
+
+To uninstall
+
+  rake db:migrate:plugin NAME=redmine_taskjuggler VERSION=0
+
+## Workflow
+
+Many steps were manual in the first version. Today, the idea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:
+
+1. Information is maintained in Redmine
+2. Redmine Issues are tagged for Taskjuggler Tasks (all time-sheet candidate tasks and others)
+3. Flaged Issues are augmented with any necessary extra info for Taskjuggler (allocate, effort)
+4. The administrator creates Taskjuggler master file (with Tasks extended with a field "Red" of type "number")
+5. Redmine exports a Taskjuggler Include file for computation by Taskjuggler
+6. Taskjuggler computes the input file and outputs, among other reports, outputs a Redmine-Taskjuggler CSV file with the following columns (no more, no less) : "Id","Start","End","Priority","Effort","Duration","Dependencies"
+7. Redmine will then update per issue the start, end, and effort fields
+
+## Getting the plugin
+
+A copy of the released version can be downloaded from  {GitHub}[http://github.com/chris2fr/redmine_taskjuggler]
 
 
-## Author
+## Installation and Setup
 
-**Mark Otto**
-- <https://github.com/mdo>
-- <https://twitter.com/mdo>
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins Make sure the plugin is installed to +plugins/redmine_taskjuggler+
+2. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+3. Login and click the Workload in the top left menu
 
+## Upgrade
+
+### Zip or tar files
+
+1. Download the latest file as described in Getting the plugin
+2. Extract the file to your Redmine into vendor/plugins
+3. Restart your Redmine
+
+### Git
+
+1. Open a shell to your Redmine's plugins/redmine_taskjuggler folder
+2. Update your Git copy with `git pull`
+3. Restart your Redmine
 
 ## License
 
-Open sourced under the [MIT license](LICENSE.md).
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
 
-<3
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+## Design Decisions
+
+Design decisions concern mainly the way redmine_taskjuggler maps Redmine objects to TaskJuggler objects.
+
+* Use Redmine depends and preceeds
+* Use Redmine priority levels with a mapping
+* Add a flag to each object to indicatue use or not in Redmine
+* 
+
+## Project help
+
+If you need help you can contact the maintainer at his email address (See CREDITS.txt) or create an issue in the Bug Tracker.
+
+### Bug tracker
+
+If you would like to report a bug or request a new feature the bug tracker is located at: http://github.com/chris2fr/redmine_taskjuggler
+
+### ToDo
+
+In timetable! sort by project then project category.
