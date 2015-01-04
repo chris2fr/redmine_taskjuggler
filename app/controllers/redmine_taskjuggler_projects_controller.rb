@@ -41,7 +41,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     ##
     # Project hierarchy TaskJuggler creation
     def redmine_project_to_taskjuggler_task(project)
-      if project.children.to_s == "[]"
+      if project.children.to_s == "[]" # FIXME .empty qqpart
 	 topTask = project_to_taskjuggler_task(project) # if we choose only one subproject (project)
       else
 	topTask = subproject_to_taskjuggler_task(project) # if we choose main project (all subprojects/all tasks)       
@@ -141,6 +141,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
           iUserLogin,
           iPeriods))
     end
+    #N0
     topTask = redmine_project_to_taskjuggler_task(@project)
  
     @tjp = RedmineTaskjuggler::TJP.new(tjProject,tjResources,topTask,[],tjBookings) 

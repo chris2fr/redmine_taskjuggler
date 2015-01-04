@@ -41,6 +41,7 @@ module RedmineTaskjuggler
     
     ##
     # A string representation of a project. In the future, we should use Project.to_s
+    # N0
     def project_to_s (project)
         tjpString = "project #{project.id} \"#{project.name}\" \"#{project.version}\" #{project.period}  {\n"
         {'timeformat' => project.timeformat,
