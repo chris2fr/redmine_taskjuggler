@@ -1,18 +1,12 @@
-# Redmine_Taskjuggler plugin
+# Redmine_Taskjuggler plugin for Redmine to Interact with TaskJuggler
 
-This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
+Redmine_Taskjuggler <https://github.com/chris2fr/redmine_taskjuggler> is a plugin for the Redmine <http://www.redmine.org> open-source ticketing software that connects to the TaskJuggler <http://www.taskjuggler.org> open-source scheduling software. Like cookies and milk, Redmine and Taskjuggler are made for each other!
 
-
-Further documentation to this README can be found in the subfolder [./doc/](./doc/): HOWTOs, diagrams, notes, credits, license, and todo.
-
-Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see [./doc/LICENSE.md]({{ site.baseurl }}doc/LICENSE) and [CREDITS.md])
-
-
-Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity planning software!
+More detailed documentation is in the [./doc/](./doc/) subdirectory: HOWTOs, diagrams, notes, credits, license, and todo.
 
 ## Features
 
-Here is what this plugin does with you :
+Here is what redmine_taskjuggler does with you :
 
 * Exports from Redmine a Taskjuggler project
 * Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Redmine","Start","End","Priority","Effort","Dependencies")
@@ -110,7 +104,7 @@ Many steps were manual in the first version. Today, the idea is to automate part
 
 ## Getting the plugin
 
-A copy of the released version can be downloaded from  {GitHub}[http://github.com/chris2fr/redmine_taskjuggler]
+A copy of the released version can be downloaded from [GitHub redmine_taskjuggler page](http://github.com/chris2fr/redmine_taskjuggler)
 
 
 ## Installation and Setup
@@ -148,7 +142,6 @@ Design decisions concern mainly the way redmine_taskjuggler maps Redmine objects
 * Use Redmine depends and preceeds
 * Use Redmine priority levels with a mapping
 * Add a flag to each object to indicatue use or not in Redmine
-* 
 
 ## Project help
 
@@ -161,3 +154,5 @@ If you would like to report a bug or request a new feature the bug tracker is lo
 ### ToDo
 
 In timetable! sort by project then project category.
+
+Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see [./doc/LICENSE.md]({{ site.baseurl }}doc/LICENSE) and [./doc/CREDITS.md]({{ site.baseurl }}doc/CREDITS))
