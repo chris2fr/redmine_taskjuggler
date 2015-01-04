@@ -1,4 +1,4 @@
-= How to Install RedmineTaskjuggler on Windows and Mac with Bitnami
+# How to Install RedmineTaskjuggler on Windows and Mac with Bitnami
 
 The Bitnami distributions of Redmine are available here:
 

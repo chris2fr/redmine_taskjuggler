@@ -1,4 +1,4 @@
-h2. Overview
+## Overview
 
 Here are some thoughts about where I would like to push my plugins :
 
@@ -6,7 +6,7 @@ Here are some thoughts about where I would like to push my plugins :
 * Workload
 * PMO
 
-h2. Workload
+## Workload
 
 Workload should :
 * Transform the paradigm to days and not hours.  It is a small but significant change that would make my life much more enjoyable.  This would imply putting hour information in the task attributes, timesheet, time log entry. Basically, there would by an export filter on tasks that would export the time in days (even by units of 0,125 representing one hour).  I would see this as a box that has 1, 1/2, 1/4, 1/8, 3/4, 3/8, 5/8, 7/8 values.
@@ -15,7 +15,7 @@ Workload should :
 * Export the data into a CSV file with columns : project.id, project.name, category.name, issue.id, issue.name, user.login, effort done, effort todo, date debut, date fin, priority
 * Import massive updates with regards to start date, due date, effort still needed, priority, person
 
-h2. PMO
+## PMO
 
 PMO should :
 * Present a summary table by project, by project category, by resource
@@ -25,21 +25,21 @@ PMO should :
 * Always take into account all projects
 * Allocat time to recurrent activities
 
-h2. Task Juggler
+## Task Juggler
 
 TaskJuggler should :
 * Import a file uploaded from the browser (temporary solution)
 * Export a file by a link to the browser without formating (low priority)
 * Have appropriate HTML and CSV format exports
-** Specifiy those appropriate formats
+  * Specifiy those appropriate formats
 * Separate todo and done workloads with separate tasks
 * Input ressource information : Weekly schedule, Vacation days, 
 * Allocate each resource to each task with future effort, done effort
 
 Taskjuggler will probably, for planning reasons, separate tasks in 2 per allocated resource.  If Tom and John are working on #450 TaskOne with done and todo worklads, we would see this :
 * Task450
-** John : 4 days, of which 2 booked
-** Tom : 3 days of which 1 booked
+  * John : 4 days, of which 2 booked
+  * Tom : 3 days of which 1 booked
 
 Taskjuggler is a tough on, because of the syncronisation aspect.  Lets consider 4 kinds of tasks :
 * Not started
@@ -70,4 +70,4 @@ Started tasks are managed as follows :
 
 Task juggler mode is "projection"
 
-h2. Underview
+## Underview
