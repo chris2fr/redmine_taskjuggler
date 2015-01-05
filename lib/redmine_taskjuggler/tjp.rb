@@ -19,18 +19,18 @@ module RedmineTaskjuggler
     attr_accessor :flags
     ##
     # Array or nested set of Task
-    attr_accessor :tasks
+    attr_accessor :task
     ##
     # Array of Booking
     attr_accessor :bookings
 
     ##
-    # Constructor. Needs +project+ Project , +resources+ Resource , +tasks+ Task ,
+    # Constructor. Needs +project+ Project , +resources+ Resource , +task+ Task ,
     # +flags+ an array of strings , +bookings+ Booking
-    def initialize (project, resources, tasks, flags = [], bookings = [])
+    def initialize (project, resources, task, flags = [], bookings = [])
       @project = project
       @resources = resources
-      @tasks = tasks
+      @task = task
       @flags = flags 
       @bookings = bookings
 
@@ -159,9 +159,7 @@ EOS
         tjpString += "flags " + flags.join(", ") + "\n"
       end
       tjpString << incl_file
-      @tasks.each {|task|
-	tjpString << task_to_s(task)  + "\n"
-      }
+      tjpString << task_to_s(@task)  + "\n"
       if @bookings.size > 0
         @bookings.each {|book|
           tjpString << book.to_s.gsub(/^/,"  ") + "\n"
