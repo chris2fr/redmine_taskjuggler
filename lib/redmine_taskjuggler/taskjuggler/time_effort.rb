@@ -48,6 +48,9 @@ module RedmineTaskjuggler
       def initialize depends
         @depends = depends
       end
+      def empty?
+        return false
+      end
       def toTJP
         tjpString = "depends "
         depArray = []
@@ -104,6 +107,9 @@ module RedmineTaskjuggler
       end
     end
     class TimePointNil
+      def empty?
+        return true
+      end
       def toTJP
         ""
       end
