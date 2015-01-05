@@ -1,6 +1,6 @@
 Dear visitor,
 
-Re{project}source :
+Taskjuggler as a Service :
 * _proposes_ and _offers_ an open-source plugin *"Redmine_Taskjuggler":http://redmine.mann.fr/projects/redmine_taskjuggler* with +Taskjuggler as planning management+ and +Redmine as a backlog tool+; 
 * _offers_ *"Taskjuggler as a service":http://redmine.mann.fr/projects/taskjuggler-as-a-service* for simple cloud +use of Taskjuggler by any backlog system+ such as, but not limited to, Redmine with Redmine_Taskjuggler, and; 
 * _helps anyone_ *"bridge the gap between projects and resources":http://redmine.mann.fr/projects/ways-and-means* in +any methodology+ and +any tool set+.
@@ -13,7 +13,7 @@ The advantages of a constructed model are :
 * anticipation of information needs to stakeholders, 
 * and ultimately reinforced tranquility of team members.
 
-Re{project}source is made available with team managers, project managers, team members, executive officers, and others in mind. I hope you find what you need, and perhaps even contribute.
+Taskjuggler as a Service is made available with team managers, project managers, team members, executive officers, and others in mind. I hope you find what you need, and perhaps even contribute.
 
 Sincerely,
 

@@ -1,4 +1,4 @@
-h1. HowTo Set up Redmine Server Components with Supervisor on Ubuntu
+# HowTo Set up Redmine Server Components with Supervisor on Ubuntu
 
 This howto describes how to set up the Taskjuggler server daemon on Ubuntu. 
 
@@ -6,7 +6,7 @@ by Alexey Lukomskiy <lucomsky@gmail.com> and Christopher Mann <christopher@mann.
 
 {{toc}}
 
-h2. Introduction
+## Introduction
 
 "Taskjuggler":http://www.taskjuggler.org is release-planning and budget calculation open-source software.  Once installed, Taskjuggler can be run from a command-line with the command "tj3" on Linux, Mac and Windows. TJ3 takes a Taskjuggler project file and includes as input and outputs varios reports in HTML, CSV, OpenWorkbench, and Microsoft Project.
 
@@ -33,11 +33,11 @@ The taskjuggler server framework can store the Taskjuggler projects in a databas
 
 The taskjuggler server framework also proposes a web server "tj3web" to consult reports from tj3s, and an email interaction for time-sheet update and validation with specific configurations of tj3d. The scope of the current howto is the working of tj3d and tj3webd with Supervisor.
 
-h2. Environment Setup & Prerequisite Steps
+## Environment Setup & Prerequisite Steps
 
 The system should be ready to configure with the following steps.
 
-h3. Pre-requisite software
+### Pre-requisite software
 
 Instructions for installing Taskjuggler may be obtained from [taskjuggler.org](http://www.taskjuggler.org). The easy way is ~$ gem install taskjuggler~ from the command line.
 
@@ -45,12 +45,10 @@ We use Supervisor for maintaining the taskjuggler daemon live. The easy way to i
 
 Add these lines to /etc/supervisor/supervisord.conf:
 
-<pre><source>
     [inet_http_server]
     port=:9001
     username=[Username here]
     password=[Password here]
-</source></pre>
 
 You now can check supervisor at http://localhost:9001/ (username and password as above).
 
@@ -60,7 +58,7 @@ We will also create files here :
 | /etc/supervisor/conf.g/tj3d.conf   | A configuration file in Supervisor for tj3d   |
 | /etc/supervisor/conf.g/tj3web.conf | A configuration file in Supervisor for tj3web |
 
-h3. Creation of a taskjuggler user and working directories
+### Creation of a taskjuggler user and working directories
 
 We will use a new user "taskjuggler" for the execution of the taskjuggler daemon. I added it with the command-line ~adduser taskjuggler~. It has the home directory ~/home/taskjuggler~. For the rest of this documentation, we will use this home directory.
 
@@ -76,18 +74,16 @@ This can be done in the home directory with @mkdir tj3dvar;mkdir tj3dvar/project
 
 Taskjuggler will also use a configuration file. Add the following file @/home/taskjuggler/taskjuggler.rc@:
 
-<pre><source>
     _global:
       authKey: [random key here]
       webServerPort: 8080
       _log:
         logLevel: 1
         outputLevel: 1
-</source></pre>
 
 Again, if not created by taskjuggler, please @chown taskjuggler:taskjuggler taskjuggler.rc@.
 
-h3. Key Ports 
+### Key Ports 
 
 Below are the different ports used in this example. You may change them as you see fit.
 
@@ -97,17 +93,16 @@ Below are the different ports used in this example. You may change them as you s
 | 9001 | Supervisor web administration |
 
 
-h3. Adding TaskJuggler services tj3d and tj3webd
+### Adding TaskJuggler services tj3d and tj3webd
 
 Assume that taskjuggler version 3 or higher is installed. Working directory of *.tjp and *.tjl is /home/taskjuggler/data/projects/.  Folder should have user for taskjuggler and eventually group access for www-data.
 
-h3. Setting up Supervisor
+### Setting up Supervisor
 
 These operations can be done as root.
 
 Add file /etc/supervisor/conf.g/tj3d.conf:
  
-<pre><source>
     [program:tj3d]
     command = tj3d -d --config /home/taskjuggler/taskjuggler.rc -p 8474
     directory = /home/taskjuggler/data/projects/
@@ -119,11 +114,9 @@ Add file /etc/supervisor/conf.g/tj3d.conf:
     redirect_stderr = true
     stdout_logfile = /home/taskjuggler/logs/tj3d_stdout.log
     stderr_logfile = /home/taskjuggler/logs/tj3d_stderr.log
-</source></pre>
 
 Add file /etc/supervisor/conf.g/tj3web.conf:
 
-<pre><source>
     [program:tj3webd]
     command = tj3webd -d --config /home/taskjuggler/taskjuggler.rc
     directory = /home/taskjuggler/projects/
@@ -135,22 +128,21 @@ Add file /etc/supervisor/conf.g/tj3web.conf:
     redirect_stderr = true
     stdout_logfile = /home/taskjuggler/logs/tj3webd_stdout.log
     stderr_logfile = /home/taskjuggler/logs/tj3webd_stderr.log
-</source></pre>
 
 Reload supervisor:
 
-    bq. # sudo supervisorctl reload
+    # sudo supervisorctl reload
 
-h3. Possible security precaution
+### Possible security precaution
 
 Security may be reinforced by taking the shell away from the taskjuggler user. This is in the @/etc/passwd@ file.
 
-h2. Bringing it all together
+## Bringing it all together
 
 Check http://localhost:9001/ with supervisor tj3d and tj3webd statuses.
 
-You now can have http://localhost:8080/taskjuggler with *«Welcome to the TaskJuggler Project Server»*
+You now can have http://localhost:8080/taskjuggler with *Â«Welcome to the TaskJuggler Project ServerÂ»*
 
 Now you can add your project file by command:
 
-    bq. $ tj3client add project.tjp
+    $ tj3client add project.tjp

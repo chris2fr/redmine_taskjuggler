@@ -1,0 +1,31 @@
+using_tj3d_and_tj3dweb
+
+in ~/opt/
+[chris2fr@web303 opt]$ gem1.9 install --install-dir taskjuggler/ taskjuggler
+
+
+
+[chris2fr@web303 opt]$ gem install --install-dir taskjuggler taskjuggler
+[chris2fr@web303 plan]$ export GEM_HOME=${HOME}/opt/taskjuggler
+
+use update in gem to update
+
+
+
+Created by chris2fr on 2012-03-02 00:13:15, modified by chris2fr on 2012-03-02 00:13:15
+Name:      taskjuggler
+Port:      55223
+App type:     Custom app (listening on port)
+App doc:      This installer assigns an unprivileged port on which custom software can listen.
+
+This creates the ~/webapps/<app name>/ directory for your convenience; however, the custom application is not required to reside there.
+
+After the installer has finished, configure your custom software to listen to the port number specified in the "port" field. If the application is configured in a website record, the front-end server proxies incoming requests at the specified URL to the assigned port.
+
+Note: Custom applications are intended for handling HTTP traffic. If you need direct access to the port, please purchase a dedicated IP address at https://panel.webfaction.com/upgrades/ and open a support ticket to have the firewall reconfigured for the assigned port and dedicated IP address.
+
+Custom Applications documentation is available at: http://docs.webfaction.com/software/custom.html
+Website record documentation is available at: http://docs.webfaction.com/user-guide/websites.html
+
+"autostart": not applicable
+"extra info": leave empty

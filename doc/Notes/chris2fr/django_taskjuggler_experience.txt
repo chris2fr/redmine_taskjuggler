@@ -1,0 +1,133 @@
+django_taskjuggler_experience
+
+Installation of Django Taskjuggler 3
+
+These are installation notes in Diary format for my installation of Django Taskjugger 3 in a development version on my Mac and in a production version on my Ubuntu Server.
+
+Installation of Python 2.7.1.2
+
+Near the end I installed a new version of Python from here:
+http://www.python.org/download/
+No, that did not work too well, so I went here
+http://www.activestate.com/activepython/
+
+I then installed pip (to make my life easier ?)
+It is interesting to note that on my Mac, I have XCode installed, and that brings with it the necessary tools to compile other things generally.
+(Installed it /globally/)
+http://www.pip-installer.org/en/latest/installing.html
+
+First started with setuptools here
+$ curl -O http://python-distribute.org/distribute_setup.py
+$ python distribute_setup.py
+
+Then pip
+$ cd /tmp
+$ curl -O https://raw.github.com/pypa/pip/master/contrib/get-pip.py
+$ python get-pip.py 
+# python get-pip.py 
+(For some reason, and god only knows, my user environment had python 2.7 whilst my root environment had python 2.6. Go figure.)
+
+$ sudo pip install lxml
+$ sudo pip install django
+$ sudo pip install django-extensions
+$ sudo pip install django-mptt
+
+Pygraphvz did not work. For some reason, graphviz does not compile. The swig bindings for graphviz do not compile either. I hence went into the code and commented that part which is some serious nice to have but not essential. Here is how my unsuccessful try went:
+library_path="/usr/local/lib/graphiv"
+include_path="/usr/local/include/graphviz"
+http://www.20seven.org/journal/2008/09/graphviz-and-pygraphviz.html
+
+I did install MySQL on my Mac, but then later just did not use it. Here is what I went through to install MySQL:
+$ export DYLD_LIBRARY_PATH=/usr/local/mysql/lib/
+- MySQL (64 bit architecture)
+- MySQLdb from http://sourceforge.net/projects/mysql-python/
+
+Installation of Django-Taskjuggler and its extensions
+
+I followed the instructions on downloading a copy of the source code here:
+- django-taskjuggler3 from http://code.google.com/p/django-taskjuggler3/
+
+
+Installation of Website as Django Project
+
+I suppose I could have just went with "mysite" and used the source code as it was furnished. In my first run, this is what I did do. However, this time I felt inclined to start from scratch and create a website and add the source code afterwards. I ended up creating the website, copying the files over and making changes to accommodate for the use of sqlite3 instead of mysql, the different website name, and the lack of pygraphviz.
+
+The following line to initiate a new project. The djtj3 means Django Taskjuggler3.
+$ django-admin.py startproject djtj3
+
+And now I start the copying of file over and tweeking.
+$ mv settings.py settings_orig.py
+$ cp ../django-taskjuggler3-ro/mysite/settings.py .
+$ vi settings.py
+In the settings, I then put my own name as the administrator, I changed the backend to sqlite3 instead of mysql (I did not want to deal with MySQL). I left the language code en-us, but was wondering if I could have changed it to fr-fr. Ichanged everything "mysite" to "djtj3".
+DATABASE_ENGINE = 'sqlite3'
+DATABASE_NAME = SITE_ROOT + '/djtj3.db'
+$ mv urls.py urls_orig.py
+$ cp ../django-taskjuggler3-ro/mysite/urls.py .
+$ vi urls.py 
+Changed on occurrence of mysite to djtj3
+$ for file in example gallery media templates tj3
+> do
+> cp -R ../django-taskjuggler3-ro/mysite/$file .
+> done
+$ vi tj3/urls.py
+$ vi tj3/utility.py
+$ vi tj3/views.py
+changed mysite references to djtj3 in all three files.
+$ vi tj3/utility.py
+Commented the part about pygraphviz because I couldn't compile that on my mac (:()
+
+Time to Initiate and start the website.
+
+manage.py syncdb
+Some depreciated warnings were ignored
+A superuser admin:admin was created
+No fixtures found
+$ python manage.py runserver
+depreciated warnings
+running on 8000
+
+Installation on the Production Server
+
+$ tar -czf djtj3.tgz djtj3/
+$ scp djtj3.tgz mann@tj3s.com:
+$ ssh mann@tj3s.com -L 8000:*:8000
+$ cd /tmp
+$ tar -xzf djtj3.tgz
+$ sudo mkdir /var/mmm
+$ sudo chown mann:www-data /var/mmm
+$ mv djtj3 /var/mmm
+$ cd /var/mmm/djtj3/
+$ vi tj3/utility.py
+Uncommented pygraphviz
+$ vi /var/mmm/djtj3/settings.py
+MEDIA_URL = '/media/'
+$ python manage.py runserver
+
+CTRL-C
+
+Creating django.wsgi
+
+$ mkdir /var/www/djtj3/apache
+$ vi /var/mmm/djtj3/apache/django.wsgi
+Added following text
+
+import os
+import sys
+
+path="/var/mmm/djtj3"
+if path not in sys.path:
+    sys.path.append(path)
+    sys.path.append("/var/mmm")
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'djtj3.settings'
+
+import django.core.handlers.wsgi
+application = django.core.handlers.wsgi.WSGIHandler()
+
+$ sudo vi /etc/apache2/sites-enabled/000-default 
+$ WSGIScriptAlias /django /var/mmm/djtj3/apache/django.wsgi
+$ sudo /etc/init.d/apache2 restart
+$ sudo chown -R www-data:www-data /var/mmm
+$ sudo ln -s /var/mmm/djtj3/media /var/www/media
+

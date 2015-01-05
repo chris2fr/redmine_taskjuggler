@@ -204,6 +204,12 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     ##
     # TODO better handle the tj_period
     tes = TimeEntry.where(spent_on: (Date.parse(@project.tj_period[0..9])+0)..Date.parse(@project.tj_period[13..22])).order('spent_on ASC, user_id ASC')
+    #tes = TimeEntry.all
+    #puts "\n\n =======================================================\n\n"
+    #puts Date.parse(@project.tj_period[0..9])..Date.parse(@project.tj_period[13..22])
+    #puts 'spent_on ASC, user_id ASC'
+    #puts tes
+    #puts "\n\n =======================================================\n\n"
     iUserId = nil
     iUserLogin = nil
     iIssueId = nil
@@ -286,6 +292,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     end
 
     # Update Redmine with the dates and effort
+#    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
     CSV.foreach(data, :headers => true, :col_sep => ';') {
       |csvline|
       if csvline["Redmine"].to_s != ""

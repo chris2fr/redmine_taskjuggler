@@ -1,18 +1,12 @@
-= Redmine_Taskjuggler plugin
+# Redmine_Taskjuggler plugin for Redmine to Interact with TaskJuggler
 
-This is Redmine <http://www.redmine.org> and TaskJuggler (tm) <http://www.taskjuggler.org> integration maintained on the Github project page <https://github.com/chris2fr/redmine_taskjuggler>. Like Oreos (tm) and milk, Redmine and Taskjuggler are made for each other!
+Redmine_Taskjuggler <https://github.com/chris2fr/redmine_taskjuggler> is a plugin for the Redmine <http://www.redmine.org> open-source ticketing software that connects to the TaskJuggler <http://www.taskjuggler.org> open-source scheduling software. Like cookies and milk, Redmine and Taskjuggler are made for each other!
 
-Further documentation to this README can be found at the project wiki here:
+More detailed documentation is in the [./doc/](./doc/) subdirectory: HOWTOs, diagrams, notes, credits, license, and todo.
 
-https://github.com/chris2fr/redmine_taskjuggler/wiki
+## Features
 
-Copyright (C) 2009 - 2014 Christopher Mann <christopher@mann.fr> AGPL v.3 (see LICENSE.rdoc and CREDITS.rdoc)
-
-Taskjuggler is available at http://www.taskjuggler.org. It is fantastic capacity planning software!
-
-== Features
-
-Here is what this plugin does with you :
+Here is what redmine_taskjuggler does with you :
 
 * Exports from Redmine a Taskjuggler project
 * Imports into Redmine Dates and Efforts from a Taskjuggle_Redmine CSV file ("Redmine","Start","End","Priority","Effort","Dependencies")
@@ -20,7 +14,7 @@ Here is what this plugin does with you :
 * New (from Workload) : Sets up time sheets for resources with Redmine TimeEntries as a datastore
 * New (from Workload) : Pre-reserves slots for resources into TaskJuggler from the Redmine TimeEntries datastore
 
-== Notes on the current version 0.1.2-beta
+## Notes on the current version 0.1.2-beta
 
 This is a begining beta release. It works, and we have incorporated a major new feature set from RedmineWorkload.
 
@@ -28,12 +22,12 @@ Reserves :
 * On the project being compiled, you need to input by hand the tj_period such that the start and end dates are coherent with the project (yyyy-mm-dd - yyyy-mm-dd). In the future I can change them with containing TimeEntries.
 * In some cases, and I have not yet been able to reproduce this, the TJP file will have the keywork start without a date in a task. This will cause the TJ3 program to fail to compile and you need to change it by hand by removing start or adding a date. Please tell me if you can reproduce.
 
-== Running automated tests
+## Running automated tests
 
   `rake redmine:plugins:test`
   I think you can add NAME="redmine_taskjuggler" or PLUGIN="redmine_taskjuggler"
 
-== Notes on the previous version 0.1.1-alpha
+## Notes on the previous version 0.1.1-alpha
 
 This is an advanced alpha release. It works, but one should follow a few indications.
 
@@ -77,10 +71,10 @@ Here is the backlog
 * Look into plugins kanban, etc.
 * Native backend to Taskjuggler 
 
-There is a demo set up here: http://redtask.configmagic.com
+There was a demo set up here: http://redtask.configmagic.com
 
 
-== Installation
+## Installation
 
 Install into redmine/plugins directory. Really the redmine/plugins directory. If that directory is not there, on the top level, please create it. This is important actully.
 
@@ -96,7 +90,7 @@ To uninstall
 
   rake db:migrate:plugin NAME=redmine_taskjuggler VERSION=0
 
-== Workflow
+## Workflow
 
 Many steps were manual in the first version. Today, the idea is to automate parts of the use of Taskjuggler from Redmine, and to update Redmine from Taskjuggler. Here is the current workflow:
 
@@ -108,32 +102,32 @@ Many steps were manual in the first version. Today, the idea is to automate part
 6. Taskjuggler computes the input file and outputs, among other reports, outputs a Redmine-Taskjuggler CSV file with the following columns (no more, no less) : "Id","Start","End","Priority","Effort","Duration","Dependencies"
 7. Redmine will then update per issue the start, end, and effort fields
 
-== Getting the plugin
+## Getting the plugin
 
-A copy of the released version can be downloaded from  {GitHub}[http://github.com/chris2fr/redmine_taskjuggler]
+A copy of the released version can be downloaded from [GitHub redmine_taskjuggler page](http://github.com/chris2fr/redmine_taskjuggler)
 
 
-== Installation and Setup
+## Installation and Setup
 
-1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins Make sure the plugin is installed to +vendor/plugins/redmine_taskjuggler+
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins Make sure the plugin is installed to +plugins/redmine_taskjuggler+
 2. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
 3. Login and click the Workload in the top left menu
 
-== Upgrade
+## Upgrade
 
-=== Zip or tar files
+### Zip or tar files
 
 1. Download the latest file as described in Getting the plugin
 2. Extract the file to your Redmine into vendor/plugins
 3. Restart your Redmine
 
-=== Git
+### Git
 
-1. Open a shell to your Redmine's vendor/plugins/redmine_taskjuggler folder (move to plugins because vendor/plugins is no longer in Redmine 2.X)
+1. Open a shell to your Redmine's plugins/redmine_taskjuggler folder
 2. Update your Git copy with `git pull`
 3. Restart your Redmine
 
-== License
+## License
 
 This program is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.  
 
@@ -141,23 +135,24 @@ This program is distributed in the hope that it will be useful, but WITHOUT ANY 
 
 You should have received a copy of the GNU Affero General Public License along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-== Design Decisions
+## Design Decisions
 
 Design decisions concern mainly the way redmine_taskjuggler maps Redmine objects to TaskJuggler objects.
 
 * Use Redmine depends and preceeds
 * Use Redmine priority levels with a mapping
 * Add a flag to each object to indicatue use or not in Redmine
-* 
 
-== Project help
+## Project help
 
 If you need help you can contact the maintainer at his email address (See CREDITS.txt) or create an issue in the Bug Tracker.
 
-=== Bug tracker
+### Bug tracker
 
 If you would like to report a bug or request a new feature the bug tracker is located at: http://github.com/chris2fr/redmine_taskjuggler
 
-=== ToDo
+### ToDo
 
 In timetable! sort by project then project category.
+
+Copyright (C) 2009 - 2015 Christopher Mann <christopher@mann.fr> AGPL v.3 (see [./doc/LICENSE.md]({{ site.baseurl }}doc/LICENSE) and [./doc/CREDITS.md]({{ site.baseurl }}doc/CREDITS))
