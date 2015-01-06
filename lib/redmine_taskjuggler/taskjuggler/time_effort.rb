@@ -17,8 +17,7 @@ module RedmineTaskjuggler
         @units = units
       end
       ##
-      # Should be to_s I suppose
-      def toTJP
+      def to_tjp
         "#{number}#{units}"
       end
     end
@@ -34,13 +33,13 @@ module RedmineTaskjuggler
     ##
     # The start point of any TimeEffort
     class TimePointStart < TimePoint
-      def toTJP
-        "start #{tjDateTime}"
+      def to_tjp(level=0)
+        " "*level+"start #{tjDateTime}\n"
       end
     end
     class TimePointEnd < TimePoint
-      def toTJP
-        "end #{tjDateTime}"
+      def to_tjp(level=0)
+        " "*level+"end #{tjDateTime}\n"
       end
     end
     class TimePointDepends < TimePoint
@@ -51,14 +50,22 @@ module RedmineTaskjuggler
       def empty?
         return false
       end
-      def toTJP
-        tjpString = "depends "
+      def to_tjp(level=0)
+        @level = level
+        def i(s)
+          s.gsub(/^/, ' '*@level) << "\n"
+        end
+
+        out = "depends "
         depArray = []
         @depends.each {|dep|
-          depArray.push(dep.toTJP)
+          depArray.push(dep.to_tjp(level))
         }
-        tjpString += depArray.join(", ")
-        return tjpString
+        out += depArray.join(", ")
+
+        @level = @level - 2
+        out << i("}")
+        return out
       end
     end
     class Depend
@@ -68,8 +75,8 @@ module RedmineTaskjuggler
         @task = task
         @gap = gap
       end
-      def toTJP
-        return "#{@task.id} {#{@gap.toTJP}}"
+      def to_tjp(level=0)
+        return " "*level+"#{@task.id} {#{@gap.to_tjp}}"
       end
     end
     class Gap
@@ -79,18 +86,18 @@ module RedmineTaskjuggler
         @timespan = timespan
         @type = type
       end
-      def toTJP
-        return "gap#{@type} #{@timespan.toTJP}"
+      def to_tjp
+        return "gap#{@type} #{@timespan.to_tjp}"
       end
     end
     class GapLength
-      def toTJP
-        "gaplength #{timeSpan.toTJP}"
+      def to_tjp
+        "gaplength #{timeSpan.to_tjp}"
       end
     end
     class GapDuration
-      def toTJP
-        "gapduration #{timeSpan.toTJP}"
+      def to_tjp
+        "gapduration #{timeSpan.to_tjp}"
       end
     end
     class Limit
@@ -102,15 +109,15 @@ module RedmineTaskjuggler
         @minMaxImum = minMaxImum
         @timeSpan = timeSpan
       end
-      def toTJP
-        "#{period}#{minMaxImum} #{timeSpan.toTJP}"
+      def to_tjp
+        "#{period}#{minMaxImum} #{timeSpan.to_tjp}"
       end
     end
     class TimePointNil
       def empty?
         return true
       end
-      def toTJP
+      def to_tjp
         ""
       end
       def initialize
@@ -132,8 +139,10 @@ module RedmineTaskjuggler
         super(timePointStart)
         @timeSpan = timeSpan
       end
-      def toTJP
-        "#{timePointStart.toTJP}\nduration #{timeSpan.toTJP}"
+      def to_tjp(level=0)
+        out = timePointStart.to_tjp(level)
+        out << " "*level << "duration" << timeSpan.to_tjp
+        return out
       end
     end
     class TimeEffortStartStop < TimeEffort
@@ -142,13 +151,15 @@ module RedmineTaskjuggler
         @timePointStart = timePointStart
         @timePointStop = timePointStop
       end
-      def toTJP
-        "#{timePointStart.toTJP}\n#{timePointStop.toTJP}"
+      def to_tjp(level=0)
+        out = timePointStart.to_tjp(level)
+        out << timePointStop.to_tjp(level)
+        return out
       end
     end
     class TimeEffortMilestone < TimeEffort
-      def toTJP
-        "milestone"
+      def to_tjp(level=0)
+        " "*level+"milestone"
       end
       def initialize (timePointStart)
         super.initialize(timePointStart)
@@ -167,35 +178,47 @@ module RedmineTaskjuggler
         @priority = priority
         @tlimits = tlimits
       end
-      def toTJP
-        tjpString = @timePointStart.toTJP
-        if tjpString != "" and tjpString != nil
-          tjpString += "\n"
+      def to_tjp(level=0)
+        @level = level
+        def i(s)
+          s.gsub(/^/, ' '*@level) << "\n"
         end
-        #        tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
+        out = ""
+        if @timePointStart
+          out << i(@timePointStart.to_tjp(@level))
+        end
+        #        out += "effort #{@timeSpan.to_tjp}\n#{@allocate.to_tjp}"
         #	puts 'debug timeSpan'
         #	puts @timeSpan.to_s
-        if @timeSpan == []
-          tjpString += "#{@allocate.toTJP}\n#{@priority.toTJP}\n"
+        if @timeSpan.empty?
+          out << @allocate.to_tjp(@level) << "\n"
+          out << @priority.to_tjp(@level) << "\n"
         else
-          tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}\n#{@priority.toTJP}\n"
+          out << i("effort #{@timeSpan.to_tjp}")
+          out << i("#{@allocate.to_tjp}")
+          out << i("#{@priority.to_tjp}")
         end
-        tjpString += "#{@tlimits.toTJP}"
-        return tjpString
+        out << i("#{@tlimits.to_tjp}")
+        return out
       end
     end
     class Allocate
-      attr_accessor :resources,
-        :attributes
+      attr_accessor :resources, :attributes
       def initialize (resources, attributes = [])
         @resources = resources
         @attributes = attributes
       end
-      def toTJP
-        tjpString = "allocate "
-        tjpString += @resources.join(", ").gsub(/\./,'_')
-        tjpString += " {"  + @attributes.join(", ") + "}"
-        return tjpString
+      def to_tjp(level=0)
+        @level = level
+        def i(s)
+          s.gsub(/^/, ' '*@level) << "\n"
+        end
+        out = ""
+        out << " "*level
+        out << "allocate "
+        out << @resources.join(", ").gsub(/\./,'_')
+        out << " {" << @attributes.join(", ") << "}"
+        return out
       end
     end
 
@@ -207,9 +230,9 @@ module RedmineTaskjuggler
       def initialize (priority)
         @priority = priority
       end
-      def toTJP
-        tjpString = "priority "
-        tjpString += @priority.join(" , ")
+      def to_tjp(level=0)
+        out = " "*level
+        out = "priority " << @priority.join(" , ")
       end
     end
 
@@ -219,9 +242,9 @@ module RedmineTaskjuggler
       def initialize (tlimits)
         @tlimits = tlimits
       end
-      def toTJP
-        tjpString = "limits "
-        tjpString += "{" + @tlimits.join(" , ") + "}"
+      def to_tjp(level=0)
+        out = " "*level
+        out << "limits {" + @tlimits.join(" , ") + "}"
       end
     end
     ###
