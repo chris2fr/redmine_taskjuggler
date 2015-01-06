@@ -5,7 +5,7 @@ require_dependency 'redmine_taskjuggler'
 #
 class RedmineTaskjugglerWorkloadsController < ApplicationController
   unloadable
-  
+
   ##
   # Previously known as #timetable should be show
   # :params['user_id'] - the current user
@@ -36,7 +36,7 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
       @project_list[project.id] = project
       cats = IssueCategory.find(:all,:conditions => {:project_id => project.id},:order => ['name'])
       cats.each do |cat|
-	      @category_list[cat.id] = cat
+        @category_list[cat.id] = cat
       end
     end
     #projet
@@ -49,29 +49,29 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     if time_entries
       seen_te = {}
       time_entries.each do |time_entry|
-	if time_entry.hours > 8
-	  time_entry.hours = 8
-	  time_entry.save()
-	end
-	# Fuse all multiple te for a same date
-	if seen_te.has_key?(time_entry.issue_id)
-	  seen_te[time_entry.issue_id].hours += time_entry.hours
-	  if time_entry.comments
-		  seen_te[time_entry.issue_id].comments += " + " + time_entry.comments
-	  end
-	  @hours_total += time_entry.hours
-	  seen_te[time_entry.issue_id].save()
-	  TimeEntry.delete(time_entry.id)
-	  @logged_issues[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id,@rtjwl.current_date)
-	else
-	  seen_te[time_entry.issue_id] = time_entry
-	  @logged_issues[time_entry.issue_id] = Issue.find(:first,:conditions => {:id => time_entry.issue_id})
-	  @time_entries_hours[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id, @rtjwl.current_date)
-	  @hours_total += time_entry.hours
-	  if @time_entries_hours[time_entry.issue_id] > 0
-	    @time_entries_comments[time_entry.issue_id] = time_entry.comments
-	  end
-	end
+        if time_entry.hours > 8
+          time_entry.hours = 8
+          time_entry.save()
+        end
+        # Fuse all multiple te for a same date
+        if seen_te.has_key?(time_entry.issue_id)
+          seen_te[time_entry.issue_id].hours += time_entry.hours
+          if time_entry.comments
+            seen_te[time_entry.issue_id].comments += " + " + time_entry.comments
+          end
+          @hours_total += time_entry.hours
+          seen_te[time_entry.issue_id].save()
+          TimeEntry.delete(time_entry.id)
+          @logged_issues[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id,@rtjwl.current_date)
+        else
+          seen_te[time_entry.issue_id] = time_entry
+          @logged_issues[time_entry.issue_id] = Issue.find(:first,:conditions => {:id => time_entry.issue_id})
+          @time_entries_hours[time_entry.issue_id] = get_spent_hours(@rtjwl.user_id, time_entry.issue_id, @rtjwl.current_date)
+          @hours_total += time_entry.hours
+          if @time_entries_hours[time_entry.issue_id] > 0
+            @time_entries_comments[time_entry.issue_id] = time_entry.comments
+          end
+        end
       end
     end
     # Assigned issues
@@ -83,11 +83,11 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
       #puts issue.start_date + " ISSUE DUE DATE : " + issue.due_date + " : Current Date : " + rtjwl.current_date
       #puts "\n\n=======================================\n\n"
       unless (@logged_issues and @logged_issues[issue.id])
-	unless (issue.start_date and (issue.start_date > @rtjwl.current_date))
-	  unless (issue.status.is_closed and (not issue.start_date or not issue.due_date))
-	    @assigned_issues[issue.id] = issue
-	  end
-	end
+        unless (issue.start_date and (issue.start_date > @rtjwl.current_date))
+          unless (issue.status.is_closed and (not issue.start_date or not issue.due_date))
+            @assigned_issues[issue.id] = issue
+          end
+        end
       end
     end
     # Watched issues
@@ -95,33 +95,33 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     @watched_issues = {}
     watched.each do |watched_issue|
       issue = watched_issue.watchable
-      unless (@logged_issues and @logged_issues[watched_issue.watchable_id]) 
-      	unless (@assigned_issues and @assigned_issues[watched_issue.watchable_id]) 
-      	  unless (issue.start_date and issue.start_date > @rtjwl.current_date) 
-      	    unless (issue.due_date and issue.due_date < @rtjwl.current_date) 
-      	      unless (issue.status.is_closed and (not issue.start_date or not issue.due_date))
-      	        @watched_issues[watched_issue.watchable_id] = Issue.find(:first, :conditions => {:id => watched_issue.watchable_id})
-      	      end
-      	    end
-      	  end
-      	end
+      unless (@logged_issues and @logged_issues[watched_issue.watchable_id])
+        unless (@assigned_issues and @assigned_issues[watched_issue.watchable_id])
+          unless (issue.start_date and issue.start_date > @rtjwl.current_date)
+            unless (issue.due_date and issue.due_date < @rtjwl.current_date)
+              unless (issue.status.is_closed and (not issue.start_date or not issue.due_date))
+                @watched_issues[watched_issue.watchable_id] = Issue.find(:first, :conditions => {:id => watched_issue.watchable_id})
+              end
+            end
+          end
+        end
       end
     end
     @user = User.find(:first, :conditions => ["id = " + @rtjwl.user_id.to_s()])
   end
-  
+
   def new
   end
-  
+
   def create
   end
-  
+
   def show # From timetable_summary
     @rtjwl = getRedmineTaskjugglerWorkload(params)
     get_timetable_info @rtjwl.user_id, @rtjwl.current_date, @rtjwl.interval
   end
-  
-  
+
+
   def edit # From summary
     # config.logger = Logger.new(STDOUT)
     # logger = Logger.new(STDOUT)
@@ -129,9 +129,9 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     @rtjwl = getRedmineTaskjugglerWorkload(params)
 
     #@rtjwl.current_date = RedmineTaskjugglerWorkload::get_current_date(params)
-    
+
   end
-  
+
   def update # From timetable_update
     @rtjwl = getRedmineTaskjugglerWorkload(params)
     @current_user = User.find(@rtjwl.user_id)
@@ -145,33 +145,33 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
       @spent_hours = get_spent_hours(@rtjwl.user_id,issue_id,params[:date])
       # Non-zero time entry to add
       if (@spent_hours == 0.0 and hours != "0")  # Ajouter TimeEntry
-	te = TimeEntry.create()
-	te.hours = hours.to_i()
-	te.activity_id = act_id
-	issue = Issue.find(issue_id)
-	te.project_id = issue.project_id
-	te.issue_id = issue_id.to_i()
-	te.user_id = params[:user_id]
-	te.spent_on = params[:date]
-	te.comments = params[:time_entires_comments][issue_id.to_s()]
-	issue = Issue.find(issue_id)
-	issue.estimated_hours = (params[:issues_estimates][issue_id.to_s()].to_f() * 8.0).to_i()
-	issue.save()
-	te.save()
-      # Non-zero time-entry to delete
+        te = TimeEntry.create()
+        te.hours = hours.to_i()
+        te.activity_id = act_id
+        issue = Issue.find(issue_id)
+        te.project_id = issue.project_id
+        te.issue_id = issue_id.to_i()
+        te.user_id = params[:user_id]
+        te.spent_on = params[:date]
+        te.comments = params[:time_entires_comments][issue_id.to_s()]
+        issue = Issue.find(issue_id)
+        issue.estimated_hours = (params[:issues_estimates][issue_id.to_s()].to_f() * 8.0).to_i()
+        issue.save()
+        te.save()
+        # Non-zero time-entry to delete
       elsif @spent_hours != 0 and hours == "0"#  and hours == "0" # Supprimer
-	TimeEntry.delete(TimeEntry.find(:first, :conditions => {:user_id => params[:user_id].to_i(),:issue_id => issue_id, :spent_on => params[:date]}).id)
-      # Non-zero time-entry to update
+        TimeEntry.delete(TimeEntry.find(:first, :conditions => {:user_id => params[:user_id].to_i(),:issue_id => issue_id, :spent_on => params[:date]}).id)
+        # Non-zero time-entry to update
       elsif @spent_hours != 0 #hours.to_f()
-      	te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id].to_i(),:issue_id => issue_id.to_i(), :spent_on => params[:date]})
-      	if te
-      	  te.hours = hours
-      	  te.comments = params[:time_entires_comments][issue_id.to_s()].to_s()
-      	  issue = Issue.find(issue_id)
-      	  issue.estimated_hours = (params[:issues_estimates][issue_id.to_s()].to_f() * 8.0).to_i()
-      	  issue.save()
-      	  te.save()
-      	end
+        te = TimeEntry.find(:first, :conditions => {:user_id => params[:user_id].to_i(),:issue_id => issue_id.to_i(), :spent_on => params[:date]})
+        if te
+          te.hours = hours
+          te.comments = params[:time_entires_comments][issue_id.to_s()].to_s()
+          issue = Issue.find(issue_id)
+          issue.estimated_hours = (params[:issues_estimates][issue_id.to_s()].to_f() * 8.0).to_i()
+          issue.save()
+          te.save()
+        end
       end
     end
     #
@@ -180,10 +180,10 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     #puts @rtjwl.current_date
     get_timetable_info @rtjwl.user_id, @rtjwl.current_date, @rtjwl.interval
   end
-  
+
   def destroy
   end
-  
+
   #
   # Utility functions
   #
@@ -209,10 +209,10 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     else
       @rtjwl.interval = 30
     end
-    
+
     @start_date = params[:start_date] ? Date::parse(params[:start_date]) : @rtjwl.current_date - @rtjwl.interval # was 10
     @end_date = params[:end_date] ? Date::parse(params[:end_date]) : @rtjwl.current_date + @rtjwl.interval # was 30
-    
+
     # @current_user_id = get_current_user_id(params)
     # interval = params.has_key?("interval") ? params[:interval] : 15
     conditions = ' spent_on > "' + (@rtjwl.current_date - @rtjwl.interval).to_s() + '" AND spent_on < "' + (@rtjwl.current_date - @rtjwl.interval).to_s() + '"'
@@ -238,16 +238,16 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
         logger.debug ("cat_id")
         logger.debug (cat_id)
         unless @projcat[te.issue.project.id][cat_id].has_key?(te.spent_on.to_s())
-                @projcat[te.issue.project.id][cat_id][te.spent_on.to_s()] = 0.0
+          @projcat[te.issue.project.id][cat_id][te.spent_on.to_s()] = 0.0
         end
         @projcat[te.issue.project.id][cat_id][te.spent_on.to_s()] += te.hours.to_f() / 8
         @projcat[te.issue.project.id][cat_id]["total"] += te.hours.to_f() / 8
         unless @total_days.has_key?(te.spent_on.to_s())
-                @total_days[te.spent_on.to_s()] = {}
-                @total_days[te.spent_on.to_s()]["total"] = 0.0
+          @total_days[te.spent_on.to_s()] = {}
+          @total_days[te.spent_on.to_s()]["total"] = 0.0
         end
         unless @total_days[te.spent_on.to_s()].has_key?(te.project.id)
-                @total_days[te.spent_on.to_s()][te.project.id] = 0.0
+          @total_days[te.spent_on.to_s()][te.project.id] = 0.0
         end
         @total_days[te.spent_on.to_s()]["total"] += te.hours.to_f() / 8
         @projcat[te.issue.project.id]["total"] += te.hours.to_f() / 8
@@ -278,7 +278,7 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
       @projcat[projet.id]["total"] = 0.0
       # issue_categories = projet.issue_categories
       projet.issue_categories.each do |cat|
-              @projcat[projet.id][cat.id] = {}
+        @projcat[projet.id][cat.id] = {}
       end
     end
     @logged_te.each do |te|
@@ -291,29 +291,29 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
       end
       if te.spent_on
         @logged_days[te.issue_id][te.spent_on.to_s()] = te.hours.to_f() / 8
-        @projcat = add_to_projcat(@projcat, te.issue.project, te.issue.category, te) 
+        @projcat = add_to_projcat(@projcat, te.issue.project, te.issue.category, te)
         unless @total_days.has_key?(te.spent_on.to_s())
-                @total_days[te.spent_on.to_s()] = te.hours.to_f() / 8
+          @total_days[te.spent_on.to_s()] = te.hours.to_f() / 8
         else
-                @total_days[te.spent_on.to_s()] += te.hours.to_f() / 8
+          @total_days[te.spent_on.to_s()] += te.hours.to_f() / 8
         end
       end
     end
   end
-  
+
   ##
   # This my be redoundant. I think I do the same calculation differently, but not as artful.
   def get_spent_hours(user_id,issue_id,date)
     te = TimeEntry.find(:first,:conditions => {:user_id => user_id, :spent_on => date, :issue_id => issue_id})
     if te
-            spent_hours = te.hours
+      spent_hours = te.hours
     else
-            spent_hours = 0.0
+      spent_hours = 0.0
     end
     #puts issue_id + " Spent hours : " + spent_hours
     return spent_hours
   end
-  
+
   ##
   # I am not sure I still use this. It seems that versions and categories
   # are no longer used.
@@ -337,6 +337,5 @@ class RedmineTaskjugglerWorkloadsController < ApplicationController
     #projcat[proj.id]["total"] += te.hours.to_f() / 8.0
     return projcat
   end
-
 
 end

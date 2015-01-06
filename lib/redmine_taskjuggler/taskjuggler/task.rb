@@ -17,7 +17,7 @@ module RedmineTaskjuggler
         :note,
         :timeEffort, # Where does it start and how long does it take
         :issueEtc
-        
+
       def id
         parent = @parent
         id = @localId

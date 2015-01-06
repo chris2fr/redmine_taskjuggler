@@ -39,13 +39,13 @@ module RedmineTaskjuggler
           validates_presence_of :tj_period
         end
       end
-      
+
       module ClassMethods
-         
+
       end
-      
+
       module InstanceMethods
-         
+
       end
     end
   end
@@ -54,10 +54,10 @@ end
 Project.send(:includes,RedmineTaskjuggler::Patch::Project)
 Project.send(:includes,RedmineTaskjuggler::Patch::Project::InstanceMethods)
 Project.safe_attributes :tj_version,
-          :tj_dailyworkinghours,
-          :tj_period,
-          :tj_currency,
-          :tj_now,
-          :tj_numberformat,
-          :tj_timingresolution,
-          :tj_timeformat
+  :tj_dailyworkinghours,
+  :tj_period,
+  :tj_currency,
+  :tj_now,
+  :tj_numberformat,
+  :tj_timingresolution,
+  :tj_timeformat

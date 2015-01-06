@@ -175,22 +175,22 @@ class RedmineTaskjugglerProjectsController < ApplicationController
                                                             )
     tjResources = []
     User.where(tj_activated: true).order(:tj_team_id).find_each do |user|
-      if user.login.to_s != ""
-        team_name = "default_team"
-        if user.tj_team_id and user.tj_team_id.to_i > 0
-          team_name = TjTeam.find(user.tj_team_id).name.downcase.gsub(" ","_").gsub("-","_")
+        if user.login.to_s != ""
+            team_name = "default_team"
+            if user.tj_team_id and user.tj_team_id.to_i > 0
+                team_name = TjTeam.find(user.tj_team_id).name.downcase.gsub(" ","_").gsub("-","_")
+            end
+            # team = "team_" + (user.tj_team_id || "default").to_s
+            tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_').gsub(/\./,'_'),
+                                                                           user.firstname + ' ' + user.lastname,
+                                                                           user.tj_parent,
+                                                                           [],                   # Was this always an empty array ?
+                                                                           team_name,
+                                                                           user.tj_limits,  # add limits, vacations and rate for Resource
+                                                                           user.tj_vacations,  #
+                                                                           user.tj_rate    #
+                                                                          ))
         end
-        # team = "team_" + (user.tj_team_id || "default").to_s
-        tjResources.push(RedmineTaskjuggler::Taskjuggler::Resource.new(user.login.gsub(/-/,'_').gsub(/\./,'_'),
-                                                                       user.firstname + ' ' + user.lastname,
-                                                                       user.tj_parent,
-                                                                       [],                   # Was this always an empty array ?
-                                                                       team_name,
-                                                                       user.tj_limits,  # add limits, vacations and rate for Resource
-                                                                       user.tj_vacations,  #
-                                                                       user.tj_rate    #
-                                                                      ))
-      end
     end
 
     #
@@ -199,7 +199,7 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     tjBookings = []
     tjProjectName = @project.identifier.gsub("-","_")
     if not @project.tj_period
-      raise "tj_period in Project needs to be specified."
+        raise "tj_period in Project needs to be specified."
     end
     ##
     # TODO better handle the tj_period
@@ -219,47 +219,47 @@ class RedmineTaskjugglerProjectsController < ApplicationController
     # Use a today object with a date and a start time
     # For each Time Entry
     tes.each do |te|
-      # If we are on a new day or a new user, we need to reset the clock
-      if iDay != te.spent_on or iUserId != te.user_id
-        iHour = 10.0
-        iDay = te.spent_on
-      end
-      # If we are on a new user or a new task, we need a new booking
-      if iUserId != te.user_id or iIssueId != te.issue_id
-        if iDay != nil # Check for first run through loop
-          tjBookings.append( # set task and resource ids on previous run
-                            RedmineTaskjuggler::Taskjuggler::Booking.new(
-                              tjProjectName + ".red" + te.issue_id.to_s,
-                              te.user.login,
-                              iPeriods
-                            )
-                           )
+        # If we are on a new day or a new user, we need to reset the clock
+        if iDay != te.spent_on or iUserId != te.user_id
+            iHour = 10.0
+            iDay = te.spent_on
         end
-        iUserId = te.user_id
-        iPeriods = []
-      end
+        # If we are on a new user or a new task, we need a new booking
+        if iUserId != te.user_id or iIssueId != te.issue_id
+            if iDay != nil # Check for first run through loop
+                tjBookings.append( # set task and resource ids on previous run
+                                  RedmineTaskjuggler::Taskjuggler::Booking.new(
+                                      tjProjectName + ".red" + te.issue_id.to_s,
+                                      te.user.login,
+                                      iPeriods
+                                  )
+                                 )
+            end
+            iUserId = te.user_id
+            iPeriods = []
+        end
 
-      # Create a period from the current date and start time and for the duration.
-      iPeriods.push(
-        RedmineTaskjuggler::Taskjuggler::Period.new(
-          sprintf("%s-%02d:%02d",
-                  te.spent_on.to_s,
-                  iHour.to_i,
-                  ((iHour - iHour.to_i) * 60).to_i
-                 ),
-                 te.hours
+        # Create a period from the current date and start time and for the duration.
+        iPeriods.push(
+            RedmineTaskjuggler::Taskjuggler::Period.new(
+                sprintf("%s-%02d:%02d",
+                        te.spent_on.to_s,
+                        iHour.to_i,
+                        ((iHour - iHour.to_i) * 60).to_i
+                       ),
+                       te.hours
+            )
         )
-      )
-      iHour = iHour + te.hours # increment the task hour
-      iIssueId = te.issue_id # actually only for the last iteration
-      iUserLogin = te.user.login # actually only for the last iteration
+        iHour = iHour + te.hours # increment the task hour
+        iIssueId = te.issue_id # actually only for the last iteration
+        iUserLogin = te.user.login # actually only for the last iteration
     end
     if iDay != nil
-      tjBookings.append(
-        RedmineTaskjuggler::Taskjuggler::Booking.new(
-          tjProjectName + ".red" + iIssueId.to_s,
-          iUserLogin,
-          iPeriods))
+        tjBookings.append(
+            RedmineTaskjuggler::Taskjuggler::Booking.new(
+                tjProjectName + ".red" + iIssueId.to_s,
+                iUserLogin,
+                iPeriods))
     end
     topTask = redmine_project_to_taskjuggler_task(@project)
 
@@ -271,46 +271,46 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   ##
   # This is a CSV upload
   def update # from CSV
-    project = Project.find(params[:id])
-    # Get the CSV File
-    #puts params
+      project = Project.find(params[:id])
+      # Get the CSV File
+      #puts params
 
-    uploaded_io = params[:csvfile]
-    #    uploaded_io = params[:redmine_taskjuggler_projects][:csvfile]
-    #if uploaded_io[0,19] != '"Id";"Start";"End"'
-    #  raise l(:exception_not_csv_issue_update)
-    #end
-    @lines = []
-    # Parse the CSV File line by line
+      uploaded_io = params[:csvfile]
+      #    uploaded_io = params[:redmine_taskjuggler_projects][:csvfile]
+      #if uploaded_io[0,19] != '"Id";"Start";"End"'
+      #  raise l(:exception_not_csv_issue_update)
+      #end
+      @lines = []
+      # Parse the CSV File line by line
 
-    if uploaded_io    # Condition for updating csv from computer of from server
-      data = uploaded_io.tempfile
-    else
-      path = Setting.plugin_redmine_taskjuggler["tjp_path"]
-      name_f = "redmine_update_issues_csv_" + project.identifier + "_" + project.tj_version.to_s.gsub(/\./,"_")  + ".csv"
-      data = "#{path}#{name_f}"
-    end
-
-    # Update Redmine with the dates and effort
-#    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
-    CSV.foreach(data, :headers => true, :col_sep => ';') {
-      |csvline|
-      if csvline["Redmine"].to_s != ""
-        update_attributes = {
-          'start_date' => csvline['Start'],
-          'due_date' => csvline['End']
-        }
-        issue = Issue.find(csvline["Redmine"])
-        test = true
-        update_attributes.each { |r, t|
-          test = test & issue.update_attributes({r => t})
-        }
-        unless test
-          @lines.push(issue.errors.messages.inspect.to_s)
-        end
-        @lines.push("#" + csvline["Redmine"].to_s + ". #{issue.subject} : #{issue.start_date} - #{issue.due_date} " ) # + link_to_issue(issue)
+      if uploaded_io    # Condition for updating csv from computer of from server
+          data = uploaded_io.tempfile
+      else
+          path = Setting.plugin_redmine_taskjuggler["tjp_path"]
+          name_f = "redmine_update_issues_csv_" + project.identifier + "_" + project.tj_version.to_s.gsub(/\./,"_")  + ".csv"
+          data = "#{path}#{name_f}"
       end
-    }
+
+      # Update Redmine with the dates and effort
+      #    CSV.foreach(uploaded_io.tempfile, :headers => true, :col_sep => ';') {
+      CSV.foreach(data, :headers => true, :col_sep => ';') {
+          |csvline|
+          if csvline["Redmine"].to_s != ""
+              update_attributes = {
+                  'start_date' => csvline['Start'],
+                  'due_date' => csvline['End']
+              }
+              issue = Issue.find(csvline["Redmine"])
+              test = true
+              update_attributes.each { |r, t|
+                  test = test & issue.update_attributes({r => t})
+              }
+              unless test
+                  @lines.push(issue.errors.messages.inspect.to_s)
+              end
+              @lines.push("#" + csvline["Redmine"].to_s + ". #{issue.subject} : #{issue.start_date} - #{issue.due_date} " ) # + link_to_issue(issue)
+          end
+      }
   end
 
   ##
@@ -321,21 +321,21 @@ class RedmineTaskjugglerProjectsController < ApplicationController
   ##
   # Save tjp-file to computer
   def tjp_save
-    project = Project.find(params[:id])
-    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
-    data = @tjp.to_s
-    send_data data, :filename => f_name, :type => 'text/plain', :x_sendfile => true
+      project = Project.find(params[:id])
+      f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
+      data = @tjp.to_s
+      send_data data, :filename => f_name, :type => 'text/plain', :x_sendfile => true
   end
 
   ##
   # Save tjp-file to server
   def tjp_to_server
-    project = Project.find(params[:id])
-    f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
-    data = @tjp.to_s
-    Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"]
-    File.write(f_name, data)
-    redirect_to :back
+      project = Project.find(params[:id])
+      f_name = project.identifier + "-" + project.tj_version.to_s.gsub(/\./,"_")  + ".tjp"
+      data = @tjp.to_s
+      Dir.chdir Setting.plugin_redmine_taskjuggler["tjp_path"]
+      File.write(f_name, data)
+      redirect_to :back
   end
 
 end

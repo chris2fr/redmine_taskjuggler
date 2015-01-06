@@ -33,7 +33,7 @@ module RedmineTaskjuggler
     end
     ##
     # The start point of any TimeEffort
-    class TimePointStart < TimePoint   
+    class TimePointStart < TimePoint
       def toTJP
         "start #{tjDateTime}"
       end
@@ -74,7 +74,7 @@ module RedmineTaskjuggler
     end
     class Gap
       attr_accessor :timeSpan,
-       :type
+        :type
       def initialize (timespan, type = "length")
         @timespan = timespan
         @type = type
@@ -157,30 +157,30 @@ module RedmineTaskjuggler
     class TimeEffortEffort < TimeEffort
       attr_accessor :timeSpan,
         :allocate
-        :priority
-	:tlimits
+      :priority
+      :tlimits
       def initialize (timePointStart, allocate, timeSpan = [], priority, tlimits)
         #super.initialize(timePointStart) # For some reason, it passes three arguments
         @timePointStart = timePointStart
         @allocate = allocate
         @timeSpan = timeSpan
         @priority = priority
-	@tlimits = tlimits
+        @tlimits = tlimits
       end
       def toTJP
         tjpString = @timePointStart.toTJP
         if tjpString != "" and tjpString != nil
           tjpString += "\n"
         end
-#        tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
-#	puts 'debug timeSpan'
-#	puts @timeSpan.to_s
-	if @timeSpan == []
-	  tjpString += "#{@allocate.toTJP}\n#{@priority.toTJP}\n"
-	else
-	  tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}\n#{@priority.toTJP}\n"
-	end
-	tjpString += "#{@tlimits.toTJP}"
+        #        tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}"
+        #	puts 'debug timeSpan'
+        #	puts @timeSpan.to_s
+        if @timeSpan == []
+          tjpString += "#{@allocate.toTJP}\n#{@priority.toTJP}\n"
+        else
+          tjpString += "effort #{@timeSpan.toTJP}\n#{@allocate.toTJP}\n#{@priority.toTJP}\n"
+        end
+        tjpString += "#{@tlimits.toTJP}"
         return tjpString
       end
     end
@@ -205,11 +205,11 @@ module RedmineTaskjuggler
       attr_accessor :priority
 
       def initialize (priority)
-	@priority = priority
+        @priority = priority
       end
       def toTJP
-	tjpString = "priority "
-	tjpString += @priority.join(" , ")
+        tjpString = "priority "
+        tjpString += @priority.join(" , ")
       end
     end
 
@@ -217,11 +217,11 @@ module RedmineTaskjuggler
       attr_accessor :tlimits
 
       def initialize (tlimits)
-	@tlimits = tlimits
+        @tlimits = tlimits
       end
       def toTJP
-	tjpString = "limits "
-	tjpString += "{" + @tlimits.join(" , ") + "}"
+        tjpString = "limits "
+        tjpString += "{" + @tlimits.join(" , ") + "}"
       end
     end
     ###

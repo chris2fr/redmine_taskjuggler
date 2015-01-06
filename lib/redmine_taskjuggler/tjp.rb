@@ -8,7 +8,7 @@ module RedmineTaskjuggler
     # Where the file will be deposited, full path
     attr_accessor :file_path
     ##
-    # Project associated 
+    # Project associated
     attr_accessor :project
     ##
     # Array of Resource associated, or perhaps a nested set of Resource ,
@@ -31,7 +31,7 @@ module RedmineTaskjuggler
       @project = project
       @resources = resources
       @task = task
-      @flags = flags 
+      @flags = flags
       @bookings = bookings
 
       unless @flags.include?('RedmineIssue')
@@ -58,7 +58,7 @@ module RedmineTaskjuggler
       end
 
       tjpString += "  extend task {\n"
-      tjpString += "    number Redmine 'Redmine'\n" 
+      tjpString += "    number Redmine 'Redmine'\n"
       tjpString += "  }\n"
       if project.now.to_s != ""
         tjpString += "  now #{project.now}\n"
@@ -94,7 +94,7 @@ module RedmineTaskjuggler
     ->8-
 EOS
       end
-      if task.children.class == Array and task.children != [] 
+      if task.children.class == Array and task.children != []
         task.children.each {|child|
           tjpString += task_to_s(child).gsub(/^/,"  ") + "\n"
         }
@@ -118,11 +118,11 @@ EOS
       tjpString += "limits " + "{" + "#{resource.limits}" + "}\n"
       if resource.vacations != ""
         tjpString += "#{resource.vacations}" + "\n"
-      end	  
+      end
       if resource.rate.to_s.length != 0
         tjpString += "rate " + "#{resource.rate}" + "\n"
-      end	  
-      ###    
+      end
+      ###
       tjpString += "}\n"
       tjpString
     end
@@ -185,6 +185,6 @@ EOREPORT
 
       return tjpString
 
-    end
+end
   end
 end

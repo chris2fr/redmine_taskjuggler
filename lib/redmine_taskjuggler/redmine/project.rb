@@ -12,19 +12,19 @@ module RedmineTaskjuggler
       # Numeric id of the Project
       attr_accessor :id
       ##
-      # 
+      #
       attr_accessor :identifier
       ##
-      # 
+      #
       attr_accessor :name
       ##
-      # 
+      #
       attr_accessor :parent
       ##
-      # 
+      #
       attr_accessor :children
       ##
-      # 
+      #
       attr_accessor :description
       ##
       # Constructor with information from Redmine
@@ -35,7 +35,7 @@ module RedmineTaskjuggler
         @parent = parent
         @children = children
         @description = description
-      
+
       end
     end
   end

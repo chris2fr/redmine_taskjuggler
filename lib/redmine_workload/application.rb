@@ -9,7 +9,7 @@ module RedmineWorkload
     ##
     # conventional, but I read it from a file
     attr_reader :version
-    
+
     def initialize
       @version = IO.binread("plugins/redmine_taskjuggler/config/VERSION")
     end

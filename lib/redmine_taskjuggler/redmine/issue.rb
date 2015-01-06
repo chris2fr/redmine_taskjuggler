@@ -12,31 +12,31 @@ module RedmineTaskjuggler
       # Numeric ID of Redmine::Issue
       attr_accessor :id
       ##
-      # 
+      #
       attr_accessor :identifier
       ##
-      # 
+      #
       attr_accessor :subject
       ##
-      # 
+      #
       attr_accessor :start_date
       ##
-      # 
+      #
       attr_accessor :due_date
       ##
-      # 
+      #
       attr_accessor :done_ratio
       ##
-      # 
+      #
       attr_accessor :parent
       ##
-      # 
+      #
       attr_accessor :children
       ##
-      # 
+      #
       attr_accessor :project
       ##
-      # 
+      #
       attr_accessor :description
       ##
       # User
@@ -45,7 +45,7 @@ module RedmineTaskjuggler
       #
       attr_accessor :estimated_hours
       ##
-      # 
+      #
       attr_accessor :priority
       ##
       #
@@ -58,7 +58,7 @@ module RedmineTaskjuggler
     ##
     # Prox class representing issue priority
     class IssuePriority
-      
+
     end
   end
 end

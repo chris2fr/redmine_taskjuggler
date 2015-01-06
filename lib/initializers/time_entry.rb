@@ -17,13 +17,13 @@ module RedmineTaskjuggler
           safe_attributes :tj_start
         end
       end
-      
+
       module ClassMethods
-         
+
       end
-      
+
       module InstanceMethods
-         
+
       end
     end
   end
