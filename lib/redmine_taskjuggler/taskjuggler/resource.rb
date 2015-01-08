@@ -31,19 +31,70 @@ module RedmineTaskjuggler
       ##
       # TjTeam to which is attached this resource
       attr_accessor :team
-	# add limits, vacations and rate to the end...
-      ##
+      # add limits, vacations and rate to the end...
+
       # Constructor Int, String, Taskjuggler::Resource , Array of Taskjuggler::Resource; String (from TjTeam) ,
       # String , String , String ? (notsure about that last one)
-      def initialize (id, name, parent = nil, children = [], team = nil, limits = nil, vacations = nil, rate = nil)
-        @id = id
-        @name = name
-	@limits = limits
-	@vacations = vacations
-	@rate = rate
-	@parent = parent
-        @children = children
+      def to_tjp(level=0)
+        @level = level
+        def i(s)
+          s.gsub(/^/, ' '*@level) << "\n"
+        end
+
+        out = i("resource #{@id} \"#{@name}\" {")
+        @level = @level + 2
+        if @children and not @children.empty?
+          @children.each do |child|
+            out << child.to_tjp(@level)
+          end
+        end
+
+        # limits, vacation and rate displayed in tjp-file
+        if @limits
+          out << i("limits " + "{" + "#{@limits.join(' ')}" + "}")
+        end
+        if @vacantions and not @vacations.empty?
+          out << i("#{@vacations}" + "")
+        end
+        if @rate
+          out << i("rate " + "#{@rate}" + "")
+        end
+
+        @level = @level - 2
+        out << i("}")
+        return out
+      end
+    end
+    class UserResource < Resource
+      def initialize (user, team = nil)
+        @id = user.login.gsub(/-/,'_').gsub(/\./,'_')
+        @name = user.firstname << " " << user.lastname
+        @limits = user.tj_limits
+        @vacations = user.tj_vacations
+        @rate = user.tj_rate
+        @parent = user.tj_parent # XXX ??
+        @children = []
         @team = team
+        if team
+          team.children.push self
+        end
+      end
+    end
+    class TeamResource < Resource
+      def initialize (team = nil)
+        if not team
+          @id = "default_team"
+          @name = "Default Team"
+        else
+          @id = team.id
+          @name = team.name
+        end
+        @limits = nil
+        @vacations = vacations
+        @rate = rate
+        @parent = parent
+        @children = []
+        @team = nil
       end
     end
     ##
@@ -58,6 +109,16 @@ module RedmineTaskjuggler
         @resource = resource
         @task = task
         @periods = periods
+      end
+      def to_tjp(level=0)
+        @level = level
+        def i(s)
+          s.gsub(/^/, ' '*@level) << "\n"
+        end
+        #
+        out << i("booking #{@resource.to_s} #{
+          periods.each{|p| p.to_s}.join(", ")
+        }")
       end
     end
   end

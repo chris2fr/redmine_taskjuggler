@@ -5,7 +5,7 @@ class TjTeam < ActiveRecord::Base
   unloadable
   has_many :users
   attr_accessible :name
-  
+
   ##
   # FIXME: generates a task-juggler safe identifier
   def code_name

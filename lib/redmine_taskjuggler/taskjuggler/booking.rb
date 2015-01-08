@@ -9,13 +9,13 @@ module RedmineTaskjuggler
       # The string of caracters between periods such as <code>, </code>
       PERIOD_STRING_SEP = ", \n  "
       ##
-      # link to the +task_id+ of the attached Task of the Booking 
+      # link to the +task_id+ of the attached Task of the Booking
       attr_accessor :task_id
       ##
-      # link to the +resource_id+ of the attached Resource of the Booking 
+      # link to the +resource_id+ of the attached Resource of the Booking
       attr_accessor :resource_id
       ##
-      # link to the +periods+ Period of the Booking 
+      # link to the +periods+ Period of the Booking
       attr_accessor :periods
       ##
       # Constructor with the +task_id+, the +resource_id+, and the +periods+
@@ -60,7 +60,7 @@ module RedmineTaskjuggler
         tjpString
       end
       ##
-      # Construction with a +tjDateTimeStart+ and a +tjDuration+ 
+      # Construction with a +tjDateTimeStart+ and a +tjDuration+
       def initialize (tjDateTimeStart, tjDuration)
         @tjDateTimeStart = tjDateTimeStart
         @tjDuration = tjDuration

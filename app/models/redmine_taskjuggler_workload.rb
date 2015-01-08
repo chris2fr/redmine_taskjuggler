@@ -14,7 +14,7 @@ class RedmineTaskjugglerWorkload < ActiveRecord::Base
   attr_accessible :current_date
   ##
   # The before and after period we are looking at in summary views
-  attr_accessible :interval 
+  attr_accessible :interval
 
   ##
   # Return the Redmine TimeEntry array with the current parameters
@@ -22,5 +22,5 @@ class RedmineTaskjugglerWorkload < ActiveRecord::Base
     conditions = 'user_id = '+ @user_id.to_s() + ' AND spent_on > "' + (@current_date - @interval).to_s() + '" AND spent_on < "' + (@current_date + @interval).to_s() + '"'
     TimeEntry.find(:all,:conditions => [conditions], :order => ['issue_id,spent_on'] )
   end
-  
+
 end

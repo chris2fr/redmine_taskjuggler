@@ -12,19 +12,19 @@ module RedmineTaskjuggler
       # Numeric id in Redmine Database
       attr_accessor :id
       ##
-      # 
+      #
       attr_accessor :user
       ##
-      # 
+      #
       attr_accessor :issue
       ##
-      # 
+      #
       attr_accessor :hours
       ##
-      # 
+      #
       attr_accessor :comments
       ##
-      # 
+      #
       attr_accessor :activity
     end
   end
